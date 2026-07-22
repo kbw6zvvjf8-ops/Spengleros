@@ -18,6 +18,7 @@
   --accent:#d48b2d;
   --accent-light:#fff0db;
   --danger:#b74747;
+  --success:#2e7d5a;
   --border:#d7e0e4;
 }
 
@@ -31,10 +32,10 @@ body{
 }
 
 .app{
-  max-width:550px;
+  max-width:560px;
   min-height:100vh;
   margin:auto;
-  padding-bottom:90px;
+  padding-bottom:92px;
 }
 
 header{
@@ -42,25 +43,28 @@ header{
   top:0;
   z-index:10;
   padding:20px 16px 24px;
-  color:white;
-  background:linear-gradient(135deg,var(--dark),var(--primary));
-  border-radius:0 0 25px 25px;
+  color:#fff;
+  background:
+    radial-gradient(circle at 90% 15%,rgba(255,255,255,.15),transparent 30%),
+    linear-gradient(135deg,var(--dark),var(--primary));
+  border-radius:0 0 26px 26px;
 }
 
 header small{
-  font-weight:800;
+  font-weight:900;
   letter-spacing:1.3px;
   opacity:.8;
 }
 
 header h1{
   margin:5px 0 3px;
+  font-size:27px;
 }
 
 header p{
   margin:0;
-  font-size:13px;
   opacity:.9;
+  font-size:13px;
 }
 
 main{padding:14px}
@@ -77,8 +81,8 @@ main{padding:14px}
 .card,.item{
   background:var(--card);
   border:1px solid var(--border);
-  border-radius:16px;
-  padding:14px;
+  border-radius:17px;
+  padding:15px;
   margin-bottom:11px;
   box-shadow:0 7px 22px rgba(20,40,50,.07);
 }
@@ -105,6 +109,36 @@ main{padding:14px}
   margin-top:8px;
 }
 
+.menu{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.menu-card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:15px;
+  box-shadow:0 7px 22px rgba(20,40,50,.07);
+  cursor:pointer;
+}
+
+.menu-card span{
+  display:block;
+  font-size:25px;
+  margin-bottom:7px;
+}
+
+.menu-card strong{
+  display:block;
+  color:var(--dark);
+}
+
+.menu-card small{
+  color:var(--muted);
+}
+
 label{
   display:block;
   margin:11px 0 5px;
@@ -117,7 +151,7 @@ input,select,textarea{
   padding:11px;
   border:1px solid var(--border);
   border-radius:11px;
-  background:white;
+  background:#fff;
   font-size:15px;
 }
 
@@ -138,10 +172,11 @@ textarea{
   padding:12px;
   border:0;
   border-radius:12px;
-  color:white;
+  color:#fff;
   font-weight:800;
   font-size:14px;
   background:linear-gradient(135deg,var(--dark),var(--primary));
+  cursor:pointer;
 }
 
 .btn.secondary{
@@ -150,8 +185,19 @@ textarea{
   border:1px solid #edca96;
 }
 
+.btn.ghost{
+  color:var(--primary);
+  background:#fff;
+  border:1px solid var(--border);
+}
+
 .btn.danger{
   background:var(--danger);
+}
+
+.btn.small{
+  padding:8px 10px;
+  font-size:12px;
 }
 
 .tabs{
@@ -166,13 +212,13 @@ textarea{
   padding:8px 12px;
   border:1px solid var(--border);
   border-radius:999px;
-  background:white;
+  background:#fff;
   font-weight:750;
   color:var(--muted);
 }
 
 .tab.active{
-  color:white;
+  color:#fff;
   background:var(--primary);
 }
 
@@ -190,14 +236,14 @@ textarea{
   padding:8px 11px;
   border:1px solid var(--border);
   border-radius:999px;
-  background:white;
+  background:#fff;
   color:var(--primary);
   font-weight:800;
 }
 
 .chip.active{
   background:var(--primary);
-  color:white;
+  color:#fff;
 }
 
 .result{
@@ -207,6 +253,17 @@ textarea{
   border:1px solid #c7e1e4;
   border-radius:13px;
   background:#eef8f9;
+}
+
+.badge{
+  display:inline-block;
+  margin-top:5px;
+  padding:5px 9px;
+  border-radius:999px;
+  background:var(--light);
+  color:var(--dark);
+  font-size:11px;
+  font-weight:800;
 }
 
 .note{
@@ -230,17 +287,26 @@ td:last-child,th:last-child{
   text-align:right;
 }
 
+.total{
+  margin-top:12px;
+  text-align:right;
+  color:var(--dark);
+  font-size:20px;
+  font-weight:850;
+}
+
 nav{
   position:fixed;
   left:50%;
   bottom:0;
   transform:translateX(-50%);
-  width:min(550px,100%);
+  width:min(560px,100%);
   display:grid;
   grid-template-columns:repeat(5,1fr);
   padding:8px 4px calc(10px + env(safe-area-inset-bottom));
   background:rgba(255,255,255,.98);
   border-top:1px solid var(--border);
+  box-shadow:0 -7px 20px rgba(20,40,50,.08);
 }
 
 nav button{
@@ -264,7 +330,7 @@ nav button.active{
 }
 
 @media(max-width:390px){
-  .grid,.row{grid-template-columns:1fr}
+  .grid,.row,.menu{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -275,12 +341,13 @@ nav button.active{
 <header>
   <small>DIGITALES HANDWERKERBÜRO</small>
   <h1>SpenglerOS</h1>
-  <p>Rapport schreiben – Rechnung automatisch erstellen</p>
+  <p>Einmal dokumentieren – alles automatisch erledigen</p>
 </header>
 
 <main>
 
 <section id="home" class="screen active">
+
   <div class="grid">
     <div class="card">
       <h3>Kunden</h3>
@@ -304,26 +371,47 @@ nav button.active{
   </div>
 
   <div class="card">
-    <h3>Schnellstart</h3>
-    <button class="btn" onclick="goTo('customers',1)">
-      Neuen Kunden anlegen
-    </button>
+    <h3>Schnellzugriff</h3>
 
-    <button class="btn secondary" onclick="goTo('report',3)">
-      Rapport schreiben
-    </button>
+    <div class="menu">
+      <div class="menu-card" onclick="goTo('customers',1)">
+        <span>👤</span>
+        <strong>Kunden</strong>
+        <small>Kunden anlegen</small>
+      </div>
+
+      <div class="menu-card" onclick="goTo('orders',2)">
+        <span>📁</span>
+        <strong>Aufträge</strong>
+        <small>Projekte verwalten</small>
+      </div>
+
+      <div class="menu-card" onclick="goTo('report',3)">
+        <span>📝</span>
+        <strong>Rapport</strong>
+        <small>Arbeit dokumentieren</small>
+      </div>
+
+      <div class="menu-card" onclick="goTo('tools',4)">
+        <span>📐</span>
+        <strong>Werkzeuge</strong>
+        <small>Rechner und Regeln</small>
+      </div>
+    </div>
   </div>
 
   <div class="card">
-    <h3>Speicherung</h3>
+    <h3>Wichtig</h3>
     <p class="note">
-      Die eingegebenen Daten werden lokal in deinem Browser gespeichert.
-      Verwende zunächst nur Testdaten.
+      Die Daten werden momentan nur lokal in deinem Browser gespeichert.
+      Verwende vorerst Testdaten und noch keine vertraulichen Kundendaten.
     </p>
   </div>
+
 </section>
 
 <section id="customers" class="screen">
+
   <div class="tabs">
     <button class="tab active"
       onclick="showSub('customerListArea',this,'customers')">
@@ -342,7 +430,7 @@ nav button.active{
 
   <div id="customerNewArea" class="sub">
     <div class="card">
-      <h3>Neuer Kunde</h3>
+      <h3>Neuen Kunden anlegen</h3>
 
       <label>Name oder Firma</label>
       <input id="customerName">
@@ -350,20 +438,28 @@ nav button.active{
       <label>Adresse</label>
       <input id="customerAddress">
 
-      <label>Telefon</label>
-      <input id="customerPhone">
+      <div class="row">
+        <div>
+          <label>Telefon</label>
+          <input id="customerPhone">
+        </div>
 
-      <label>E-Mail</label>
-      <input id="customerEmail">
+        <div>
+          <label>E-Mail</label>
+          <input id="customerEmail">
+        </div>
+      </div>
 
       <button class="btn" onclick="addCustomer()">
         Kunde speichern
       </button>
     </div>
   </div>
+
 </section>
 
 <section id="orders" class="screen">
+
   <div class="tabs">
     <button class="tab active"
       onclick="showSub('orderListArea',this,'orders')">
@@ -382,7 +478,7 @@ nav button.active{
 
   <div id="orderNewArea" class="sub">
     <div class="card">
-      <h3>Neuer Auftrag</h3>
+      <h3>Neuen Auftrag anlegen</h3>
 
       <label>Kunde</label>
       <select id="orderCustomer"></select>
@@ -406,9 +502,11 @@ nav button.active{
       </button>
     </div>
   </div>
+
 </section>
 
 <section id="report" class="screen">
+
   <div class="card">
     <h3>Rapport erstellen</h3>
 
@@ -447,12 +545,12 @@ nav button.active{
   <div class="card">
     <h3>Lieferantenrechnung</h3>
 
-    <label>Rechnung fotografieren oder auswählen</label>
+    <label>Foto oder PDF auswählen</label>
     <input type="file" accept="image/*,.pdf">
 
     <p class="note">
-      In dieser Version überträgst du die Positionen und Einkaufspreise
-      noch manuell aus der Rechnung.
+      Die automatische Erkennung kommt später. Momentan überträgst du
+      die Positionen und Einkaufspreise aus der Rechnung.
     </p>
 
     <div id="materialRows"></div>
@@ -486,41 +584,130 @@ nav button.active{
   <button class="btn" onclick="createInvoice()">
     Rapport speichern und Rechnung erstellen
   </button>
+
 </section>
 
 <section id="invoices" class="screen">
   <div id="invoiceList"></div>
 </section>
 
-<section id="settings" class="screen">
-  <div class="card">
-    <h3>Firmendaten</h3>
+<section id="tools" class="screen">
 
-    <label>Firmenname</label>
-    <input id="companyName">
+  <div class="tabs">
+    <button class="tab active"
+      onclick="showSub('gutterArea',this,'tools')">
+      Dachrinne
+    </button>
 
-    <label>Firmenadresse</label>
-    <input id="companyAddress">
+    <button class="tab"
+      onclick="showSub('seamArea',this,'tools')">
+      Stehfalz
+    </button>
 
-    <label>Nächste Rechnungsnummer</label>
-    <input id="nextInvoiceNumber" type="number">
-
-    <button class="btn" onclick="saveCompanySettings()">
-      Einstellungen speichern
+    <button class="tab"
+      onclick="showSub('rulesArea',this,'tools')">
+      Fachregeln
     </button>
   </div>
 
-  <div class="card">
-    <h3>Datensicherung</h3>
+  <div id="gutterArea" class="sub active">
+    <div class="card">
+      <h3>Dachrinnenrechner</h3>
 
-    <button class="btn secondary" onclick="exportData()">
-      Sicherung herunterladen
-    </button>
+      <label>Dachfläche in m²</label>
+      <input id="roofArea" type="number" value="120">
 
-    <button class="btn danger" onclick="deleteAllData()">
-      Alle Daten löschen
-    </button>
+      <label>Anzahl der Abläufe</label>
+      <input id="drainCount" type="number" value="2">
+
+      <button class="btn" onclick="calculateGutter()">
+        Berechnen
+      </button>
+
+      <div id="gutterResult" class="result">
+        Noch keine Berechnung.
+      </div>
+
+      <p class="note">
+        Vereinfachte Demo. Eine echte Normberechnung wird später ergänzt.
+      </p>
+    </div>
   </div>
+
+  <div id="seamArea" class="sub">
+    <div class="card">
+      <h3>Stehfalz-Zuschnitt</h3>
+
+      <div class="row">
+        <div>
+          <label>Flächenbreite in m</label>
+          <input id="facadeWidth" type="number" value="8">
+        </div>
+
+        <div>
+          <label>Flächenhöhe in m</label>
+          <input id="facadeHeight" type="number" value="4.8">
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Sichtbreite in mm</label>
+          <input id="panWidth" type="number" value="430">
+        </div>
+
+        <div>
+          <label>Verschnitt in %</label>
+          <input id="wastePercent" type="number" value="8">
+        </div>
+      </div>
+
+      <button class="btn" onclick="calculateSeam()">
+        Berechnen
+      </button>
+
+      <div id="seamResult" class="result">
+        Noch keine Berechnung.
+      </div>
+    </div>
+  </div>
+
+  <div id="rulesArea" class="sub">
+    <div class="card">
+      <h3>Fachregeln – Inhaltsverzeichnis</h3>
+
+      <div class="item">
+        <strong>Dachentwässerung</strong>
+        <p>Dachrinnen, Fallrohre, Abläufe und Gefälle</p>
+      </div>
+
+      <div class="item">
+        <strong>Stehfalz</strong>
+        <p>Scharen, Hafte, Befestigungen und Dehnung</p>
+      </div>
+
+      <div class="item">
+        <strong>Attikaabdeckungen</strong>
+        <p>Halter, Stöße, Tropfkanten und Zuschnitte</p>
+      </div>
+
+      <div class="item">
+        <strong>Anschlüsse</strong>
+        <p>Wandanschlüsse, Kamine, Kehlen und Ortgänge</p>
+      </div>
+
+      <div class="item">
+        <strong>Werkstoffe</strong>
+        <p>Zink, Kupfer, Aluminium und Edelstahl</p>
+      </div>
+
+      <p class="note">
+        Die Inhalte werden später mit eigenen Erklärungen,
+        Skizzen und rechtssicheren Quellen ergänzt.
+      </p>
+    </div>
+  </div>
+
 </section>
 
 </main>
@@ -542,8 +729,8 @@ nav button.active{
     <span>📝</span>Rapport
   </button>
 
-  <button onclick="showScreen('invoices',this)">
-    <span>🧾</span>Rechnungen
+  <button onclick="showScreen('tools',this)">
+    <span>📐</span>Werkzeuge
   </button>
 </nav>
 
@@ -554,12 +741,7 @@ const defaultData = {
   customers: [],
   orders: [],
   reports: [],
-  invoices: [],
-  settings: {
-    companyName: "Mein Spenglerbetrieb",
-    companyAddress: "",
-    nextInvoiceNumber: 1001
-  }
+  invoices: []
 };
 
 let data =
@@ -648,7 +830,7 @@ function addCustomer(){
 
 function addOrder(){
   if(!orderCustomer.value || !orderTitle.value.trim()){
-    alert("Bitte Kunde und Auftragsbezeichnung eingeben.");
+    alert("Bitte zuerst einen Kunden und eine Bezeichnung eingeben.");
     return;
   }
 
@@ -703,7 +885,7 @@ function addMaterialRow(
       value="${purchasePrice}"
       oninput="updateMaterialSummary()">
 
-    <button class="btn danger"
+    <button class="btn danger small"
       onclick="this.closest('.material-row').remove();
       updateMaterialSummary()">
       Position löschen
@@ -833,11 +1015,10 @@ function createInvoice(){
 
   data.reports.push(report);
 
-  const invoice = {
+  data.invoices.push({
     id: Date.now() + 1,
-    number: data.settings.nextInvoiceNumber,
+    number: 1000 + data.invoices.length + 1,
     orderId: Number(reportOrder.value),
-    reportId: report.id,
     labor,
     materialPurchase,
     materialSale,
@@ -848,18 +1029,13 @@ function createInvoice(){
     vat,
     gross,
     date: new Date().toISOString()
-  };
-
-  data.settings.nextInvoiceNumber++;
-  data.invoices.push(invoice);
+  });
 
   saveData();
 
-  alert(
-    "Rapport gespeichert und Rechnung erstellt."
-  );
+  alert("Rapport gespeichert und Rechnung erstellt.");
 
-  goTo("invoices",4);
+  renderInvoices();
 }
 
 function renderCustomers(){
@@ -896,7 +1072,7 @@ function renderOrders(){
           <strong>${order.title}</strong>
           <p>${customer ? customer.name : ""}</p>
           <p>${order.description || ""}</p>
-          <p>Status: ${order.status}</p>
+          <span class="badge">${order.status}</span>
         </div>
       `;
     }).join("")
@@ -977,6 +1153,10 @@ function renderInvoices(){
             </tr>
           </table>
 
+          <div class="total">
+            ${euro(invoice.gross)}
+          </div>
+
           <button class="btn secondary"
             onclick="window.print()">
             Drucken oder als PDF sichern
@@ -987,45 +1167,55 @@ function renderInvoices(){
     : `<p class="note">Noch keine Rechnungen erstellt.</p>`;
 }
 
-function saveCompanySettings(){
-  data.settings.companyName =
-    companyName.value;
+function calculateGutter(){
+  const area = Number(roofArea.value) || 0;
+  const drains = Math.max(1,Number(drainCount.value) || 1);
+  const areaPerDrain = area / drains;
 
-  data.settings.companyAddress =
-    companyAddress.value;
+  let recommendation = "";
 
-  data.settings.nextInvoiceNumber =
-    Number(nextInvoiceNumber.value) || 1001;
-
-  saveData();
-  alert("Einstellungen gespeichert.");
-}
-
-function exportData(){
-  const file = new Blob(
-    [JSON.stringify(data,null,2)],
-    {type:"application/json"}
-  );
-
-  const url = URL.createObjectURL(file);
-  const link = document.createElement("a");
-
-  link.href = url;
-  link.download = "spengleros-sicherung.json";
-  link.click();
-
-  URL.revokeObjectURL(url);
-}
-
-function deleteAllData(){
-  if(!confirm(
-    "Möchtest du wirklich alle Daten löschen?"
-  )){
-    return;
+  if(areaPerDrain <= 50){
+    recommendation =
+      "Kleinere Rinnen- und Fallrohrdimension prüfen.";
+  }else if(areaPerDrain <= 100){
+    recommendation =
+      "Mittlere Rinnen- und Fallrohrdimension prüfen.";
+  }else{
+    recommendation =
+      "Größere Dimension oder zusätzlichen Ablauf prüfen.";
   }
 
-  localStorage.removeItem("spenglerosData");
-  location.reload();
+  gutterResult.innerHTML = `
+    Dachfläche je Ablauf:
+    <strong>${areaPerDrain.toFixed(1)} m²</strong><br>
+    ${recommendation}
+  `;
+}
+
+function calculateSeam(){
+  const width = Number(facadeWidth.value) || 0;
+  const height = Number(facadeHeight.value) || 0;
+  const pan = (Number(panWidth.value) || 430) / 1000;
+  const waste = (Number(wastePercent.value) || 0) / 100;
+
+  const pans = Math.ceil(width / pan);
+  const area = width * height;
+  const materialArea = area * (1 + waste);
+  const totalLength = pans * height * (1 + waste);
+
+  seamResult.innerHTML = `
+    Scharen:
+    <strong>${pans}</strong><br>
+
+    Nettofläche:
+    <strong>${area.toFixed(2)} m²</strong><br>
+
+    Material inklusive Verschnitt:
+    <strong>${materialArea.toFixed(2)} m²</strong><br>
+
+    Gesamte Scharenlänge:
+    <strong>${totalLength.toFixed(1)} m</strong>
+  `;
 }
 
 function renderEverything(){
@@ -1044,15 +1234,6 @@ function renderEverything(){
   renderCustomers();
   renderOrders();
   renderInvoices();
-
-  companyName.value =
-    data.settings.companyName;
-
-  companyAddress.value =
-    data.settings.companyAddress;
-
-  nextInvoiceNumber.value =
-    data.settings.nextInvoiceNumber;
 }
 
 addMaterialRow(
@@ -1071,5 +1252,6 @@ addMaterialRow(
 
 renderEverything();
 </script>
+
 </body>
 </html>
