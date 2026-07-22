@@ -4970,1064 +4970,612 @@ renderEverything();
 
 </script>
 
-</body>
-
-</html>
-
 <!-- SPENGLEROS FACHWISSEN-UPDATE START -->
-
 <script>
-
 (function(){
 
 const knowledgeBase = [
-
   {
-
     id:"dachentwaesserung",
-
     title:"Dachentwässerung",
-
     icon:"🌧️",
-
     description:"Dachrinnen, Fallrohre, Abläufe und Gefälle",
-
     chapters:[
-
       {
-
         id:"entwaesserung-grundlagen",
-
         title:"Grundlagen der Dachentwässerung",
-
         content:`
-
           <h3>Grundlagen der Dachentwässerung</h3>
 
           <p>
-
             Eine Dachentwässerung muss das anfallende Niederschlagswasser
-
             sicher aufnehmen und ableiten. Bei der Planung werden unter
-
             anderem Dachfläche, Dachform, Regenspende, Anzahl der Abläufe,
-
             Rinnengröße und Fallrohrgröße berücksichtigt.
-
           </p>
 
           <h4>Wichtige Prüfpunkte</h4>
 
           <ul>
-
             <li>Wirksame Dachfläche ermitteln</li>
-
             <li>Anzahl und Position der Abläufe bestimmen</li>
-
             <li>Rinnengröße passend auswählen</li>
-
             <li>Fallrohrdimension prüfen</li>
-
             <li>Notentwässerung berücksichtigen</li>
-
             <li>Wasserführung kontrollieren</li>
-
           </ul>
 
           <p class="note">
-
             Diese Zusammenfassung ersetzt keine vollständige
-
             fachtechnische Bemessung.
-
           </p>
-
         `
-
       },
-
       {
-
         id:"rinnengefaelle",
-
         title:"Rinnengefälle",
-
         content:`
-
           <h3>Rinnengefälle</h3>
 
           <p>
-
             Das Gefälle unterstützt die Wasserführung zum Ablauf.
-
             Hoch- und Tiefpunkte müssen vor der Montage eindeutig
-
             festgelegt werden.
-
           </p>
 
           <h4>Auf der Baustelle prüfen</h4>
 
           <ul>
-
             <li>Kein Gegengefälle</li>
-
             <li>Rinnenhalter gleichmäßig ausrichten</li>
-
             <li>Ablauf am geplanten Tiefpunkt</li>
-
             <li>Wasserprobe durchführen</li>
-
             <li>Bewegung des Werkstoffs ermöglichen</li>
-
           </ul>
-
         `
-
       },
-
       {
-
         id:"fallrohre",
-
         title:"Fallrohre und Abläufe",
-
         content:`
-
           <h3>Fallrohre und Abläufe</h3>
 
           <p>
-
             Fallrohre müssen auf die zu erwartende Wassermenge abgestimmt
-
             werden. Auch Einlauf, Rohrführung, Bögen, Schellen und der
-
             Anschluss an die Entwässerungsleitung sind zu beachten.
-
           </p>
 
           <h4>Typische Bauteile</h4>
 
           <ul>
-
             <li>Ablaufstutzen</li>
-
             <li>Rohrbogen</li>
-
             <li>Fallrohr</li>
-
             <li>Rohrschellen</li>
-
             <li>Standrohr</li>
-
             <li>Anschlussleitung</li>
-
           </ul>
-
         `
-
       },
-
       {
-
         id:"rinnenhalter",
-
         title:"Rinnenhalter",
-
         content:`
-
           <h3>Rinnenhalter</h3>
 
           <p>
-
             Die Rinnenhalter tragen die Dachrinne und müssen entsprechend
-
             der Belastung, dem Untergrund und dem verwendeten Rinnensystem
-
             angeordnet und sicher befestigt werden.
-
           </p>
 
           <h4>Kontrollpunkte</h4>
 
           <ul>
-
             <li>Geeigneter Halter für Rinnenform und Größe</li>
-
             <li>Sicherer Befestigungsuntergrund</li>
-
             <li>Gleichmäßige Ausrichtung</li>
-
             <li>Belastung durch Schnee und Eis beachten</li>
-
             <li>Gefälle korrekt herstellen</li>
-
           </ul>
-
         `
-
       }
-
     ]
-
   },
 
   {
-
     id:"stehfalz",
-
     title:"Stehfalz",
-
     icon:"📏",
-
     description:"Scharen, Falze, Hafte, Befestigung und Dehnung",
-
     chapters:[
-
       {
-
         id:"stehfalz-grundlagen",
-
         title:"Grundlagen des Stehfalzes",
-
         content:`
-
           <h3>Stehfalz – Grundlagen</h3>
 
           <p>
-
             Eine Stehfalzdeckung besteht aus längs verlaufenden
-
             Blechscharen, die über Falze miteinander verbunden werden.
-
             Die Ausführung richtet sich unter anderem nach Werkstoff,
-
             Dachneigung, Scharenlänge, Windbeanspruchung und Untergrund.
-
           </p>
 
           <h4>Wichtige Punkte</h4>
 
           <ul>
-
             <li>Geeigneter Untergrund</li>
-
             <li>Passende Trennlage</li>
-
             <li>Scharenbreite festlegen</li>
-
             <li>Haftabstände bestimmen</li>
-
             <li>Fest- und Schiebehaftbereiche planen</li>
-
             <li>Materialbewegung berücksichtigen</li>
-
           </ul>
-
         `
-
       },
-
       {
-
         id:"doppelstehfalz",
-
         title:"Doppelstehfalz",
-
         content:`
-
           <h3>Doppelstehfalz</h3>
 
           <p>
-
             Beim Doppelstehfalz wird die Falzverbindung zweimal
-
             geschlossen. Dadurch entsteht eine besonders sichere und
-
             bewährte Verbindung für Dachflächen.
-
           </p>
 
           <h4>Bei der Ausführung beachten</h4>
 
           <ul>
-
             <li>Falzhöhe und Profil gleichmäßig herstellen</li>
-
             <li>Material nicht beschädigen</li>
-
             <li>Hafte vollständig in den Falz einbinden</li>
-
             <li>Falz sauber und ohne unzulässige Spannungen schließen</li>
-
             <li>Quer- und Anschlussdetails abstimmen</li>
-
           </ul>
-
         `
-
       },
-
       {
-
         id:"winkelstehfalz",
-
         title:"Winkelstehfalz",
-
         content:`
-
           <h3>Winkelstehfalz</h3>
 
           <p>
-
             Der Winkelstehfalz wird häufig bei Fassaden eingesetzt.
-
             Er erzeugt eine klare Linienführung und lässt sich optisch
-
             gut gestalten.
-
           </p>
 
           <h4>Planungspunkte</h4>
 
           <ul>
-
             <li>Scharenaufteilung</li>
-
             <li>Rand- und Eckbereiche</li>
-
             <li>Unterkonstruktion</li>
-
             <li>Hinterlüftung</li>
-
             <li>Fenster- und Sockelanschlüsse</li>
-
           </ul>
-
         `
-
       },
-
       {
-
         id:"hafte",
-
         title:"Fest- und Schiebehafte",
-
         content:`
-
           <h3>Fest- und Schiebehafte</h3>
 
           <p>
-
             Hafte verbinden die Scharen mit dem Untergrund. Der
-
             Festhaftbereich fixiert die Schar. Schiebehafte ermöglichen
-
             temperaturbedingte Längenänderungen.
-
           </p>
 
           <h4>Kontrollpunkte</h4>
 
           <ul>
-
             <li>Festhaftbereich richtig positionieren</li>
-
             <li>Schiebehafte nicht blockieren</li>
-
             <li>Geeignete Befestigungsmittel verwenden</li>
-
             <li>Abstände an Beanspruchung anpassen</li>
-
             <li>Bewegungsrichtung der Scharen beachten</li>
-
           </ul>
-
         `
-
       },
-
       {
-
         id:"scharenbreiten",
-
         title:"Scharenbreiten",
-
         content:`
-
           <h3>Scharenbreiten</h3>
 
           <p>
-
             Die Scharenbreite beeinflusst Optik, Materialverbrauch,
-
             Windbeanspruchung und Verformungsverhalten.
-
           </p>
 
           <h4>Bei der Einteilung beachten</h4>
 
           <ul>
-
             <li>Gesamtbreite der Fläche</li>
-
             <li>Gewünschte Sichtbreite</li>
-
             <li>Falzzugaben</li>
-
             <li>Randbereiche</li>
-
             <li>Fenster und Öffnungen</li>
-
             <li>Verschnitt</li>
-
           </ul>
-
         `
-
       }
-
     ]
-
   },
 
   {
-
     id:"attika",
-
     title:"Attika und Mauerabdeckungen",
-
     icon:"🏢",
-
     description:"Abdeckungen, Halter, Stöße und Tropfkanten",
-
     chapters:[
-
       {
-
         id:"attika-grundlagen",
-
         title:"Grundlagen",
-
         content:`
-
           <h3>Attika- und Mauerabdeckungen</h3>
 
           <p>
-
             Abdeckungen schützen die darunterliegenden Bauteile vor
-
             Niederschlag. Sie benötigen ausreichende Überstände,
-
             wirksame Tropfkanten und eine sichere Befestigung.
-
           </p>
 
           <h4>Planungspunkte</h4>
 
           <ul>
-
             <li>Abdeckungsbreite</li>
-
             <li>Aufkantungen</li>
-
             <li>Tropfkanten</li>
-
             <li>Gefälle</li>
-
             <li>Halterabstände</li>
-
             <li>Stoßausbildung</li>
-
           </ul>
-
         `
-
       },
-
       {
-
         id:"attika-stoesse",
-
         title:"Stöße und Dehnung",
-
         content:`
-
           <h3>Stöße und Dehnung</h3>
 
           <p>
-
             Lange Abdeckungen müssen Längenänderungen aufnehmen können.
-
             Starre Verbindungen können zu Beulen, offenen Stößen oder
-
             Schäden an den Befestigungen führen.
-
           </p>
 
           <h4>Kontrollpunkte</h4>
 
           <ul>
-
             <li>Werkstoff und Bauteillänge berücksichtigen</li>
-
             <li>Geeignete Stoßausbildung wählen</li>
-
             <li>Bewegung nicht durch Schrauben blockieren</li>
-
             <li>Halter und Festpunkte planen</li>
-
           </ul>
-
         `
-
       },
-
       {
-
         id:"tropfkanten",
-
         title:"Tropfkanten",
-
         content:`
-
           <h3>Tropfkanten</h3>
 
           <p>
-
             Tropfkanten sollen Wasser kontrolliert von der Fassade oder
-
             dem darunterliegenden Bauteil wegführen.
-
           </p>
 
           <h4>Beachten</h4>
 
           <ul>
-
             <li>Ausreichender Abstand zur Fassade</li>
-
             <li>Saubere und durchgehende Kantung</li>
-
             <li>Kein Rücklaufen des Wassers</li>
-
             <li>Anschlüsse und Ecken sorgfältig ausbilden</li>
-
           </ul>
-
         `
-
       }
-
     ]
-
   },
 
   {
-
     id:"anschluesse",
-
     title:"Anschlüsse und Verwahrungen",
-
     icon:"🧱",
-
     description:"Wände, Kamine, Kehlen, Ortgänge und Dachfenster",
-
     chapters:[
-
       {
-
         id:"wandanschluss",
-
         title:"Wandanschlüsse",
-
         content:`
-
           <h3>Wandanschlüsse</h3>
 
           <p>
-
             Wandanschlüsse müssen Wasser sicher ableiten und gegen
-
             Hinterlaufen geschützt sein. Die obere Verwahrung und die
-
             Anschlusshöhe sind besonders wichtig.
-
           </p>
 
           <h4>Typische Fehler</h4>
 
           <ul>
-
             <li>Zu geringe Anschlusshöhe</li>
-
             <li>Fehlende Hinterlaufsicherung</li>
-
             <li>Starre Verbindung beweglicher Bauteile</li>
-
             <li>Ungeeignete Dichtstoffe</li>
-
             <li>Unterbrochene Wasserführung</li>
-
           </ul>
-
         `
-
       },
-
       {
-
         id:"kaminanschluss",
-
         title:"Kaminanschlüsse",
-
         content:`
-
           <h3>Kaminanschlüsse</h3>
 
           <p>
-
             Vorder-, Seiten- und Hinteranschluss müssen als Einheit
-
             funktionieren. Hinter dem Kamin ist eine sichere Ableitung
-
             von Wasser und Schnee besonders wichtig.
-
           </p>
-
         `
-
       },
-
       {
-
         id:"kehlen",
-
         title:"Kehlen",
-
         content:`
-
           <h3>Kehlen</h3>
 
           <p>
-
             Kehlen nehmen das Wasser aus zwei Dachflächen auf. Daher
-
             müssen Breite, seitliche Anschlüsse und Wasserführung auf
-
             die zu erwartende Belastung abgestimmt sein.
-
           </p>
-
         `
-
       },
-
       {
-
         id:"ortgaenge",
-
         title:"Ortgang und Randanschlüsse",
-
         content:`
-
           <h3>Ortgang und Randanschlüsse</h3>
 
           <p>
-
             Randanschlüsse müssen Niederschlag ableiten und gleichzeitig
-
             erhöhte Windbeanspruchungen aufnehmen.
-
           </p>
 
           <h4>Prüfpunkte</h4>
 
           <ul>
-
             <li>Sicherer Abschluss der Deckung</li>
-
             <li>Windbeanspruchung berücksichtigen</li>
-
             <li>Materialbewegung ermöglichen</li>
-
             <li>Saubere Tropf- und Wasserführung</li>
-
           </ul>
-
         `
-
       }
-
     ]
-
   },
 
   {
-
     id:"werkstoffe",
-
     title:"Werkstoffe",
-
     icon:"🔩",
-
     description:"Titanzink, Kupfer, Aluminium und Edelstahl",
-
     chapters:[
-
       {
-
         id:"titanzink",
-
         title:"Titanzink",
-
         content:`
-
           <h3>Titanzink</h3>
 
           <p>
-
             Titanzink wird für Dachrinnen, Abdeckungen, Dächer und
-
             Fassaden eingesetzt. Bei Lagerung und Verarbeitung sind
-
             Feuchtigkeit, Materialverträglichkeit und Bewegung zu
-
             berücksichtigen.
-
           </p>
 
           <h4>Praxispunkte</h4>
 
           <ul>
-
             <li>Trocken und belüftet lagern</li>
-
             <li>Weißrost vermeiden</li>
-
             <li>Geeignete Werkzeuge verwenden</li>
-
             <li>Materialbewegung einplanen</li>
-
             <li>Verträglichkeit mit anderen Baustoffen prüfen</li>
-
           </ul>
-
         `
-
       },
-
       {
-
         id:"kupfer",
-
         title:"Kupfer",
-
         content:`
-
           <h3>Kupfer</h3>
 
           <p>
-
             Kupfer bildet im Laufe der Zeit eine schützende Patina.
-
             Ablaufendes Kupferwasser kann darunterliegende,
-
             unedlere Metalle beeinflussen.
-
           </p>
-
         `
-
       },
-
       {
-
         id:"aluminium",
-
         title:"Aluminium",
-
         content:`
-
           <h3>Aluminium</h3>
 
           <p>
-
             Aluminium ist leicht und wird häufig beschichtet eingesetzt.
-
             Beschichtungen müssen beim Schneiden, Kanten und Montieren
-
             vor Beschädigungen geschützt werden.
-
           </p>
-
         `
-
       },
-
       {
-
         id:"materialvertraeglichkeit",
-
         title:"Materialverträglichkeit",
-
         content:`
-
           <h3>Materialverträglichkeit</h3>
 
           <p>
-
             Unterschiedliche Metalle dürfen nicht beliebig direkt
-
             miteinander verbunden werden. Feuchtigkeit kann in
-
             Verbindung mit unterschiedlichen Metallen Kontaktkorrosion
-
             begünstigen.
-
           </p>
 
           <h4>Prüfen</h4>
 
           <ul>
-
             <li>Direkten Metallkontakt</li>
-
             <li>Fließrichtung des Regenwassers</li>
-
             <li>Trennlagen</li>
-
             <li>Befestigungsmittel</li>
-
             <li>Herstellerangaben</li>
-
           </ul>
-
         `
-
       }
-
     ]
-
   },
 
   {
-
     id:"fassaden",
-
     title:"Metallfassaden",
-
     icon:"🏗️",
-
     description:"Unterkonstruktion, Hinterlüftung und Befestigung",
-
     chapters:[
-
       {
-
         id:"fassaden-grundlagen",
-
         title:"Grundlagen",
-
         content:`
-
           <h3>Metallfassaden – Grundlagen</h3>
 
           <p>
-
             Bei hinterlüfteten Metallfassaden müssen Bekleidung,
-
             Befestigung, Unterkonstruktion, Dämmung und Hinterlüftung
-
             als Gesamtsystem geplant werden.
-
           </p>
 
           <h4>Prüfpunkte</h4>
 
           <ul>
-
             <li>Tragfähiger Untergrund</li>
-
             <li>Geeignete Unterkonstruktion</li>
-
             <li>Be- und Entlüftungsöffnungen</li>
-
             <li>Windlasten</li>
-
             <li>Fest- und Gleitpunkte</li>
-
             <li>Fenster- und Sockelanschlüsse</li>
-
           </ul>
-
         `
-
       },
-
       {
-
         id:"hinterlueftung",
-
         title:"Hinterlüftung",
-
         content:`
-
           <h3>Hinterlüftung</h3>
 
           <p>
-
             Der Hinterlüftungsraum unterstützt den Feuchteabtransport
-
             und muss vom unteren bis zum oberen Abschluss wirksam
-
             ausgebildet sein.
-
           </p>
 
           <h4>Beachten</h4>
 
           <ul>
-
             <li>Freie Luftführung</li>
-
             <li>Be- und Entlüftungsöffnungen</li>
-
             <li>Insektenschutz ohne starke Querschnittsverengung</li>
-
             <li>Unterbrechungen durch Fenster und Bauteile</li>
-
           </ul>
-
         `
-
       }
-
     ]
-
   }
-
 ];
 
 function fwEscape(value){
-
   if(typeof esc === "function"){
-
     return esc(value);
-
   }
 
   return String(value ?? "").replace(/[&<>"']/g,function(character){
-
     return {
-
       "&":"&amp;",
-
       "<":"&lt;",
-
       ">":"&gt;",
-
       '"':"&quot;",
-
       "'":"&#039;"
-
     }[character];
-
   });
-
 }
 
 function getFwFavorites(){
-
   return JSON.parse(
-
     localStorage.getItem("spenglerosFwFavorites") || "[]"
-
   );
-
 }
 
 function saveFwFavorites(favorites){
-
   localStorage.setItem(
-
     "spenglerosFwFavorites",
-
     JSON.stringify(favorites)
-
   );
-
 }
 
 function getFwNotes(){
-
   return JSON.parse(
-
     localStorage.getItem("spenglerosFwNotes") || "{}"
-
   );
-
 }
 
 function initializeKnowledgeArea(){
-
   const area = document.getElementById("rulesArea");
 
   if(!area){
-
     return;
-
   }
 
   area.innerHTML = `
-
     <div id="fwOverview">
 
       <div class="card">
-
         <h3>📚 Fachwissen</h3>
 
         <input
-
           id="fwSearch"
-
           class="search"
-
           placeholder="z. B. Stehfalz, Attika oder Dachrinne"
-
           oninput="renderKnowledgeArea()"
-
         >
 
         <div class="btnrow">
 
           <button
-
             class="btn secondary"
-
             onclick="showFwFavorites()"
-
           >
-
             ⭐ Favoriten
-
           </button>
 
           <button
-
             class="btn ghost"
-
             onclick="showFwOwnNotes()"
-
           >
-
             📝 Eigene Notizen
-
           </button>
 
         </div>
-
       </div>
 
       <div id="fwCategoryList"></div>
@@ -6037,23 +5585,15 @@ function initializeKnowledgeArea(){
     <div id="fwDetail" style="display:none">
 
       <button
-
         class="btn ghost"
-
         onclick="closeFwDetail()"
-
       >
-
         ← Zurück zum Inhaltsverzeichnis
-
       </button>
 
       <div
-
         id="fwDetailContent"
-
         style="margin-top:12px"
-
       ></div>
 
     </div>
@@ -6061,15 +5601,10 @@ function initializeKnowledgeArea(){
     <div id="fwOwnNotesArea" style="display:none">
 
       <button
-
         class="btn ghost"
-
         onclick="closeFwOwnNotes()"
-
       >
-
         ← Zurück zum Fachwissen
-
       </button>
 
       <div class="card" style="margin-top:12px">
@@ -6077,29 +5612,19 @@ function initializeKnowledgeArea(){
         <h3>Eigene Fachnotiz</h3>
 
         <label>Titel</label>
-
         <input id="fwOwnTitle">
 
         <label>Notiz</label>
-
         <textarea
-
           id="fwOwnText"
-
           placeholder="Eigene Erfahrungen, Maße oder Hinweise"
-
         ></textarea>
 
         <button
-
           class="btn"
-
           onclick="saveFwOwnNote()"
-
         >
-
           Notiz speichern
-
         </button>
 
       </div>
@@ -6107,729 +5632,467 @@ function initializeKnowledgeArea(){
       <div id="fwOwnNotesList"></div>
 
     </div>
-
   `;
 
   renderKnowledgeArea();
-
 }
 
 function renderKnowledgeArea(){
-
   const list =
-
     document.getElementById("fwCategoryList");
 
   if(!list){
-
     return;
-
   }
 
   const search =
-
     (
-
       document.getElementById("fwSearch")?.value ||
-
       ""
-
     ).toLowerCase();
 
   const favorites =
-
     getFwFavorites();
 
   const html =
-
     knowledgeBase.map(function(category){
 
       const matchingChapters =
-
         category.chapters.filter(function(chapter){
 
           const searchableText =
-
             category.title + " " +
-
             category.description + " " +
-
             chapter.title + " " +
-
             chapter.content.replace(/<[^>]+>/g," ");
 
           return searchableText
-
             .toLowerCase()
-
             .includes(search);
-
         });
 
       if(search && matchingChapters.length === 0){
-
         return "";
-
       }
 
       const chapters =
-
         search
-
         ? matchingChapters
-
         : category.chapters;
 
       return `
-
         <div class="card">
 
           <h3>
-
             ${category.icon}
-
             ${fwEscape(category.title)}
-
           </h3>
 
           <p>
-
             ${fwEscape(category.description)}
-
           </p>
 
           ${chapters.map(function(chapter){
-
             return `
-
               <div
-
                 class="item"
-
                 onclick="openKnowledgeChapter(
-
                   '${category.id}',
-
                   '${chapter.id}'
-
                 )"
-
               >
 
                 <strong>
-
                   ${fwEscape(chapter.title)}
-
                 </strong>
 
                 <p>
-
                   Antippen und nachlesen
-
                 </p>
 
                 ${
-
                   favorites.includes(chapter.id)
-
                   ? `<span class="badge ok">⭐ Favorit</span>`
-
                   : ""
-
                 }
 
               </div>
-
             `;
-
           }).join("")}
 
         </div>
-
       `;
-
     }).join("");
 
   list.innerHTML =
-
     html ||
-
     `
-
       <div class="card">
-
         <p class="note">
-
           Kein passender Eintrag gefunden.
-
         </p>
-
       </div>
-
     `;
-
 }
 
 function openKnowledgeChapter(categoryId,chapterId){
-
   const category =
-
     knowledgeBase.find(function(item){
-
       return item.id === categoryId;
-
     });
 
   const chapter =
-
     category?.chapters.find(function(item){
-
       return item.id === chapterId;
-
     });
 
   if(!category || !chapter){
-
     return;
-
   }
 
   const favorites =
-
     getFwFavorites();
 
   const notes =
-
     getFwNotes();
 
   document.getElementById("fwOverview").style.display =
-
     "none";
 
   document.getElementById("fwOwnNotesArea").style.display =
-
     "none";
 
   document.getElementById("fwDetail").style.display =
-
     "block";
 
   document.getElementById("fwDetailContent").innerHTML = `
-
     <div class="card">
 
       <p class="note">
-
         ${category.icon}
-
         ${fwEscape(category.title)}
-
       </p>
 
       ${chapter.content}
 
       <button
-
         class="btn secondary"
-
         onclick="toggleFwFavorite(
-
           '${categoryId}',
-
           '${chapterId}'
-
         )"
-
       >
-
         ${
-
           favorites.includes(chapterId)
-
           ? "⭐ Aus Favoriten entfernen"
-
           : "☆ Zu Favoriten hinzufügen"
-
         }
-
       </button>
 
       <label>Eigene Notiz zu diesem Kapitel</label>
 
       <textarea
-
         id="fwChapterNote"
-
         placeholder="Eigene Erfahrung oder Hinweis"
-
       >${fwEscape(notes[chapterId] || "")}</textarea>
 
       <button
-
         class="btn"
-
         onclick="saveFwChapterNote('${chapterId}')"
-
       >
-
         Notiz speichern
-
       </button>
 
       <p class="note">
-
         Diese Inhalte sind selbst formulierte Kurzfassungen und
-
         allgemeine Arbeitshinweise. Sie ersetzen keine Prüfung der
-
         aktuellen offiziellen Fachregeln, Normen, Herstellerangaben
-
         oder objektspezifischen Planung.
-
       </p>
 
     </div>
-
   `;
-
 }
 
 function closeFwDetail(){
-
   document.getElementById("fwDetail").style.display =
-
     "none";
 
   document.getElementById("fwOverview").style.display =
-
     "block";
 
   renderKnowledgeArea();
-
 }
 
 function toggleFwFavorite(categoryId,chapterId){
-
   let favorites =
-
     getFwFavorites();
 
   if(favorites.includes(chapterId)){
-
     favorites =
-
       favorites.filter(function(id){
-
         return id !== chapterId;
-
       });
-
   }else{
-
     favorites.push(chapterId);
-
   }
 
   saveFwFavorites(favorites);
 
   openKnowledgeChapter(
-
     categoryId,
-
     chapterId
-
   );
-
 }
 
 function saveFwChapterNote(chapterId){
-
   const notes =
-
     getFwNotes();
 
   notes[chapterId] =
-
     document.getElementById("fwChapterNote").value;
 
   localStorage.setItem(
-
     "spenglerosFwNotes",
-
     JSON.stringify(notes)
-
   );
 
   alert("Notiz gespeichert.");
-
 }
 
 function showFwFavorites(){
-
   const favorites =
-
     getFwFavorites();
 
   const results = [];
 
   knowledgeBase.forEach(function(category){
-
     category.chapters.forEach(function(chapter){
-
       if(favorites.includes(chapter.id)){
-
         results.push({
-
           category:category,
-
           chapter:chapter
-
         });
-
       }
-
     });
-
   });
 
   document.getElementById("fwOverview").style.display =
-
     "none";
 
   document.getElementById("fwOwnNotesArea").style.display =
-
     "none";
 
   document.getElementById("fwDetail").style.display =
-
     "block";
 
   document.getElementById("fwDetailContent").innerHTML = `
-
     <div class="card">
 
       <h3>⭐ Favoriten</h3>
 
       ${
-
         results.length
-
         ? results.map(function(result){
-
             return `
-
               <div
-
                 class="item"
-
                 onclick="openKnowledgeChapter(
-
                   '${result.category.id}',
-
                   '${result.chapter.id}'
-
                 )"
-
               >
 
                 <strong>
-
                   ${fwEscape(result.chapter.title)}
-
                 </strong>
 
                 <p>
-
                   ${fwEscape(result.category.title)}
-
                 </p>
 
               </div>
-
             `;
-
           }).join("")
-
         : `
-
           <p class="note">
-
             Noch keine Favoriten gespeichert.
-
           </p>
-
         `
-
       }
 
     </div>
-
   `;
-
 }
 
 function getFwOwnNotes(){
-
   return JSON.parse(
-
     localStorage.getItem("spenglerosFwOwnNotes") ||
-
     "[]"
-
   );
-
 }
 
 function showFwOwnNotes(){
-
   document.getElementById("fwOverview").style.display =
-
     "none";
 
   document.getElementById("fwDetail").style.display =
-
     "none";
 
   document.getElementById("fwOwnNotesArea").style.display =
-
     "block";
 
   renderFwOwnNotes();
-
 }
 
 function closeFwOwnNotes(){
-
   document.getElementById("fwOwnNotesArea").style.display =
-
     "none";
 
   document.getElementById("fwOverview").style.display =
-
     "block";
 
   renderKnowledgeArea();
-
 }
 
 function saveFwOwnNote(){
-
   const title =
-
     document.getElementById("fwOwnTitle")
-
       .value
-
       .trim();
 
   const text =
-
     document.getElementById("fwOwnText")
-
       .value
-
       .trim();
 
   if(!title || !text){
-
     alert("Bitte Titel und Notiz eingeben.");
-
     return;
-
   }
 
   const notes =
-
     getFwOwnNotes();
 
   notes.push({
-
     id:Date.now(),
-
     title:title,
-
     text:text,
-
     date:new Date().toISOString()
-
   });
 
   localStorage.setItem(
-
     "spenglerosFwOwnNotes",
-
     JSON.stringify(notes)
-
   );
 
   document.getElementById("fwOwnTitle").value =
-
     "";
 
   document.getElementById("fwOwnText").value =
-
     "";
 
   renderFwOwnNotes();
-
 }
 
 function deleteFwOwnNote(id){
-
   if(!confirm("Notiz wirklich löschen?")){
-
     return;
-
   }
 
   const notes =
-
     getFwOwnNotes().filter(function(note){
-
       return note.id !== id;
-
     });
 
   localStorage.setItem(
-
     "spenglerosFwOwnNotes",
-
     JSON.stringify(notes)
-
   );
 
   renderFwOwnNotes();
-
 }
 
 function renderFwOwnNotes(){
-
   const list =
-
     document.getElementById("fwOwnNotesList");
 
   if(!list){
-
     return;
-
   }
 
   const notes =
-
     getFwOwnNotes()
-
       .slice()
-
       .reverse();
 
   list.innerHTML = `
-
     <div class="card">
 
       <h3>Gespeicherte Notizen</h3>
 
       ${
-
         notes.length
-
         ? notes.map(function(note){
-
             return `
-
               <div class="item">
 
                 <strong>
-
                   ${fwEscape(note.title)}
-
                 </strong>
 
                 <p>
-
                   ${fwEscape(note.text)}
-
                 </p>
 
                 <p class="note">
-
                   ${new Date(note.date)
-
                     .toLocaleDateString("de-DE")}
-
                 </p>
 
                 <button
-
                   class="btn danger small"
-
                   onclick="deleteFwOwnNote(${note.id})"
-
                 >
-
                   Notiz löschen
-
                 </button>
 
               </div>
-
             `;
-
           }).join("")
-
         : `
-
           <p class="note">
-
             Noch keine eigenen Notizen gespeichert.
-
           </p>
-
         `
-
       }
 
     </div>
-
   `;
-
 }
 
 /*
-
   Falls deine alte App renderRules() aufruft,
-
   wird diese Funktion überschrieben.
-
 */
-
 window.renderRules = function(){
-
   if(!document.getElementById("fwCategoryList")){
-
     initializeKnowledgeArea();
-
   }else{
-
     renderKnowledgeArea();
-
   }
-
 };
 
 /*
-
   Bereich nach dem Laden automatisch starten.
-
 */
-
 setTimeout(function(){
-
   initializeKnowledgeArea();
-
 },300);
 
 })();
-
 </script>
-
 <!-- SPENGLEROS FACHWISSEN-UPDATE ENDE -->
+</body>
+
+</html>
