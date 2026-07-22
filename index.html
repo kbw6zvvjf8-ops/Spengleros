@@ -1,347 +1,863 @@
 <!DOCTYPE html>
+
 <html lang="de">
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+
 <meta name="theme-color" content="#0f5b66">
+
 <title>SpenglerOS</title>
 
 <style>
+
 :root{
+
   --bg:#edf2f4;
-  --card:#ffffff;
+
+  --card:#fff;
+
   --text:#17212b;
+
   --muted:#697681;
+
   --primary:#0f5b66;
+
   --dark:#093f47;
+
   --light:#dceff1;
+
   --accent:#d48b2d;
+
   --accent-light:#fff0db;
+
   --danger:#b74747;
+
   --success:#2e7d5a;
+
   --border:#d7e0e4;
+
+  --shadow:0 8px 24px rgba(20,40,50,.08);
+
 }
 
-*{box-sizing:border-box}
+*{
+
+  box-sizing:border-box;
+
+}
 
 body{
+
   margin:0;
+
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
-  background:var(--bg);
+
+  background:linear-gradient(180deg,#e5edef,#f7f9fa);
+
   color:var(--text);
+
 }
 
 .app{
-  max-width:560px;
+
+  max-width:620px;
+
   min-height:100vh;
+
   margin:auto;
-  padding-bottom:92px;
+
+  background:var(--bg);
+
+  padding-bottom:94px;
+
 }
 
 header{
+
   position:sticky;
+
   top:0;
-  z-index:10;
-  padding:20px 16px 24px;
+
+  z-index:20;
+
+  padding:18px 16px 21px;
+
   color:#fff;
+
   background:
+
     radial-gradient(circle at 90% 15%,rgba(255,255,255,.15),transparent 30%),
+
     linear-gradient(135deg,var(--dark),var(--primary));
-  border-radius:0 0 26px 26px;
+
+  border-radius:0 0 25px 25px;
+
+  box-shadow:0 8px 22px rgba(9,63,71,.18);
+
 }
 
-header small{
+.header-row{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:10px;
+
+}
+
+.back{
+
+  display:none;
+
+  border:0;
+
+  background:rgba(255,255,255,.16);
+
+  color:#fff;
+
+  border-radius:10px;
+
+  padding:9px 11px;
+
+  font-size:18px;
+
+}
+
+.brand small{
+
   font-weight:900;
+
   letter-spacing:1.3px;
+
   opacity:.8;
+
 }
 
-header h1{
-  margin:5px 0 3px;
-  font-size:27px;
+.brand h1{
+
+  margin:4px 0 2px;
+
+  font-size:25px;
+
 }
 
-header p{
+.brand p{
+
   margin:0;
+
   opacity:.9;
+
   font-size:13px;
+
 }
 
-main{padding:14px}
+main{
 
-.screen{display:none}
-.screen.active{display:block}
+  padding:14px;
+
+}
+
+.screen{
+
+  display:none;
+
+}
+
+.screen.active{
+
+  display:block;
+
+}
 
 .grid{
+
   display:grid;
+
   grid-template-columns:1fr 1fr;
+
   gap:10px;
+
 }
 
-.card,.item{
+.card,
+
+.item{
+
   background:var(--card);
+
   border:1px solid var(--border);
+
   border-radius:17px;
+
   padding:15px;
+
   margin-bottom:11px;
-  box-shadow:0 7px 22px rgba(20,40,50,.07);
+
+  box-shadow:var(--shadow);
+
 }
 
 .card h3{
+
   margin:0 0 9px;
+
   color:var(--dark);
+
 }
 
 .item strong{
+
   display:block;
+
   margin-bottom:5px;
+
 }
 
 .item p{
+
   margin:3px 0;
+
   color:var(--muted);
+
   font-size:13px;
+
 }
 
 .metric{
+
   font-size:25px;
+
   font-weight:850;
+
   margin-top:8px;
+
+}
+
+.section-title{
+
+  font-size:18px;
+
+  color:var(--dark);
+
+  margin:20px 0 10px;
+
 }
 
 .menu{
+
   display:grid;
+
   grid-template-columns:1fr 1fr;
+
   gap:10px;
+
 }
 
 .menu-card{
+
   background:#fff;
+
   border:1px solid var(--border);
+
   border-radius:16px;
+
   padding:15px;
-  box-shadow:0 7px 22px rgba(20,40,50,.07);
+
+  box-shadow:var(--shadow);
+
   cursor:pointer;
+
 }
 
 .menu-card span{
+
   display:block;
+
   font-size:25px;
+
   margin-bottom:7px;
+
 }
 
 .menu-card strong{
+
   display:block;
+
   color:var(--dark);
+
 }
 
 .menu-card small{
+
   color:var(--muted);
+
 }
 
 label{
+
   display:block;
+
   margin:11px 0 5px;
+
   font-size:13px;
+
   font-weight:800;
+
 }
 
-input,select,textarea{
+input,
+
+select,
+
+textarea{
+
   width:100%;
+
   padding:11px;
+
   border:1px solid var(--border);
+
   border-radius:11px;
+
   background:#fff;
+
   font-size:15px;
+
+  color:var(--text);
+
 }
 
 textarea{
-  min-height:85px;
+
+  min-height:88px;
+
   resize:vertical;
+
 }
 
 .row{
+
   display:grid;
+
   grid-template-columns:1fr 1fr;
+
   gap:9px;
+
 }
 
 .btn{
+
   width:100%;
+
   margin-top:10px;
+
   padding:12px;
+
   border:0;
+
   border-radius:12px;
+
   color:#fff;
+
   font-weight:800;
+
   font-size:14px;
+
   background:linear-gradient(135deg,var(--dark),var(--primary));
+
   cursor:pointer;
+
 }
 
 .btn.secondary{
+
   color:#845212;
+
   background:var(--accent-light);
+
   border:1px solid #edca96;
+
 }
 
 .btn.ghost{
+
   color:var(--primary);
+
   background:#fff;
+
   border:1px solid var(--border);
+
 }
 
 .btn.danger{
+
   background:var(--danger);
+
+}
+
+.btn.success{
+
+  background:var(--success);
+
 }
 
 .btn.small{
+
   padding:8px 10px;
+
   font-size:12px;
+
+}
+
+.btnrow{
+
+  display:grid;
+
+  grid-template-columns:1fr 1fr;
+
+  gap:9px;
+
 }
 
 .tabs{
+
   display:flex;
+
   gap:7px;
+
   overflow:auto;
+
   margin-bottom:11px;
+
+  padding-bottom:3px;
+
 }
 
 .tab{
+
   white-space:nowrap;
+
   padding:8px 12px;
+
   border:1px solid var(--border);
+
   border-radius:999px;
+
   background:#fff;
+
   font-weight:750;
+
   color:var(--muted);
+
 }
 
 .tab.active{
+
   color:#fff;
+
   background:var(--primary);
+
 }
 
-.sub{display:none}
-.sub.active{display:block}
+.sub{
+
+  display:none;
+
+}
+
+.sub.active{
+
+  display:block;
+
+}
 
 .chips{
+
   display:flex;
+
   flex-wrap:wrap;
+
   gap:7px;
+
   margin-top:10px;
+
 }
 
 .chip{
+
   padding:8px 11px;
+
   border:1px solid var(--border);
+
   border-radius:999px;
+
   background:#fff;
+
   color:var(--primary);
+
   font-weight:800;
+
 }
 
 .chip.active{
+
   background:var(--primary);
+
   color:#fff;
+
 }
 
 .result{
+
   margin-top:12px;
+
   padding:12px;
+
   line-height:1.5;
+
   border:1px solid #c7e1e4;
+
   border-radius:13px;
+
   background:#eef8f9;
+
 }
 
 .badge{
+
   display:inline-block;
+
   margin-top:5px;
+
   padding:5px 9px;
+
   border-radius:999px;
+
   background:var(--light);
+
   color:var(--dark);
+
   font-size:11px;
+
   font-weight:800;
+
+}
+
+.badge.ok{
+
+  background:#e5f3ec;
+
+  color:var(--success);
+
+}
+
+.badge.warn{
+
+  background:var(--accent-light);
+
+  color:#865313;
+
 }
 
 .note{
+
   color:var(--muted);
+
   font-size:12px;
-}
 
-table{
-  width:100%;
-  border-collapse:collapse;
-  font-size:13px;
-}
-
-td,th{
-  padding:8px 3px;
-  border-bottom:1px solid var(--border);
-  text-align:left;
-}
-
-td:last-child,th:last-child{
-  text-align:right;
 }
 
 .total{
+
   margin-top:12px;
+
   text-align:right;
+
   color:var(--dark);
+
   font-size:20px;
+
   font-weight:850;
+
+}
+
+table{
+
+  width:100%;
+
+  border-collapse:collapse;
+
+  font-size:13px;
+
+}
+
+td,
+
+th{
+
+  padding:8px 3px;
+
+  border-bottom:1px solid var(--border);
+
+  text-align:left;
+
+}
+
+td:last-child,
+
+th:last-child{
+
+  text-align:right;
+
+}
+
+.photo-grid{
+
+  display:grid;
+
+  grid-template-columns:1fr 1fr;
+
+  gap:9px;
+
+}
+
+.photo{
+
+  height:112px;
+
+  border:1px solid var(--border);
+
+  border-radius:13px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  background:linear-gradient(135deg,#dce8eb,#f8fafb);
+
+  font-size:34px;
+
+  overflow:hidden;
+
+}
+
+.photo img{
+
+  width:100%;
+
+  height:100%;
+
+  object-fit:cover;
+
+}
+
+.check{
+
+  display:flex;
+
+  gap:8px;
+
+  align-items:center;
+
+  padding:9px 0;
+
+  border-bottom:1px solid var(--border);
+
+}
+
+.check input{
+
+  width:19px;
+
+  height:19px;
+
+}
+
+.progress{
+
+  height:9px;
+
+  background:#e6ecef;
+
+  border-radius:999px;
+
+  overflow:hidden;
+
+}
+
+.progress span{
+
+  display:block;
+
+  height:100%;
+
+  background:linear-gradient(90deg,var(--primary),var(--accent));
+
+}
+
+.search{
+
+  margin-bottom:10px;
+
 }
 
 nav{
+
   position:fixed;
+
   left:50%;
+
   bottom:0;
+
   transform:translateX(-50%);
-  width:min(560px,100%);
+
+  width:min(620px,100%);
+
   display:grid;
+
   grid-template-columns:repeat(5,1fr);
+
   padding:8px 4px calc(10px + env(safe-area-inset-bottom));
+
   background:rgba(255,255,255,.98);
+
   border-top:1px solid var(--border);
+
   box-shadow:0 -7px 20px rgba(20,40,50,.08);
+
+  z-index:30;
+
 }
 
 nav button{
+
   padding:6px 2px;
+
   border:0;
+
   border-radius:11px;
+
   background:transparent;
+
   color:#75838d;
+
   font-size:11px;
+
 }
 
 nav button span{
+
   display:block;
+
   font-size:20px;
+
 }
 
 nav button.active{
+
   color:var(--primary);
+
   background:var(--light);
+
   font-weight:800;
+
 }
 
-@media(max-width:390px){
-  .grid,.row,.menu{grid-template-columns:1fr}
+@media(max-width:420px){
+
+  .grid,
+
+  .row,
+
+  .menu,
+
+  .btnrow{
+
+    grid-template-columns:1fr;
+
+  }
+
 }
+
+@media print{
+
+  header,
+
+  nav,
+
+  .no-print{
+
+    display:none!important;
+
+  }
+
+  .app{
+
+    max-width:none;
+
+    padding:0;
+
+  }
+
+  .screen{
+
+    display:none!important;
+
+  }
+
+  #invoice-detail{
+
+    display:block!important;
+
+  }
+
+  .card{
+
+    box-shadow:none;
+
+    border:0;
+
+  }
+
+}
+
 </style>
+
 </head>
 
 <body>
+
 <div class="app">
 
 <header>
-  <small>DIGITALES HANDWERKERBÜRO</small>
-  <h1>SpenglerOS</h1>
-  <p>Einmal dokumentieren – alles automatisch erledigen</p>
+
+  <div class="header-row">
+
+    <button id="backBtn" class="back" onclick="goBack()">←</button>
+
+    <div class="brand">
+
+      <small>DIGITALES HANDWERKERBÜRO</small>
+
+      <h1 id="headerTitle">SpenglerOS</h1>
+
+      <p id="headerSub">
+
+        Einmal dokumentieren – alles automatisch erledigen
+
+      </p>
+
+    </div>
+
+  </div>
+
 </header>
 
 <main>
@@ -349,63 +865,121 @@ nav button.active{
 <section id="home" class="screen active">
 
   <div class="grid">
+
     <div class="card">
+
       <h3>Kunden</h3>
+
       <div id="countCustomers" class="metric">0</div>
+
     </div>
 
     <div class="card">
+
       <h3>Aufträge</h3>
+
       <div id="countOrders" class="metric">0</div>
+
     </div>
 
     <div class="card">
+
       <h3>Rapporte</h3>
+
       <div id="countReports" class="metric">0</div>
+
     </div>
 
     <div class="card">
+
       <h3>Rechnungen</h3>
+
       <div id="countInvoices" class="metric">0</div>
+
     </div>
+
   </div>
 
   <div class="card">
+
     <h3>Schnellzugriff</h3>
 
     <div class="menu">
-      <div class="menu-card" onclick="goTo('customers',1)">
+
+      <div class="menu-card"
+
+        onclick="rootNav('customers',1,'Kunden','Kundenverwaltung')">
+
         <span>👤</span>
+
         <strong>Kunden</strong>
-        <small>Kunden anlegen</small>
+
+        <small>Anlegen und verwalten</small>
+
       </div>
 
-      <div class="menu-card" onclick="goTo('orders',2)">
+      <div class="menu-card"
+
+        onclick="rootNav('orders',2,'Aufträge','Baustellen & Projekte')">
+
         <span>📁</span>
+
         <strong>Aufträge</strong>
-        <small>Projekte verwalten</small>
+
+        <small>Komplette Baustellenmappe</small>
+
       </div>
 
-      <div class="menu-card" onclick="goTo('report',3)">
+      <div class="menu-card"
+
+        onclick="rootNav('report',3,'Rapport','Dokumentation & Rechnung')">
+
         <span>📝</span>
+
         <strong>Rapport</strong>
-        <small>Arbeit dokumentieren</small>
+
+        <small>Arbeit und Material erfassen</small>
+
       </div>
 
-      <div class="menu-card" onclick="goTo('tools',4)">
+      <div class="menu-card"
+
+        onclick="rootNav('tools',4,'Werkzeuge','Rechner & Fachwissen')">
+
         <span>📐</span>
+
         <strong>Werkzeuge</strong>
-        <small>Rechner und Regeln</small>
+
+        <small>Rechner und Fachregeln</small>
+
       </div>
+
     </div>
+
   </div>
 
   <div class="card">
+
+    <h3>Offene Aufträge</h3>
+
+    <div id="homeOrders"></div>
+
+  </div>
+
+  <div class="card">
+
     <h3>Wichtig</h3>
+
     <p class="note">
-      Die Daten werden momentan nur lokal in deinem Browser gespeichert.
-      Verwende vorerst Testdaten und noch keine vertraulichen Kundendaten.
+
+      Die Daten werden lokal im Browser gespeichert. Für echte Betriebe
+
+      braucht die App später Cloud, Login, revisionssichere Rechnungen
+
+      und automatische Belegerkennung.
+
     </p>
+
   </div>
 
 </section>
@@ -413,94 +987,363 @@ nav button.active{
 <section id="customers" class="screen">
 
   <div class="tabs">
+
     <button class="tab active"
+
       onclick="showSub('customerListArea',this,'customers')">
+
       Kunden
+
     </button>
 
     <button class="tab"
+
       onclick="showSub('customerNewArea',this,'customers')">
-      Neuer Kunde
+
+      Neu
+
     </button>
+
   </div>
 
   <div id="customerListArea" class="sub active">
+
+    <input class="search"
+
+      id="customerSearch"
+
+      placeholder="Kunden suchen"
+
+      oninput="renderCustomers()">
+
     <div id="customerList"></div>
+
   </div>
 
   <div id="customerNewArea" class="sub">
+
     <div class="card">
+
       <h3>Neuen Kunden anlegen</h3>
 
       <label>Name oder Firma</label>
+
       <input id="customerName">
 
       <label>Adresse</label>
+
       <input id="customerAddress">
 
       <div class="row">
+
         <div>
+
           <label>Telefon</label>
+
           <input id="customerPhone">
+
         </div>
 
         <div>
+
           <label>E-Mail</label>
+
           <input id="customerEmail">
+
         </div>
+
       </div>
 
       <button class="btn" onclick="addCustomer()">
+
         Kunde speichern
+
       </button>
+
     </div>
+
   </div>
+
+</section>
+
+<section id="customer-detail" class="screen">
+
+  <div id="customerDetail"></div>
 
 </section>
 
 <section id="orders" class="screen">
 
   <div class="tabs">
+
     <button class="tab active"
+
       onclick="showSub('orderListArea',this,'orders')">
+
       Aufträge
+
     </button>
 
     <button class="tab"
+
       onclick="showSub('orderNewArea',this,'orders')">
-      Neuer Auftrag
+
+      Neu
+
     </button>
+
   </div>
 
   <div id="orderListArea" class="sub active">
+
+    <input class="search"
+
+      id="orderSearch"
+
+      placeholder="Aufträge suchen"
+
+      oninput="renderOrders()">
+
     <div id="orderList"></div>
+
   </div>
 
   <div id="orderNewArea" class="sub">
+
     <div class="card">
+
       <h3>Neuen Auftrag anlegen</h3>
 
       <label>Kunde</label>
+
       <select id="orderCustomer"></select>
 
       <label>Bezeichnung</label>
+
       <input id="orderTitle"
+
         placeholder="z. B. Dachrinne erneuern">
 
+      <label>Baustellenadresse</label>
+
+      <input id="orderAddress">
+
       <label>Beschreibung</label>
+
       <textarea id="orderDescription"></textarea>
 
-      <label>Status</label>
-      <select id="orderStatus">
-        <option>Geplant</option>
-        <option>In Arbeit</option>
-        <option>Abgeschlossen</option>
-      </select>
+      <div class="row">
+
+        <div>
+
+          <label>Status</label>
+
+          <select id="orderStatus">
+
+            <option>Geplant</option>
+
+            <option>In Arbeit</option>
+
+            <option>Abgeschlossen</option>
+
+            <option>Bezahlt</option>
+
+          </select>
+
+        </div>
+
+        <div>
+
+          <label>Priorität</label>
+
+          <select id="orderPriority">
+
+            <option>Normal</option>
+
+            <option>Hoch</option>
+
+            <option>Niedrig</option>
+
+          </select>
+
+        </div>
+
+      </div>
 
       <button class="btn" onclick="addOrder()">
+
         Auftrag speichern
+
       </button>
+
     </div>
+
+  </div>
+
+</section>
+
+<section id="order-detail" class="screen">
+
+  <div id="orderDetail"></div>
+
+</section>
+
+<section id="order-measure" class="screen">
+
+  <div class="card">
+
+    <h3>Aufmaß</h3>
+
+    <div class="row">
+
+      <div>
+
+        <label>Länge in m</label>
+
+        <input id="measureLength"
+
+          type="number"
+
+          step="0.01">
+
+      </div>
+
+      <div>
+
+        <label>Breite oder Höhe in m</label>
+
+        <input id="measureWidth"
+
+          type="number"
+
+          step="0.01">
+
+      </div>
+
+    </div>
+
+    <label>Abzüge in m²</label>
+
+    <input id="measureDeduct"
+
+      type="number"
+
+      step="0.01"
+
+      value="0">
+
+    <label>Notizen</label>
+
+    <textarea id="measureNotes"></textarea>
+
+    <button class="btn" onclick="saveMeasurement()">
+
+      Aufmaß speichern
+
+    </button>
+
+    <div id="measureResult" class="result"></div>
+
+  </div>
+
+</section>
+
+<section id="order-photos" class="screen">
+
+  <div class="card">
+
+    <h3>Baustellenfotos</h3>
+
+    <input id="photoInput"
+
+      type="file"
+
+      accept="image/*"
+
+      multiple
+
+      onchange="addPhotos(event)">
+
+    <div id="photoGrid"
+
+      class="photo-grid"
+
+      style="margin-top:10px">
+
+    </div>
+
+    <p class="note">
+
+      Fotos werden lokal im Browser gespeichert. Viele große Bilder
+
+      können den verfügbaren Speicher füllen.
+
+    </p>
+
+  </div>
+
+</section>
+
+<section id="order-checklist" class="screen">
+
+  <div class="card">
+
+    <h3>Checkliste</h3>
+
+    <label class="check">
+
+      <input type="checkbox" data-check="material">
+
+      Material geladen
+
+    </label>
+
+    <label class="check">
+
+      <input type="checkbox" data-check="safety">
+
+      Leiter oder Gerüst geprüft
+
+    </label>
+
+    <label class="check">
+
+      <input type="checkbox" data-check="slope">
+
+      Gefälle kontrolliert
+
+    </label>
+
+    <label class="check">
+
+      <input type="checkbox" data-check="drain">
+
+      Ablauf getestet
+
+    </label>
+
+    <label class="check">
+
+      <input type="checkbox" data-check="photos">
+
+      Fotos gemacht
+
+    </label>
+
+    <label class="check">
+
+      <input type="checkbox" data-check="signature">
+
+      Kunde informiert oder Unterschrift erhalten
+
+    </label>
+
+    <button class="btn" onclick="saveChecklist()">
+
+      Checkliste speichern
+
+    </button>
+
   </div>
 
 </section>
@@ -508,204 +1351,585 @@ nav button.active{
 <section id="report" class="screen">
 
   <div class="card">
+
     <h3>Rapport erstellen</h3>
 
     <label>Auftrag</label>
+
     <select id="reportOrder"></select>
 
     <label>Ausgeführte Arbeiten</label>
+
     <textarea id="reportText"
+
       placeholder="Was wurde auf der Baustelle gemacht?"></textarea>
 
+    <button class="btn secondary" onclick="speechDemo()">
+
+      🎙 Spracheingabe simulieren
+
+    </button>
+
     <div class="row">
+
       <div>
+
         <label>Mitarbeiter</label>
-        <input id="workers" type="number" value="2">
+
+        <input id="workers"
+
+          type="number"
+
+          value="2">
+
       </div>
 
       <div>
+
         <label>Stunden je Mitarbeiter</label>
-        <input id="hours" type="number" value="5">
+
+        <input id="hours"
+
+          type="number"
+
+          step="0.25"
+
+          value="5">
+
       </div>
+
     </div>
 
     <div class="row">
+
       <div>
+
         <label>Stundenlohn netto</label>
-        <input id="hourlyRate" type="number" value="58">
+
+        <input id="hourlyRate"
+
+          type="number"
+
+          step="0.01"
+
+          value="58">
+
       </div>
 
       <div>
+
         <label>Fahrtkosten netto</label>
-        <input id="travelCost" type="number" value="35">
+
+        <input id="travelCost"
+
+          type="number"
+
+          step="0.01"
+
+          value="35">
+
       </div>
+
     </div>
+
   </div>
 
   <div class="card">
+
     <h3>Lieferantenrechnung</h3>
 
     <label>Foto oder PDF auswählen</label>
-    <input type="file" accept="image/*,.pdf">
+
+    <input id="supplierInvoice"
+
+      type="file"
+
+      accept="image/*,.pdf">
 
     <p class="note">
-      Die automatische Erkennung kommt später. Momentan überträgst du
-      die Positionen und Einkaufspreise aus der Rechnung.
+
+      Die automatische Erkennung ist noch nicht aktiv. Du überträgst
+
+      die Positionen aktuell manuell aus der Lieferantenrechnung.
+
     </p>
 
     <div id="materialRows"></div>
 
     <button class="btn secondary" onclick="addMaterialRow()">
+
       + Materialposition
+
     </button>
+
   </div>
 
   <div class="card">
+
     <h3>Materialaufschlag</h3>
 
     <div class="chips">
-      <button class="chip" onclick="setMarkup(5,this)">5 %</button>
-      <button class="chip" onclick="setMarkup(10,this)">10 %</button>
-      <button class="chip active" onclick="setMarkup(25,this)">25 %</button>
-      <button class="chip" onclick="setMarkup(50,this)">50 %</button>
-      <button class="chip" onclick="setMarkup(75,this)">75 %</button>
-      <button class="chip" onclick="setMarkup(100,this)">100 %</button>
+
+      <button class="chip"
+
+        onclick="setMarkup(5,this)">
+
+        5 %
+
+      </button>
+
+      <button class="chip"
+
+        onclick="setMarkup(10,this)">
+
+        10 %
+
+      </button>
+
+      <button class="chip active"
+
+        onclick="setMarkup(25,this)">
+
+        25 %
+
+      </button>
+
+      <button class="chip"
+
+        onclick="setMarkup(50,this)">
+
+        50 %
+
+      </button>
+
+      <button class="chip"
+
+        onclick="setMarkup(75,this)">
+
+        75 %
+
+      </button>
+
+      <button class="chip"
+
+        onclick="setMarkup(100,this)">
+
+        100 %
+
+      </button>
+
     </div>
 
     <label>Eigener Aufschlag in Prozent</label>
+
     <input id="customMarkup"
+
       type="number"
-      placeholder="z. B. 35"
+
       oninput="setCustomMarkup()">
 
     <div id="materialSummary" class="result"></div>
+
   </div>
 
   <button class="btn" onclick="createInvoice()">
+
     Rapport speichern und Rechnung erstellen
+
   </button>
 
 </section>
 
 <section id="invoices" class="screen">
-  <div id="invoiceList"></div>
+
+  <div class="tabs">
+
+    <button class="tab active"
+
+      onclick="showSub('invoiceListArea',this,'invoices')">
+
+      Rechnungen
+
+    </button>
+
+    <button class="tab"
+
+      onclick="showSub('settingsArea',this,'invoices')">
+
+      Mein Betrieb
+
+    </button>
+
+  </div>
+
+  <div id="invoiceListArea" class="sub active">
+
+    <div id="invoiceList"></div>
+
+  </div>
+
+  <div id="settingsArea" class="sub">
+
+    <div class="card">
+
+      <h3>Firmendaten</h3>
+
+      <label>Firmenname</label>
+
+      <input id="companyName">
+
+      <label>Adresse</label>
+
+      <input id="companyAddress">
+
+      <div class="row">
+
+        <div>
+
+          <label>Steuernummer</label>
+
+          <input id="taxNumber">
+
+        </div>
+
+        <div>
+
+          <label>USt-IdNr.</label>
+
+          <input id="vatId">
+
+        </div>
+
+      </div>
+
+      <label>Bankverbindung oder Rechnungshinweis</label>
+
+      <textarea id="bankInfo"></textarea>
+
+      <label>Zahlungsziel in Tagen</label>
+
+      <input id="paymentDays"
+
+        type="number"
+
+        value="14">
+
+      <label>Nächste Rechnungsnummer</label>
+
+      <input id="nextInvoiceNumber"
+
+        type="number"
+
+        value="1001">
+
+      <button class="btn" onclick="saveCompanySettings()">
+
+        Firmendaten speichern
+
+      </button>
+
+    </div>
+
+    <div class="card">
+
+      <h3>Datensicherung</h3>
+
+      <div class="btnrow">
+
+        <button class="btn secondary" onclick="exportData()">
+
+          Daten exportieren
+
+        </button>
+
+        <label class="btn ghost"
+
+          style="text-align:center;cursor:pointer">
+
+          Daten importieren
+
+          <input type="file"
+
+            accept=".json"
+
+            onchange="importData(event)"
+
+            style="display:none">
+
+        </label>
+
+      </div>
+
+      <button class="btn danger" onclick="deleteAllData()">
+
+        Alle Daten löschen
+
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+<section id="invoice-detail" class="screen">
+
+  <div id="invoiceDetail"></div>
+
 </section>
 
 <section id="tools" class="screen">
 
   <div class="tabs">
+
     <button class="tab active"
+
       onclick="showSub('gutterArea',this,'tools')">
+
       Dachrinne
+
     </button>
 
     <button class="tab"
+
       onclick="showSub('seamArea',this,'tools')">
+
       Stehfalz
+
     </button>
 
     <button class="tab"
-      onclick="showSub('rulesArea',this,'tools')">
-      Fachregeln
+
+      onclick="showSub('weightArea',this,'tools')">
+
+      Blechgewicht
+
     </button>
+
+    <button class="tab"
+
+      onclick="showSub('rulesArea',this,'tools')">
+
+      Fachregeln
+
+    </button>
+
   </div>
 
   <div id="gutterArea" class="sub active">
+
     <div class="card">
+
       <h3>Dachrinnenrechner</h3>
 
       <label>Dachfläche in m²</label>
-      <input id="roofArea" type="number" value="120">
+
+      <input id="roofArea"
+
+        type="number"
+
+        value="120">
 
       <label>Anzahl der Abläufe</label>
-      <input id="drainCount" type="number" value="2">
+
+      <input id="drainCount"
+
+        type="number"
+
+        value="2">
 
       <button class="btn" onclick="calculateGutter()">
+
         Berechnen
+
       </button>
 
       <div id="gutterResult" class="result">
+
         Noch keine Berechnung.
+
       </div>
 
       <p class="note">
-        Vereinfachte Demo. Eine echte Normberechnung wird später ergänzt.
+
+        Vereinfachte Demo, noch keine vollständige Normberechnung.
+
       </p>
+
     </div>
+
   </div>
 
   <div id="seamArea" class="sub">
+
     <div class="card">
+
       <h3>Stehfalz-Zuschnitt</h3>
 
       <div class="row">
+
         <div>
-          <label>Flächenbreite in m</label>
-          <input id="facadeWidth" type="number" value="8">
+
+          <label>Breite in m</label>
+
+          <input id="facadeWidth"
+
+            type="number"
+
+            value="8">
+
         </div>
 
         <div>
-          <label>Flächenhöhe in m</label>
-          <input id="facadeHeight" type="number" value="4.8">
+
+          <label>Höhe in m</label>
+
+          <input id="facadeHeight"
+
+            type="number"
+
+            value="4.8">
+
         </div>
+
       </div>
 
       <div class="row">
+
         <div>
+
           <label>Sichtbreite in mm</label>
-          <input id="panWidth" type="number" value="430">
+
+          <input id="panWidth"
+
+            type="number"
+
+            value="430">
+
         </div>
 
         <div>
+
           <label>Verschnitt in %</label>
-          <input id="wastePercent" type="number" value="8">
+
+          <input id="wastePercent"
+
+            type="number"
+
+            value="8">
+
         </div>
+
       </div>
 
       <button class="btn" onclick="calculateSeam()">
+
         Berechnen
+
       </button>
 
       <div id="seamResult" class="result">
+
         Noch keine Berechnung.
+
       </div>
+
     </div>
+
+  </div>
+
+  <div id="weightArea" class="sub">
+
+    <div class="card">
+
+      <h3>Blechgewicht</h3>
+
+      <label>Werkstoff</label>
+
+      <select id="materialDensity">
+
+        <option value="7.2">Titanzink</option>
+
+        <option value="8.9">Kupfer</option>
+
+        <option value="2.7">Aluminium</option>
+
+        <option value="7.9">Edelstahl</option>
+
+      </select>
+
+      <div class="row">
+
+        <div>
+
+          <label>Fläche in m²</label>
+
+          <input id="sheetArea"
+
+            type="number"
+
+            value="20">
+
+        </div>
+
+        <div>
+
+          <label>Dicke in mm</label>
+
+          <input id="sheetThickness"
+
+            type="number"
+
+            step="0.1"
+
+            value="0.7">
+
+        </div>
+
+      </div>
+
+      <button class="btn" onclick="calculateWeight()">
+
+        Gewicht berechnen
+
+      </button>
+
+      <div id="weightResult" class="result">
+
+        Noch keine Berechnung.
+
+      </div>
+
+    </div>
+
   </div>
 
   <div id="rulesArea" class="sub">
+
     <div class="card">
+
       <h3>Fachregeln – Inhaltsverzeichnis</h3>
 
-      <div class="item">
-        <strong>Dachentwässerung</strong>
-        <p>Dachrinnen, Fallrohre, Abläufe und Gefälle</p>
-      </div>
+      <input id="rulesSearch"
 
-      <div class="item">
-        <strong>Stehfalz</strong>
-        <p>Scharen, Hafte, Befestigungen und Dehnung</p>
-      </div>
+        class="search"
 
-      <div class="item">
-        <strong>Attikaabdeckungen</strong>
-        <p>Halter, Stöße, Tropfkanten und Zuschnitte</p>
-      </div>
+        placeholder="z. B. Stehfalz, Attika oder Rinne"
 
-      <div class="item">
-        <strong>Anschlüsse</strong>
-        <p>Wandanschlüsse, Kamine, Kehlen und Ortgänge</p>
-      </div>
+        oninput="renderRules()">
 
-      <div class="item">
-        <strong>Werkstoffe</strong>
-        <p>Zink, Kupfer, Aluminium und Edelstahl</p>
-      </div>
+      <div id="rulesList"></div>
 
       <p class="note">
-        Die Inhalte werden später mit eigenen Erklärungen,
-        Skizzen und rechtssicheren Quellen ergänzt.
+
+        Die Inhalte sind eigene Kurzbeschreibungen. Vollständige
+
+        Fachregeln und DIN-Texte können urheberrechtlich geschützt sein.
+
       </p>
+
     </div>
+
   </div>
 
 </section>
@@ -713,545 +1937,3039 @@ nav button.active{
 </main>
 
 <nav>
-  <button class="active" onclick="showScreen('home',this)">
-    <span>⌂</span>Start
+
+  <button class="active"
+
+    onclick="rootNav(
+
+      'home',
+
+      0,
+
+      'SpenglerOS',
+
+      'Einmal dokumentieren – alles automatisch erledigen'
+
+    )">
+
+    <span>⌂</span>
+
+    Start
+
   </button>
 
-  <button onclick="showScreen('customers',this)">
-    <span>👤</span>Kunden
+  <button
+
+    onclick="rootNav(
+
+      'customers',
+
+      1,
+
+      'Kunden',
+
+      'Kundenverwaltung'
+
+    )">
+
+    <span>👤</span>
+
+    Kunden
+
   </button>
 
-  <button onclick="showScreen('orders',this)">
-    <span>📁</span>Aufträge
+  <button
+
+    onclick="rootNav(
+
+      'orders',
+
+      2,
+
+      'Aufträge',
+
+      'Baustellen & Projekte'
+
+    )">
+
+    <span>📁</span>
+
+    Aufträge
+
   </button>
 
-  <button onclick="showScreen('report',this)">
-    <span>📝</span>Rapport
+  <button
+
+    onclick="rootNav(
+
+      'report',
+
+      3,
+
+      'Rapport',
+
+      'Dokumentation & Rechnung'
+
+    )">
+
+    <span>📝</span>
+
+    Rapport
+
   </button>
 
-  <button onclick="showScreen('tools',this)">
-    <span>📐</span>Werkzeuge
+  <button
+
+    onclick="rootNav(
+
+      'tools',
+
+      4,
+
+      'Werkzeuge',
+
+      'Rechner & Fachwissen'
+
+    )">
+
+    <span>📐</span>
+
+    Werkzeuge
+
   </button>
+
 </nav>
 
 </div>
 
 <script>
+
 const defaultData = {
+
   customers: [],
+
   orders: [],
+
   reports: [],
-  invoices: []
+
+  invoices: [],
+
+  settings: {
+
+    companyName: "Mein Spenglerbetrieb",
+
+    companyAddress: "",
+
+    taxNumber: "",
+
+    vatId: "",
+
+    bankInfo: "",
+
+    paymentDays: 14,
+
+    nextInvoiceNumber: 1001
+
+  }
+
 };
 
 let data =
-  JSON.parse(localStorage.getItem("spenglerosData")) ||
+
+  JSON.parse(localStorage.getItem("spenglerosData") || "null") ||
+
   defaultData;
 
 let markup = 25;
 
+let historyStack = [];
+
+let currentOrderId = null;
+
+let currentCustomerId = null;
+
+let currentInvoiceId = null;
+
+const rules = [
+
+  {
+
+    t: "Dachentwässerung",
+
+    d: "Dachrinnen, Abläufe, Fallrohre, Gefälle und Bemessungsgrundlagen."
+
+  },
+
+  {
+
+    t: "Stehfalz",
+
+    d: "Scharenbreiten, Fest- und Schiebehafte, Scharlängen und Dehnung."
+
+  },
+
+  {
+
+    t: "Attikaabdeckungen",
+
+    d: "Halter, Stöße, Tropfkanten, Aufkantungen und Befestigung."
+
+  },
+
+  {
+
+    t: "Anschlüsse",
+
+    d: "Wandanschlüsse, Kamine, Kehlen, Ortgänge und Verwahrungen."
+
+  },
+
+  {
+
+    t: "Werkstoffe",
+
+    d: "Titanzink, Kupfer, Aluminium, Edelstahl und Materialverträglichkeit."
+
+  },
+
+  {
+
+    t: "Fassaden",
+
+    d: "Hinterlüftung, Unterkonstruktion, Befestigung und Detailausbildung."
+
+  }
+
+];
+
 function saveData(){
+
   localStorage.setItem(
+
     "spenglerosData",
+
     JSON.stringify(data)
+
   );
 
   renderEverything();
+
 }
 
 function euro(value){
+
   return new Intl.NumberFormat("de-DE",{
+
     style:"currency",
+
     currency:"EUR"
+
   }).format(value || 0);
+
 }
 
-function showScreen(id,button){
+function esc(value){
+
+  return String(value ?? "").replace(
+
+    /[&<>"']/g,
+
+    character => ({
+
+      "&":"&amp;",
+
+      "<":"&lt;",
+
+      ">":"&gt;",
+
+      '"':"&quot;",
+
+      "'":"&#039;"
+
+    })[character]
+
+  );
+
+}
+
+function setHeader(title,subtitle,showBack){
+
+  headerTitle.textContent = title;
+
+  headerSub.textContent = subtitle;
+
+  backBtn.style.display = showBack ? "block" : "none";
+
+}
+
+function rootNav(id,index,title,subtitle){
+
+  historyStack = [];
+
   document.querySelectorAll(".screen").forEach(screen => {
+
     screen.classList.remove("active");
+
   });
 
   document.getElementById(id).classList.add("active");
 
-  document.querySelectorAll("nav button").forEach(btn => {
-    btn.classList.remove("active");
+  document.querySelectorAll("nav button").forEach(button => {
+
+    button.classList.remove("active");
+
   });
 
-  if(button){
-    button.classList.add("active");
-  }
+  document.querySelectorAll("nav button")[index]
+
+    .classList.add("active");
+
+  setHeader(title,subtitle,false);
 
   renderEverything();
+
 }
 
-function goTo(id,index){
-  const button = document.querySelectorAll("nav button")[index];
-  showScreen(id,button);
+function openScreen(id,title,subtitle){
+
+  const current =
+
+    document.querySelector(".screen.active");
+
+  if(current){
+
+    historyStack.push({
+
+      id:current.id,
+
+      title:headerTitle.textContent,
+
+      subtitle:headerSub.textContent
+
+    });
+
+  }
+
+  document.querySelectorAll(".screen").forEach(screen => {
+
+    screen.classList.remove("active");
+
+  });
+
+  document.getElementById(id).classList.add("active");
+
+  setHeader(title,subtitle,true);
+
+  renderEverything();
+
+}
+
+function goBack(){
+
+  const previous = historyStack.pop();
+
+  if(!previous){
+
+    rootNav(
+
+      "home",
+
+      0,
+
+      "SpenglerOS",
+
+      "Einmal dokumentieren – alles automatisch erledigen"
+
+    );
+
+    return;
+
+  }
+
+  document.querySelectorAll(".screen").forEach(screen => {
+
+    screen.classList.remove("active");
+
+  });
+
+  document.getElementById(previous.id)
+
+    .classList.add("active");
+
+  setHeader(
+
+    previous.title,
+
+    previous.subtitle,
+
+    historyStack.length > 0
+
+  );
+
+  renderEverything();
+
 }
 
 function showSub(id,button,parentId){
-  document.querySelectorAll("#"+parentId+" .sub").forEach(area => {
+
+  document.querySelectorAll(
+
+    "#" + parentId + " .sub"
+
+  ).forEach(area => {
+
     area.classList.remove("active");
+
   });
 
-  document.getElementById(id).classList.add("active");
+  document.getElementById(id)
 
-  button.parentElement.querySelectorAll(".tab").forEach(tab => {
-    tab.classList.remove("active");
-  });
+    .classList.add("active");
+
+  button.parentElement
+
+    .querySelectorAll(".tab")
+
+    .forEach(tab => {
+
+      tab.classList.remove("active");
+
+    });
 
   button.classList.add("active");
+
 }
 
 function addCustomer(){
+
   const name = customerName.value.trim();
 
   if(!name){
-    alert("Bitte einen Kundennamen eingeben.");
+
+    alert("Bitte Kundennamen eingeben.");
+
     return;
+
   }
 
   data.customers.push({
-    id: Date.now(),
-    name: name,
-    address: customerAddress.value,
-    phone: customerPhone.value,
-    email: customerEmail.value
+
+    id:Date.now(),
+
+    name:name,
+
+    address:customerAddress.value,
+
+    phone:customerPhone.value,
+
+    email:customerEmail.value
+
   });
 
   customerName.value = "";
+
   customerAddress.value = "";
+
   customerPhone.value = "";
+
   customerEmail.value = "";
 
   saveData();
-  alert("Kunde wurde gespeichert.");
+
+  alert("Kunde gespeichert.");
+
+}
+
+function editCustomer(id){
+
+  const customer =
+
+    data.customers.find(item => item.id === id);
+
+  if(!customer){
+
+    return;
+
+  }
+
+  const name =
+
+    prompt("Name oder Firma",customer.name);
+
+  if(name === null){
+
+    return;
+
+  }
+
+  customer.name =
+
+    name.trim() || customer.name;
+
+  customer.address =
+
+    prompt("Adresse",customer.address) ||
+
+    customer.address;
+
+  customer.phone =
+
+    prompt("Telefon",customer.phone) ||
+
+    customer.phone;
+
+  customer.email =
+
+    prompt("E-Mail",customer.email) ||
+
+    customer.email;
+
+  saveData();
+
+  openCustomer(id);
+
+}
+
+function deleteCustomer(id){
+
+  if(!confirm(
+
+    "Kunde löschen? Zugehörige Aufträge bleiben bestehen."
+
+  )){
+
+    return;
+
+  }
+
+  data.customers =
+
+    data.customers.filter(item => item.id !== id);
+
+  saveData();
+
+  rootNav(
+
+    "customers",
+
+    1,
+
+    "Kunden",
+
+    "Kundenverwaltung"
+
+  );
+
 }
 
 function addOrder(){
-  if(!orderCustomer.value || !orderTitle.value.trim()){
-    alert("Bitte zuerst einen Kunden und eine Bezeichnung eingeben.");
+
+  if(
+
+    !orderCustomer.value ||
+
+    !orderTitle.value.trim()
+
+  ){
+
+    alert(
+
+      "Bitte Kunde und Auftragsbezeichnung wählen."
+
+    );
+
     return;
+
   }
 
   data.orders.push({
-    id: Date.now(),
-    customerId: Number(orderCustomer.value),
-    title: orderTitle.value.trim(),
-    description: orderDescription.value,
-    status: orderStatus.value
+
+    id:Date.now(),
+
+    customerId:Number(orderCustomer.value),
+
+    title:orderTitle.value.trim(),
+
+    address:orderAddress.value,
+
+    description:orderDescription.value,
+
+    status:orderStatus.value,
+
+    priority:orderPriority.value,
+
+    measurement:null,
+
+    photos:[],
+
+    checklist:{},
+
+    notes:"",
+
+    created:new Date().toISOString()
+
   });
 
   orderTitle.value = "";
+
+  orderAddress.value = "";
+
   orderDescription.value = "";
 
   saveData();
-  alert("Auftrag wurde gespeichert.");
+
+  alert("Auftrag gespeichert.");
+
+}
+
+function editOrder(id){
+
+  const order =
+
+    data.orders.find(item => item.id === id);
+
+  if(!order){
+
+    return;
+
+  }
+
+  order.title =
+
+    prompt("Bezeichnung",order.title) ||
+
+    order.title;
+
+  order.address =
+
+    prompt("Baustellenadresse",order.address) ||
+
+    order.address;
+
+  order.description =
+
+    prompt("Beschreibung",order.description) ||
+
+    order.description;
+
+  order.status =
+
+    prompt(
+
+      "Status: Geplant, In Arbeit, Abgeschlossen oder Bezahlt",
+
+      order.status
+
+    ) || order.status;
+
+  order.priority =
+
+    prompt(
+
+      "Priorität: Niedrig, Normal oder Hoch",
+
+      order.priority
+
+    ) || order.priority;
+
+  saveData();
+
+  openOrder(id);
+
+}
+
+function deleteOrder(id){
+
+  if(!confirm(
+
+    "Auftrag wirklich löschen? Rapporte und Rechnungen bleiben als Historie erhalten."
+
+  )){
+
+    return;
+
+  }
+
+  data.orders =
+
+    data.orders.filter(item => item.id !== id);
+
+  saveData();
+
+  rootNav(
+
+    "orders",
+
+    2,
+
+    "Aufträge",
+
+    "Baustellen & Projekte"
+
+  );
+
+}
+
+function openCustomer(id){
+
+  currentCustomerId = id;
+
+  const customer =
+
+    data.customers.find(item => item.id === id);
+
+  if(customer){
+
+    openScreen(
+
+      "customer-detail",
+
+      customer.name,
+
+      "Kundendetails"
+
+    );
+
+  }
+
+}
+
+function openOrder(id){
+
+  currentOrderId = id;
+
+  const order =
+
+    data.orders.find(item => item.id === id);
+
+  if(order){
+
+    openScreen(
+
+      "order-detail",
+
+      order.title,
+
+      "Baustellenmappe"
+
+    );
+
+  }
+
+}
+
+function openInvoice(id){
+
+  currentInvoiceId = id;
+
+  const invoice =
+
+    data.invoices.find(item => item.id === id);
+
+  if(invoice){
+
+    openScreen(
+
+      "invoice-detail",
+
+      "Rechnung " + invoice.number,
+
+      "Rechnungsvorschau"
+
+    );
+
+  }
+
+}
+
+function renderCustomerDetail(){
+
+  const box =
+
+    document.getElementById("customerDetail");
+
+  if(!box){
+
+    return;
+
+  }
+
+  const customer =
+
+    data.customers.find(
+
+      item => item.id === currentCustomerId
+
+    );
+
+  if(!customer){
+
+    box.innerHTML = "";
+
+    return;
+
+  }
+
+  const orders =
+
+    data.orders.filter(
+
+      order => order.customerId === customer.id
+
+    );
+
+  box.innerHTML = `
+
+    <div class="card">
+
+      <h3>${esc(customer.name)}</h3>
+
+      <p>${esc(customer.address)}</p>
+
+      <p>
+
+        ${esc(customer.phone)}
+
+        ${esc(customer.email)}
+
+      </p>
+
+      <div class="btnrow">
+
+        <button class="btn secondary"
+
+          onclick="editCustomer(${customer.id})">
+
+          Bearbeiten
+
+        </button>
+
+        <button class="btn danger"
+
+          onclick="deleteCustomer(${customer.id})">
+
+          Löschen
+
+        </button>
+
+      </div>
+
+    </div>
+
+    <h2 class="section-title">
+
+      Aufträge
+
+    </h2>
+
+    ${
+
+      orders.length
+
+      ? orders.map(order => `
+
+        <div class="item"
+
+          onclick="openOrder(${order.id})">
+
+          <strong>
+
+            ${esc(order.title)}
+
+          </strong>
+
+          <p>
+
+            ${esc(order.address)}
+
+          </p>
+
+          <span class="badge">
+
+            ${esc(order.status)}
+
+          </span>
+
+        </div>
+
+      `).join("")
+
+      : `<p class="note">Noch keine Aufträge.</p>`
+
+    }
+
+  `;
+
+}
+
+function renderOrderDetail(){
+
+  const box =
+
+    document.getElementById("orderDetail");
+
+  if(!box){
+
+    return;
+
+  }
+
+  const order =
+
+    data.orders.find(
+
+      item => item.id === currentOrderId
+
+    );
+
+  if(!order){
+
+    box.innerHTML = "";
+
+    return;
+
+  }
+
+  const customer =
+
+    data.customers.find(
+
+      item => item.id === order.customerId
+
+    );
+
+  const reports =
+
+    data.reports.filter(
+
+      report => report.orderId === order.id
+
+    );
+
+  const invoices =
+
+    data.invoices.filter(
+
+      invoice => invoice.orderId === order.id
+
+    );
+
+  const progress = {
+
+    "Geplant":20,
+
+    "In Arbeit":55,
+
+    "Abgeschlossen":85,
+
+    "Bezahlt":100
+
+  }[order.status] || 20;
+
+  box.innerHTML = `
+
+    <div class="card">
+
+      <h3>${esc(order.title)}</h3>
+
+      <p>${esc(customer?.name || "")}</p>
+
+      <p>${esc(order.address || "")}</p>
+
+      <span class="badge ${
+
+        order.status === "Bezahlt"
+
+        ? "ok"
+
+        : order.status === "In Arbeit"
+
+        ? "warn"
+
+        : ""
+
+      }">
+
+        ${esc(order.status)}
+
+      </span>
+
+      <p class="note">
+
+        Priorität: ${esc(order.priority)}
+
+      </p>
+
+      <div class="progress">
+
+        <span style="width:${progress}%"></span>
+
+      </div>
+
+      <p class="note">
+
+        Fortschritt ${progress} %
+
+      </p>
+
+      <div class="btnrow">
+
+        <button class="btn secondary"
+
+          onclick="editOrder(${order.id})">
+
+          Bearbeiten
+
+        </button>
+
+        <button class="btn danger"
+
+          onclick="deleteOrder(${order.id})">
+
+          Löschen
+
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="menu">
+
+      <div class="menu-card"
+
+        onclick="openScreen(
+
+          'order-measure',
+
+          'Aufmaß',
+
+          '${esc(order.title)}'
+
+        )">
+
+        <span>📐</span>
+
+        <strong>Aufmaß</strong>
+
+        <small>
+
+          ${
+
+            order.measurement
+
+            ? "gespeichert"
+
+            : "noch offen"
+
+          }
+
+        </small>
+
+      </div>
+
+      <div class="menu-card"
+
+        onclick="openScreen(
+
+          'order-photos',
+
+          'Fotos',
+
+          '${esc(order.title)}'
+
+        )">
+
+        <span>📷</span>
+
+        <strong>Fotos</strong>
+
+        <small>
+
+          ${order.photos?.length || 0} Bilder
+
+        </small>
+
+      </div>
+
+      <div class="menu-card"
+
+        onclick="openScreen(
+
+          'order-checklist',
+
+          'Checkliste',
+
+          '${esc(order.title)}'
+
+        )">
+
+        <span>✅</span>
+
+        <strong>Checkliste</strong>
+
+        <small>Montage prüfen</small>
+
+      </div>
+
+      <div class="menu-card"
+
+        onclick="prepareReport(${order.id})">
+
+        <span>📝</span>
+
+        <strong>Rapport</strong>
+
+        <small>
+
+          ${reports.length} Einträge
+
+        </small>
+
+      </div>
+
+    </div>
+
+    <h2 class="section-title">
+
+      Rapporte
+
+    </h2>
+
+    ${
+
+      reports.length
+
+      ? reports.map(report => `
+
+        <div class="item">
+
+          <strong>
+
+            ${new Date(report.date)
+
+              .toLocaleDateString("de-DE")}
+
+          </strong>
+
+          <p>
+
+            ${esc(report.text)}
+
+          </p>
+
+          <p>
+
+            ${report.workerCount} Mitarbeiter
+
+            ·
+
+            ${report.hoursEach} Std.
+
+          </p>
+
+        </div>
+
+      `).join("")
+
+      : `<p class="note">Noch keine Rapporte.</p>`
+
+    }
+
+    <h2 class="section-title">
+
+      Rechnungen
+
+    </h2>
+
+    ${
+
+      invoices.length
+
+      ? invoices.map(invoice => `
+
+        <div class="item"
+
+          onclick="openInvoice(${invoice.id})">
+
+          <strong>
+
+            Rechnung ${invoice.number}
+
+          </strong>
+
+          <p>
+
+            ${euro(invoice.gross)}
+
+            ·
+
+            ${new Date(invoice.date)
+
+              .toLocaleDateString("de-DE")}
+
+          </p>
+
+        </div>
+
+      `).join("")
+
+      : `<p class="note">Noch keine Rechnungen.</p>`
+
+    }
+
+  `;
+
+}
+
+function prepareReport(orderId){
+
+  rootNav(
+
+    "report",
+
+    3,
+
+    "Rapport",
+
+    "Dokumentation & Rechnung"
+
+  );
+
+  reportOrder.value = String(orderId);
+
+}
+
+function saveMeasurement(){
+
+  const order =
+
+    data.orders.find(
+
+      item => item.id === currentOrderId
+
+    );
+
+  if(!order){
+
+    return;
+
+  }
+
+  const length =
+
+    Number(measureLength.value) || 0;
+
+  const width =
+
+    Number(measureWidth.value) || 0;
+
+  const deduct =
+
+    Number(measureDeduct.value) || 0;
+
+  order.measurement = {
+
+    length:length,
+
+    width:width,
+
+    deduct:deduct,
+
+    area:Math.max(0,length * width - deduct),
+
+    notes:measureNotes.value
+
+  };
+
+  saveData();
+
+  renderMeasurement();
+
+  alert("Aufmaß gespeichert.");
+
+}
+
+function renderMeasurement(){
+
+  const order =
+
+    data.orders.find(
+
+      item => item.id === currentOrderId
+
+    );
+
+  if(!order){
+
+    return;
+
+  }
+
+  const measurement =
+
+    order.measurement || {};
+
+  measureLength.value =
+
+    measurement.length || "";
+
+  measureWidth.value =
+
+    measurement.width || "";
+
+  measureDeduct.value =
+
+    measurement.deduct || 0;
+
+  measureNotes.value =
+
+    measurement.notes || "";
+
+  measureResult.innerHTML =
+
+    measurement.area !== undefined
+
+    ? `
+
+      Nettofläche:
+
+      <strong>
+
+        ${Number(measurement.area).toFixed(2)} m²
+
+      </strong>
+
+    `
+
+    : "Noch kein Aufmaß gespeichert.";
+
+}
+
+function addPhotos(event){
+
+  const order =
+
+    data.orders.find(
+
+      item => item.id === currentOrderId
+
+    );
+
+  if(!order){
+
+    return;
+
+  }
+
+  const files =
+
+    [...event.target.files].slice(0,6);
+
+  files.forEach(file => {
+
+    const reader = new FileReader();
+
+    reader.onload = result => {
+
+      order.photos = order.photos || [];
+
+      order.photos.push(
+
+        result.target.result
+
+      );
+
+      saveData();
+
+      renderPhotos();
+
+    };
+
+    reader.readAsDataURL(file);
+
+  });
+
+}
+
+function renderPhotos(){
+
+  const order =
+
+    data.orders.find(
+
+      item => item.id === currentOrderId
+
+    );
+
+  if(!order){
+
+    return;
+
+  }
+
+  photoGrid.innerHTML =
+
+    (order.photos || []).map((photo,index) => `
+
+      <div class="photo">
+
+        <img src="${photo}"
+
+          alt="Baustellenfoto ${index + 1}">
+
+      </div>
+
+    `).join("") ||
+
+    `<p class="note">Noch keine Fotos.</p>`;
+
+}
+
+function saveChecklist(){
+
+  const order =
+
+    data.orders.find(
+
+      item => item.id === currentOrderId
+
+    );
+
+  if(!order){
+
+    return;
+
+  }
+
+  order.checklist = {};
+
+  document.querySelectorAll(
+
+    "[data-check]"
+
+  ).forEach(checkbox => {
+
+    order.checklist[checkbox.dataset.check] =
+
+      checkbox.checked;
+
+  });
+
+  saveData();
+
+  alert("Checkliste gespeichert.");
+
+}
+
+function renderChecklist(){
+
+  const order =
+
+    data.orders.find(
+
+      item => item.id === currentOrderId
+
+    );
+
+  if(!order){
+
+    return;
+
+  }
+
+  document.querySelectorAll(
+
+    "[data-check]"
+
+  ).forEach(checkbox => {
+
+    checkbox.checked =
+
+      Boolean(
+
+        order.checklist?.[
+
+          checkbox.dataset.check
+
+        ]
+
+      );
+
+  });
+
+}
+
+function speechDemo(){
+
+  reportText.value =
+
+    "Bestehende Dachrinne demontiert und fachgerecht entsorgt. Anschließend wurden 8 Meter Zinkrinne 333 sowie zwei Ablaufstutzen montiert. Zwei Mitarbeiter waren jeweils fünf Stunden im Einsatz.";
+
 }
 
 function addMaterialRow(
+
   name="",
+
   quantity=1,
+
   unit="Stk.",
+
   purchasePrice=0
+
 ){
-  const row = document.createElement("div");
-  row.className = "item material-row";
+
+  const row =
+
+    document.createElement("div");
+
+  row.className =
+
+    "item material-row";
 
   row.innerHTML = `
+
     <label>Materialbezeichnung</label>
-    <input class="material-name" value="${name}">
+
+    <input class="material-name"
+
+      value="${esc(name)}">
 
     <div class="row">
+
       <div>
+
         <label>Menge</label>
+
         <input class="material-quantity"
+
           type="number"
+
           step="0.01"
+
           value="${quantity}"
+
           oninput="updateMaterialSummary()">
+
       </div>
 
       <div>
+
         <label>Einheit</label>
-        <input class="material-unit" value="${unit}">
+
+        <input class="material-unit"
+
+          value="${esc(unit)}">
+
       </div>
+
     </div>
 
-    <label>Einkaufspreis je Einheit netto</label>
+    <label>
+
+      Einkaufspreis je Einheit netto
+
+    </label>
+
     <input class="material-price"
+
       type="number"
+
       step="0.01"
+
       value="${purchasePrice}"
+
       oninput="updateMaterialSummary()">
 
     <button class="btn danger small"
-      onclick="this.closest('.material-row').remove();
-      updateMaterialSummary()">
+
+      onclick="
+
+        this.closest('.material-row').remove();
+
+        updateMaterialSummary();
+
+      ">
+
       Position löschen
+
     </button>
+
   `;
 
   materialRows.appendChild(row);
+
   updateMaterialSummary();
+
 }
 
 function getMaterials(){
-  return [...document.querySelectorAll(".material-row")]
-    .map(row => ({
-      name:
-        row.querySelector(".material-name").value ||
-        "Material",
 
-      quantity:
-        Number(row.querySelector(".material-quantity").value) ||
-        0,
+  return [
 
-      unit:
-        row.querySelector(".material-unit").value ||
-        "Stk.",
+    ...document.querySelectorAll(
 
-      purchasePrice:
-        Number(row.querySelector(".material-price").value) ||
-        0
-    }));
+      ".material-row"
+
+    )
+
+  ].map(row => ({
+
+    name:
+
+      row.querySelector(
+
+        ".material-name"
+
+      ).value || "Material",
+
+    quantity:
+
+      Number(
+
+        row.querySelector(
+
+          ".material-quantity"
+
+        ).value
+
+      ) || 0,
+
+    unit:
+
+      row.querySelector(
+
+        ".material-unit"
+
+      ).value || "Stk.",
+
+    purchasePrice:
+
+      Number(
+
+        row.querySelector(
+
+          ".material-price"
+
+        ).value
+
+      ) || 0
+
+  }));
+
 }
 
 function setMarkup(value,button){
+
   markup = value;
+
   customMarkup.value = "";
 
-  document.querySelectorAll(".chip").forEach(chip => {
+  document.querySelectorAll(
+
+    ".chip"
+
+  ).forEach(chip => {
+
     chip.classList.remove("active");
+
   });
 
   button.classList.add("active");
+
   updateMaterialSummary();
+
 }
 
 function setCustomMarkup(){
-  markup = Number(customMarkup.value) || 0;
 
-  document.querySelectorAll(".chip").forEach(chip => {
+  markup =
+
+    Number(customMarkup.value) || 0;
+
+  document.querySelectorAll(
+
+    ".chip"
+
+  ).forEach(chip => {
+
     chip.classList.remove("active");
+
   });
 
   updateMaterialSummary();
+
 }
 
 function updateMaterialSummary(){
+
   const materials = getMaterials();
 
-  const purchaseTotal = materials.reduce(
-    (sum,item) =>
-      sum + item.quantity * item.purchasePrice,
-    0
-  );
+  const purchaseTotal =
+
+    materials.reduce(
+
+      (sum,item) =>
+
+        sum +
+
+        item.quantity *
+
+        item.purchasePrice,
+
+      0
+
+    );
 
   const saleTotal =
-    purchaseTotal * (1 + markup / 100);
 
-  const materialProfit =
-    saleTotal - purchaseTotal;
+    purchaseTotal *
+
+    (1 + markup / 100);
 
   materialSummary.innerHTML = `
+
     Material-Einkauf:
-    <strong>${euro(purchaseTotal)}</strong><br>
+
+    <strong>
+
+      ${euro(purchaseTotal)}
+
+    </strong>
+
+    <br>
 
     Aufschlag:
-    <strong>${markup} %</strong><br>
+
+    <strong>
+
+      ${markup} %
+
+    </strong>
+
+    <br>
 
     Material-Verkauf:
-    <strong>${euro(saleTotal)}</strong><br>
+
+    <strong>
+
+      ${euro(saleTotal)}
+
+    </strong>
+
+    <br>
 
     Material-Rohertrag:
-    <strong>${euro(materialProfit)}</strong>
+
+    <strong>
+
+      ${euro(saleTotal - purchaseTotal)}
+
+    </strong>
+
   `;
+
 }
 
 function createInvoice(){
+
   if(!reportOrder.value){
-    alert("Bitte zuerst einen Auftrag anlegen.");
+
+    alert(
+
+      "Bitte zuerst einen Auftrag anlegen."
+
+    );
+
     return;
+
   }
 
-  const materials = getMaterials();
+  const materials =
 
-  const workerCount = Number(workers.value) || 0;
-  const hoursEach = Number(hours.value) || 0;
-  const rate = Number(hourlyRate.value) || 0;
-  const travel = Number(travelCost.value) || 0;
+    getMaterials();
+
+  const workerCount =
+
+    Number(workers.value) || 0;
+
+  const hoursEach =
+
+    Number(hours.value) || 0;
+
+  const rate =
+
+    Number(hourlyRate.value) || 0;
+
+  const travel =
+
+    Number(travelCost.value) || 0;
 
   const labor =
-    workerCount * hoursEach * rate;
 
-  const materialPurchase = materials.reduce(
-    (sum,item) =>
-      sum + item.quantity * item.purchasePrice,
-    0
-  );
+    workerCount *
+
+    hoursEach *
+
+    rate;
+
+  const purchaseTotal =
+
+    materials.reduce(
+
+      (sum,item) =>
+
+        sum +
+
+        item.quantity *
+
+        item.purchasePrice,
+
+      0
+
+    );
 
   const materialSale =
-    materialPurchase * (1 + markup / 100);
+
+    purchaseTotal *
+
+    (1 + markup / 100);
 
   const net =
-    labor + materialSale + travel;
 
-  const vat = net * 0.19;
-  const gross = net + vat;
+    labor +
+
+    materialSale +
+
+    travel;
+
+  const vat =
+
+    net * 0.19;
+
+  const gross =
+
+    net + vat;
 
   const report = {
-    id: Date.now(),
-    orderId: Number(reportOrder.value),
-    text: reportText.value,
-    workerCount,
-    hoursEach,
-    rate,
-    travel,
-    materials,
-    markup,
-    date: new Date().toISOString()
+
+    id:Date.now(),
+
+    orderId:Number(reportOrder.value),
+
+    text:reportText.value,
+
+    workerCount:workerCount,
+
+    hoursEach:hoursEach,
+
+    rate:rate,
+
+    travel:travel,
+
+    materials:materials,
+
+    markup:markup,
+
+    date:new Date().toISOString()
+
   };
 
   data.reports.push(report);
 
-  data.invoices.push({
-    id: Date.now() + 1,
-    number: 1000 + data.invoices.length + 1,
-    orderId: Number(reportOrder.value),
-    labor,
-    materialPurchase,
-    materialSale,
-    travel,
-    materials,
-    markup,
-    net,
-    vat,
-    gross,
-    date: new Date().toISOString()
-  });
+  const invoice = {
+
+    id:Date.now() + 1,
+
+    number:data.settings.nextInvoiceNumber++,
+
+    orderId:Number(reportOrder.value),
+
+    reportId:report.id,
+
+    labor:labor,
+
+    materialPurchase:purchaseTotal,
+
+    materialSale:materialSale,
+
+    travel:travel,
+
+    materials:materials,
+
+    markup:markup,
+
+    net:net,
+
+    vat:vat,
+
+    gross:gross,
+
+    date:new Date().toISOString(),
+
+    status:"Offen"
+
+  };
+
+  data.invoices.push(invoice);
 
   saveData();
 
-  alert("Rapport gespeichert und Rechnung erstellt.");
+  alert(
 
-  renderInvoices();
+    "Rapport gespeichert und Rechnung erstellt."
+
+  );
+
+  openInvoice(invoice.id);
+
 }
 
 function renderCustomers(){
+
+  const query =
+
+    (customerSearch?.value || "")
+
+      .toLowerCase();
+
   customerList.innerHTML =
-    data.customers.length
-    ? data.customers.map(customer => `
-      <div class="item">
-        <strong>${customer.name}</strong>
-        <p>${customer.address || ""}</p>
-        <p>${customer.phone || ""}</p>
-        <p>${customer.email || ""}</p>
-      </div>
-    `).join("")
-    : `<p class="note">Noch keine Kunden gespeichert.</p>`;
+
+    data.customers
+
+      .filter(customer =>
+
+        (
+
+          customer.name +
+
+          " " +
+
+          customer.address
+
+        )
+
+        .toLowerCase()
+
+        .includes(query)
+
+      )
+
+      .map(customer => `
+
+        <div class="item"
+
+          onclick="openCustomer(${customer.id})">
+
+          <strong>
+
+            ${esc(customer.name)}
+
+          </strong>
+
+          <p>
+
+            ${esc(customer.address)}
+
+          </p>
+
+          <p>
+
+            ${esc(customer.phone)}
+
+            ${esc(customer.email)}
+
+          </p>
+
+        </div>
+
+      `).join("") ||
+
+      `<p class="note">
+
+        Noch keine Kunden gespeichert.
+
+      </p>`;
 
   orderCustomer.innerHTML =
+
     data.customers.map(customer => `
+
       <option value="${customer.id}">
-        ${customer.name}
+
+        ${esc(customer.name)}
+
       </option>
+
     `).join("");
+
 }
 
 function renderOrders(){
+
+  const query =
+
+    (orderSearch?.value || "")
+
+      .toLowerCase();
+
+  const orders =
+
+    data.orders.filter(order =>
+
+      (
+
+        order.title +
+
+        " " +
+
+        order.description +
+
+        " " +
+
+        order.address
+
+      )
+
+      .toLowerCase()
+
+      .includes(query)
+
+    );
+
   orderList.innerHTML =
-    data.orders.length
-    ? data.orders.map(order => {
-      const customer = data.customers.find(
-        item => item.id === order.customerId
-      );
+
+    orders.map(order => {
+
+      const customer =
+
+        data.customers.find(
+
+          item => item.id === order.customerId
+
+        );
 
       return `
-        <div class="item">
-          <strong>${order.title}</strong>
-          <p>${customer ? customer.name : ""}</p>
-          <p>${order.description || ""}</p>
-          <span class="badge">${order.status}</span>
+
+        <div class="item"
+
+          onclick="openOrder(${order.id})">
+
+          <strong>
+
+            ${esc(order.title)}
+
+          </strong>
+
+          <p>
+
+            ${esc(customer?.name || "")}
+
+          </p>
+
+          <p>
+
+            ${esc(
+
+              order.address ||
+
+              order.description ||
+
+              ""
+
+            )}
+
+          </p>
+
+          <span class="badge ${
+
+            order.status === "Bezahlt"
+
+            ? "ok"
+
+            : order.status === "In Arbeit"
+
+            ? "warn"
+
+            : ""
+
+          }">
+
+            ${esc(order.status)}
+
+          </span>
+
         </div>
+
       `;
-    }).join("")
-    : `<p class="note">Noch keine Aufträge gespeichert.</p>`;
+
+    }).join("") ||
+
+    `<p class="note">
+
+      Noch keine Aufträge gespeichert.
+
+    </p>`;
 
   reportOrder.innerHTML =
+
     data.orders.map(order => `
+
       <option value="${order.id}">
-        ${order.title}
+
+        ${esc(order.title)}
+
       </option>
+
     `).join("");
+
+  homeOrders.innerHTML =
+
+    data.orders
+
+      .filter(order =>
+
+        ![
+
+          "Abgeschlossen",
+
+          "Bezahlt"
+
+        ].includes(order.status)
+
+      )
+
+      .slice(0,3)
+
+      .map(order => `
+
+        <div class="item"
+
+          onclick="openOrder(${order.id})">
+
+          <strong>
+
+            ${esc(order.title)}
+
+          </strong>
+
+          <span class="badge">
+
+            ${esc(order.status)}
+
+          </span>
+
+        </div>
+
+      `).join("") ||
+
+      `<p class="note">
+
+        Keine offenen Aufträge.
+
+      </p>`;
+
 }
 
 function renderInvoices(){
+
   invoiceList.innerHTML =
-    data.invoices.length
-    ? data.invoices.slice().reverse().map(invoice => {
-      const order = data.orders.find(
-        item => item.id === invoice.orderId
-      );
 
-      const customer = order
-        ? data.customers.find(
-            item => item.id === order.customerId
-          )
-        : null;
+    data.invoices
 
-      return `
-        <div class="card">
-          <h3>Rechnung ${invoice.number}</h3>
+      .slice()
 
-          <p>
-            ${customer ? customer.name : ""}
-            ·
-            ${order ? order.title : ""}
-          </p>
+      .reverse()
 
-          <p class="note">
-            ${new Date(invoice.date)
-              .toLocaleDateString("de-DE")}
-          </p>
+      .map(invoice => {
 
-          <table>
-            <tr>
-              <td>Arbeitszeit</td>
-              <td>${euro(invoice.labor)}</td>
-            </tr>
+        const order =
 
-            <tr>
-              <td>
-                Material
-                <br>
-                <span class="note">
-                  ${invoice.markup} % Aufschlag
-                </span>
-              </td>
-              <td>${euro(invoice.materialSale)}</td>
-            </tr>
+          data.orders.find(
 
-            <tr>
-              <td>Fahrtkosten</td>
-              <td>${euro(invoice.travel)}</td>
-            </tr>
+            item => item.id === invoice.orderId
 
-            <tr>
-              <td>Netto</td>
-              <td>${euro(invoice.net)}</td>
-            </tr>
+          );
 
-            <tr>
-              <td>19 % MwSt.</td>
-              <td>${euro(invoice.vat)}</td>
-            </tr>
+        const customer =
 
-            <tr>
-              <th>Gesamt</th>
-              <th>${euro(invoice.gross)}</th>
-            </tr>
-          </table>
+          order &&
 
-          <div class="total">
-            ${euro(invoice.gross)}
+          data.customers.find(
+
+            item =>
+
+              item.id === order.customerId
+
+          );
+
+        return `
+
+          <div class="item"
+
+            onclick="openInvoice(${invoice.id})">
+
+            <strong>
+
+              Rechnung ${invoice.number}
+
+            </strong>
+
+            <p>
+
+              ${esc(customer?.name || "")}
+
+              ·
+
+              ${esc(order?.title || "")}
+
+            </p>
+
+            <p>
+
+              ${new Date(invoice.date)
+
+                .toLocaleDateString("de-DE")}
+
+              ·
+
+              ${euro(invoice.gross)}
+
+            </p>
+
+            <span class="badge ${
+
+              invoice.status === "Bezahlt"
+
+              ? "ok"
+
+              : "warn"
+
+            }">
+
+              ${esc(invoice.status)}
+
+            </span>
+
           </div>
 
-          <button class="btn secondary"
-            onclick="window.print()">
-            Drucken oder als PDF sichern
-          </button>
-        </div>
-      `;
-    }).join("")
-    : `<p class="note">Noch keine Rechnungen erstellt.</p>`;
+        `;
+
+      }).join("") ||
+
+      `<p class="note">
+
+        Noch keine Rechnungen erstellt.
+
+      </p>`;
+
+}
+
+function renderInvoiceDetail(){
+
+  const box =
+
+    document.getElementById(
+
+      "invoiceDetail"
+
+    );
+
+  if(!box){
+
+    return;
+
+  }
+
+  const invoice =
+
+    data.invoices.find(
+
+      item => item.id === currentInvoiceId
+
+    );
+
+  if(!invoice){
+
+    box.innerHTML = "";
+
+    return;
+
+  }
+
+  const order =
+
+    data.orders.find(
+
+      item => item.id === invoice.orderId
+
+    );
+
+  const customer =
+
+    order &&
+
+    data.customers.find(
+
+      item => item.id === order.customerId
+
+    );
+
+  const invoiceDate =
+
+    new Date(invoice.date);
+
+  const dueDate =
+
+    new Date(invoiceDate);
+
+  dueDate.setDate(
+
+    dueDate.getDate() +
+
+    (Number(data.settings.paymentDays) || 14)
+
+  );
+
+  box.innerHTML = `
+
+    <div class="card">
+
+      <p>
+
+        <strong>
+
+          ${esc(data.settings.companyName)}
+
+        </strong>
+
+        <br>
+
+        ${esc(data.settings.companyAddress)}
+
+        <br>
+
+        ${
+
+          data.settings.taxNumber
+
+          ? "Steuernummer: " +
+
+            esc(data.settings.taxNumber) +
+
+            "<br>"
+
+          : ""
+
+        }
+
+        ${
+
+          data.settings.vatId
+
+          ? "USt-IdNr.: " +
+
+            esc(data.settings.vatId)
+
+          : ""
+
+        }
+
+      </p>
+
+      <hr>
+
+      <p>
+
+        <strong>
+
+          ${esc(customer?.name || "")}
+
+        </strong>
+
+        <br>
+
+        ${esc(customer?.address || "")}
+
+      </p>
+
+      <h2>
+
+        Rechnung ${invoice.number}
+
+      </h2>
+
+      <p class="note">
+
+        Rechnungsdatum:
+
+        ${invoiceDate.toLocaleDateString("de-DE")}
+
+        ·
+
+        Zahlungsziel:
+
+        ${dueDate.toLocaleDateString("de-DE")}
+
+      </p>
+
+      <table>
+
+        <tr>
+
+          <th>Position</th>
+
+          <th>Betrag</th>
+
+        </tr>
+
+        <tr>
+
+          <td>Arbeitszeit</td>
+
+          <td>${euro(invoice.labor)}</td>
+
+        </tr>
+
+        ${invoice.materials.map(material => `
+
+          <tr>
+
+            <td>
+
+              ${esc(material.name)}
+
+              <br>
+
+              <span class="note">
+
+                ${material.quantity}
+
+                ${esc(material.unit)}
+
+                ·
+
+                ${invoice.markup} % Aufschlag
+
+              </span>
+
+            </td>
+
+            <td>
+
+              ${euro(
+
+                material.quantity *
+
+                material.purchasePrice *
+
+                (1 + invoice.markup / 100)
+
+              )}
+
+            </td>
+
+          </tr>
+
+        `).join("")}
+
+        <tr>
+
+          <td>Fahrtkosten</td>
+
+          <td>${euro(invoice.travel)}</td>
+
+        </tr>
+
+        <tr>
+
+          <td>Netto</td>
+
+          <td>${euro(invoice.net)}</td>
+
+        </tr>
+
+        <tr>
+
+          <td>19 % MwSt.</td>
+
+          <td>${euro(invoice.vat)}</td>
+
+        </tr>
+
+        <tr>
+
+          <th>Gesamt</th>
+
+          <th>${euro(invoice.gross)}</th>
+
+        </tr>
+
+      </table>
+
+      <div class="total">
+
+        ${euro(invoice.gross)}
+
+      </div>
+
+      <p class="note">
+
+        ${esc(data.settings.bankInfo)}
+
+      </p>
+
+      <div class="btnrow no-print">
+
+        <button class="btn secondary"
+
+          onclick="toggleInvoiceStatus(${invoice.id})">
+
+          ${
+
+            invoice.status === "Bezahlt"
+
+            ? "Als offen markieren"
+
+            : "Als bezahlt markieren"
+
+          }
+
+        </button>
+
+        <button class="btn"
+
+          onclick="window.print()">
+
+          Drucken oder PDF
+
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+function toggleInvoiceStatus(id){
+
+  const invoice =
+
+    data.invoices.find(
+
+      item => item.id === id
+
+    );
+
+  if(!invoice){
+
+    return;
+
+  }
+
+  invoice.status =
+
+    invoice.status === "Bezahlt"
+
+    ? "Offen"
+
+    : "Bezahlt";
+
+  const order =
+
+    data.orders.find(
+
+      item => item.id === invoice.orderId
+
+    );
+
+  if(
+
+    order &&
+
+    invoice.status === "Bezahlt"
+
+  ){
+
+    order.status = "Bezahlt";
+
+  }
+
+  saveData();
+
+  renderInvoiceDetail();
+
+}
+
+function saveCompanySettings(){
+
+  data.settings = {
+
+    companyName:companyName.value,
+
+    companyAddress:companyAddress.value,
+
+    taxNumber:taxNumber.value,
+
+    vatId:vatId.value,
+
+    bankInfo:bankInfo.value,
+
+    paymentDays:
+
+      Number(paymentDays.value) || 14,
+
+    nextInvoiceNumber:
+
+      Number(nextInvoiceNumber.value) ||
+
+      1001
+
+  };
+
+  saveData();
+
+  alert("Firmendaten gespeichert.");
+
+}
+
+function exportData(){
+
+  const file = new Blob(
+
+    [JSON.stringify(data,null,2)],
+
+    {type:"application/json"}
+
+  );
+
+  const url =
+
+    URL.createObjectURL(file);
+
+  const link =
+
+    document.createElement("a");
+
+  link.href = url;
+
+  link.download =
+
+    "spengleros-sicherung.json";
+
+  link.click();
+
+  URL.revokeObjectURL(url);
+
+}
+
+function importData(event){
+
+  const file =
+
+    event.target.files[0];
+
+  if(!file){
+
+    return;
+
+  }
+
+  const reader =
+
+    new FileReader();
+
+  reader.onload = result => {
+
+    try{
+
+      data =
+
+        JSON.parse(result.target.result);
+
+      saveData();
+
+      alert("Daten importiert.");
+
+    }catch{
+
+      alert(
+
+        "Ungültige Sicherungsdatei."
+
+      );
+
+    }
+
+  };
+
+  reader.readAsText(file);
+
+}
+
+function deleteAllData(){
+
+  if(!confirm(
+
+    "Wirklich alle Daten löschen?"
+
+  )){
+
+    return;
+
+  }
+
+  localStorage.removeItem(
+
+    "spenglerosData"
+
+  );
+
+  location.reload();
+
 }
 
 function calculateGutter(){
-  const area = Number(roofArea.value) || 0;
-  const drains = Math.max(1,Number(drainCount.value) || 1);
-  const areaPerDrain = area / drains;
 
-  let recommendation = "";
+  const area =
 
-  if(areaPerDrain <= 50){
-    recommendation =
-      "Kleinere Rinnen- und Fallrohrdimension prüfen.";
-  }else if(areaPerDrain <= 100){
-    recommendation =
-      "Mittlere Rinnen- und Fallrohrdimension prüfen.";
-  }else{
-    recommendation =
-      "Größere Dimension oder zusätzlichen Ablauf prüfen.";
-  }
+    Number(roofArea.value) || 0;
+
+  const drains =
+
+    Math.max(
+
+      1,
+
+      Number(drainCount.value) || 1
+
+    );
+
+  const areaPerDrain =
+
+    area / drains;
 
   gutterResult.innerHTML = `
+
     Dachfläche je Ablauf:
-    <strong>${areaPerDrain.toFixed(1)} m²</strong><br>
-    ${recommendation}
+
+    <strong>
+
+      ${areaPerDrain.toFixed(1)} m²
+
+    </strong>
+
+    <br>
+
+    ${
+
+      areaPerDrain <= 50
+
+      ? "Kleinere Dimension prüfen."
+
+      : areaPerDrain <= 100
+
+      ? "Mittlere Dimension prüfen."
+
+      : "Größere Dimension oder zusätzlichen Ablauf prüfen."
+
+    }
+
   `;
+
 }
 
 function calculateSeam(){
-  const width = Number(facadeWidth.value) || 0;
-  const height = Number(facadeHeight.value) || 0;
-  const pan = (Number(panWidth.value) || 430) / 1000;
-  const waste = (Number(wastePercent.value) || 0) / 100;
 
-  const pans = Math.ceil(width / pan);
-  const area = width * height;
-  const materialArea = area * (1 + waste);
-  const totalLength = pans * height * (1 + waste);
+  const width =
+
+    Number(facadeWidth.value) || 0;
+
+  const height =
+
+    Number(facadeHeight.value) || 0;
+
+  const pan =
+
+    (Number(panWidth.value) || 430) /
+
+    1000;
+
+  const waste =
+
+    (Number(wastePercent.value) || 0) /
+
+    100;
+
+  const pans =
+
+    Math.ceil(width / pan);
+
+  const area =
+
+    width * height;
 
   seamResult.innerHTML = `
+
     Scharen:
-    <strong>${pans}</strong><br>
+
+    <strong>${pans}</strong>
+
+    <br>
 
     Nettofläche:
-    <strong>${area.toFixed(2)} m²</strong><br>
+
+    <strong>
+
+      ${area.toFixed(2)} m²
+
+    </strong>
+
+    <br>
 
     Material inklusive Verschnitt:
-    <strong>${materialArea.toFixed(2)} m²</strong><br>
+
+    <strong>
+
+      ${(area * (1 + waste)).toFixed(2)} m²
+
+    </strong>
+
+    <br>
 
     Gesamte Scharenlänge:
-    <strong>${totalLength.toFixed(1)} m</strong>
+
+    <strong>
+
+      ${(pans * height * (1 + waste)).toFixed(1)} m
+
+    </strong>
+
   `;
+
+}
+
+function calculateWeight(){
+
+  const density =
+
+    Number(materialDensity.value);
+
+  const area =
+
+    Number(sheetArea.value) || 0;
+
+  const thickness =
+
+    Number(sheetThickness.value) || 0;
+
+  weightResult.innerHTML = `
+
+    Geschätztes Gewicht:
+
+    <strong>
+
+      ${(area * thickness * density).toFixed(1)} kg
+
+    </strong>
+
+  `;
+
+}
+
+function renderRules(){
+
+  const query =
+
+    (rulesSearch?.value || "")
+
+      .toLowerCase();
+
+  rulesList.innerHTML =
+
+    rules
+
+      .filter(rule =>
+
+        (
+
+          rule.t +
+
+          " " +
+
+          rule.d
+
+        )
+
+        .toLowerCase()
+
+        .includes(query)
+
+      )
+
+      .map(rule => `
+
+        <div class="item">
+
+          <strong>
+
+            ${esc(rule.t)}
+
+          </strong>
+
+          <p>
+
+            ${esc(rule.d)}
+
+          </p>
+
+        </div>
+
+      `).join("") ||
+
+      `<p class="note">
+
+        Kein Treffer.
+
+      </p>`;
+
 }
 
 function renderEverything(){
+
   countCustomers.textContent =
+
     data.customers.length;
 
   countOrders.textContent =
+
     data.orders.length;
 
   countReports.textContent =
+
     data.reports.length;
 
   countInvoices.textContent =
+
     data.invoices.length;
 
   renderCustomers();
+
   renderOrders();
+
   renderInvoices();
+
+  renderCustomerDetail();
+
+  renderOrderDetail();
+
+  renderInvoiceDetail();
+
+  renderRules();
+
+  companyName.value =
+
+    data.settings.companyName;
+
+  companyAddress.value =
+
+    data.settings.companyAddress;
+
+  taxNumber.value =
+
+    data.settings.taxNumber;
+
+  vatId.value =
+
+    data.settings.vatId;
+
+  bankInfo.value =
+
+    data.settings.bankInfo;
+
+  paymentDays.value =
+
+    data.settings.paymentDays;
+
+  nextInvoiceNumber.value =
+
+    data.settings.nextInvoiceNumber;
+
+  if(
+
+    document
+
+      .getElementById("order-measure")
+
+      .classList.contains("active")
+
+  ){
+
+    renderMeasurement();
+
+  }
+
+  if(
+
+    document
+
+      .getElementById("order-photos")
+
+      .classList.contains("active")
+
+  ){
+
+    renderPhotos();
+
+  }
+
+  if(
+
+    document
+
+      .getElementById("order-checklist")
+
+      .classList.contains("active")
+
+  ){
+
+    renderChecklist();
+
+  }
+
 }
 
 addMaterialRow(
+
   "Zinkrinne 333",
+
   8,
+
   "m",
+
   28.40
+
 );
 
 addMaterialRow(
+
   "Ablaufstutzen",
+
   2,
+
   "Stk.",
+
   19.90
+
 );
 
 renderEverything();
+
 </script>
 
 </body>
+
 </html>
