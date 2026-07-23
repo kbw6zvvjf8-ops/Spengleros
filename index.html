@@ -3152,4 +3152,1592 @@ renderEverything();
 </script>
 
 </body>
+"use client";
+
+import { useEffect, useState } from "react";
+import {
+  AlertTriangle,
+  Boxes,
+  BriefcaseBusiness,
+  Building2,
+  CheckCircle2,
+  ChevronRight,
+  ClipboardList,
+  Clock3,
+  Euro,
+  LayoutDashboard,
+  Menu,
+  PackageCheck,
+  Plus,
+  ReceiptText,
+  Search,
+  Settings,
+  TrendingUp,
+  Users,
+  Warehouse,
+  X,
+} from "lucide-react";
+
+type EmployeeRole = "Obermonteur" | "Monteur" | "Helfer" | "Azubi";
+
+type Employee = {
+  id: number;
+  name: string;
+  role: EmployeeRole;
+  hourlyRate: number;
+  weeklyHours: number;
+  overtime: number;
+};
+
+type Material = {
+  id: number;
+  name: string;
+  sku: string;
+  category: string;
+  supplier: string;
+  manufacturer: string;
+  unit: string;
+  stock: number;
+  minStock: number;
+  purchasePrice: number;
+  sellingPrice: number;
+  updatedAt: string;
+};
+
+type Service = {
+  id: number;
+  name: string;
+  unit: string;
+  price: number;
+  category: string;
+};
+
+type TimeEntry = {
+  employeeId: number;
+  hours: number;
+};
+
+type MaterialEntry = {
+  materialId: number;
+  quantity: number;
+};
+
+type ServiceEntry = {
+  serviceId: number;
+  quantity: number;
+};
+
+type ReportStatus = "Entwurf" | "Freigegeben" | "Abgerechnet";
+
+type Report = {
+  id: number;
+  site: string;
+  customer: string;
+  date: string;
+  status: ReportStatus;
+  employees: TimeEntry[];
+  materials: MaterialEntry[];
+  services: ServiceEntry[];
+  note: string;
+};
+
+const initialEmployees: Employee[] = [
+  {
+    id: 1,
+    name: "Raphael Berger",
+    role: "Obermonteur",
+    hourlyRate: 78,
+    weeklyHours: 38.5,
+    overtime: 7.5,
+  },
+  {
+    id: 2,
+    name: "Max Huber",
+    role: "Monteur",
+    hourlyRate: 65,
+    weeklyHours: 40,
+    overtime: 3,
+  },
+  {
+    id: 3,
+    name: "Lukas Klein",
+    role: "Helfer",
+    hourlyRate: 48,
+    weeklyHours: 37,
+    overtime: 0,
+  },
+  {
+    id: 4,
+    name: "Ben Fischer",
+    role: "Azubi",
+    hourlyRate: 32,
+    weeklyHours: 35,
+    overtime: 1.5,
+  },
+];
+
+const initialMaterials: Material[] = [
+  {
+    id: 1,
+    name: "Soudal Fix All Kleber",
+    sku: "KL-001",
+    category: "Klebstoffe",
+    supplier: "Würth",
+    manufacturer: "Soudal",
+    unit: "Kartusche",
+    stock: 24,
+    minStock: 10,
+    purchasePrice: 11.5,
+    sellingPrice: 18.4,
+    updatedAt: "20.07.2026",
+  },
+  {
+    id: 2,
+    name: "Titanzink 0,7 mm",
+    sku: "TZ-070",
+    category: "Bleche",
+    supplier: "Rheinzink Direkt",
+    manufacturer: "Rheinzink",
+    unit: "m²",
+    stock: 86,
+    minStock: 25,
+    purchasePrice: 28.5,
+    sellingPrice: 45.6,
+    updatedAt: "18.07.2026",
+  },
+  {
+    id: 3,
+    name: "Rinnenhalter 333 mm",
+    sku: "RH-333",
+    category: "Entwässerung",
+    supplier: "DachProfi Süd",
+    manufacturer: "Grömo",
+    unit: "Stück",
+    stock: 67,
+    minStock: 40,
+    purchasePrice: 3.2,
+    sellingPrice: 5.5,
+    updatedAt: "12.07.2026",
+  },
+  {
+    id: 4,
+    name: "Spenglerschraube 4,5 × 35",
+    sku: "SS-4535",
+    category: "Befestigung",
+    supplier: "Würth",
+    manufacturer: "Würth",
+    unit: "Stück",
+    stock: 320,
+    minStock: 100,
+    purchasePrice: 0.18,
+    sellingPrice: 0.45,
+    updatedAt: "08.07.2026",
+  },
+];
+
+const initialServices: Service[] = [
+  {
+    id: 1,
+    name: "Attika-Ecke ausbilden",
+    unit: "Stück",
+    price: 30,
+    category: "Attika",
+  },
+  {
+    id: 2,
+    name: "Rinnenstoß verlöten",
+    unit: "Stück",
+    price: 5,
+    category: "Dachrinne",
+  },
+  {
+    id: 3,
+    name: "Ablaufkasten montieren",
+    unit: "Stück",
+    price: 85,
+    category: "Entwässerung",
+  },
+  {
+    id: 4,
+    name: "Kamin einfassen",
+    unit: "Pauschal",
+    price: 420,
+    category: "Anschlüsse",
+  },
+];
+
+const initialReports: Report[] = [
+  {
+    id: 1001,
+    site: "EFH Müller – Attika",
+    customer: "Familie Müller",
+    date: "23.07.2026",
+    status: "Entwurf",
+    employees: [
+      { employeeId: 1, hours: 8 },
+      { employeeId: 4, hours: 4 },
+    ],
+    materials: [
+      { materialId: 1, quantity: 2 },
+      { materialId: 2, quantity: 12.5 },
+    ],
+    services: [{ serviceId: 1, quantity: 4 }],
+    note: "Vier Attika-Ecken hergestellt.",
+  },
+  {
+    id: 1002,
+    site: "Wohnanlage West – Dachrinne",
+    customer: "Hausverwaltung West",
+    date: "22.07.2026",
+    status: "Freigegeben",
+    employees: [
+      { employeeId: 2, hours: 7.5 },
+      { employeeId: 3, hours: 5 },
+    ],
+    materials: [{ materialId: 3, quantity: 67 }],
+    services: [{ serviceId: 2, quantity: 12 }],
+    note: "Die App schlug 70 Rinnenhalter vor. Tatsächlich wurden 67 verbaut.",
+  },
+];
+
+const navigation = [
+  {
+    id: "dashboard",
+    label: "Übersicht",
+    icon: LayoutDashboard,
+  },
+  {
+    id: "reports",
+    label: "Rapporte",
+    icon: ClipboardList,
+  },
+  {
+    id: "materials",
+    label: "Materialdatenbank",
+    icon: Boxes,
+  },
+  {
+    id: "services",
+    label: "Festpreis-Leistungen",
+    icon: BriefcaseBusiness,
+  },
+  {
+    id: "warehouse",
+    label: "Lager",
+    icon: Warehouse,
+  },
+  {
+    id: "employees",
+    label: "Mitarbeiter",
+    icon: Users,
+  },
+  {
+    id: "suppliers",
+    label: "Lieferanten & Hersteller",
+    icon: Building2,
+  },
+  {
+    id: "invoices",
+    label: "Rechnungen",
+    icon: ReceiptText,
+  },
+  {
+    id: "settings",
+    label: "Einstellungen",
+    icon: Settings,
+  },
+];
+
+function money(value: number) {
+  return new Intl.NumberFormat("de-DE", {
+    style: "currency",
+    currency: "EUR",
+  }).format(value);
+}
+
+export default function Home() {
+  const [activePage, setActivePage] = useState("dashboard");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [search, setSearch] = useState("");
+
+  const [employees] = useState<Employee[]>(initialEmployees);
+  const [materials, setMaterials] = useState<Material[]>(initialMaterials);
+  const [services, setServices] = useState<Service[]>(initialServices);
+  const [reports, setReports] = useState<Report[]>(initialReports);
+
+  const [selectedReportId, setSelectedReportId] = useState<number>(
+    initialReports[0].id,
+  );
+
+  useEffect(() => {
+    const savedData = localStorage.getItem("werkflow-demo");
+
+    if (!savedData) {
+      return;
+    }
+
+    try {
+      const parsedData = JSON.parse(savedData);
+
+      if (parsedData.materials) {
+        setMaterials(parsedData.materials);
+      }
+
+      if (parsedData.services) {
+        setServices(parsedData.services);
+      }
+
+      if (parsedData.reports) {
+        setReports(parsedData.reports);
+      }
+    } catch (error) {
+      console.error("Gespeicherte Daten konnten nicht geladen werden.", error);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "werkflow-demo",
+      JSON.stringify({
+        materials,
+        services,
+        reports,
+      }),
+    );
+  }, [materials, services, reports]);
+
+  const selectedReport =
+    reports.find((report) => report.id === selectedReportId) ?? reports[0];
+
+  const lowStockMaterials = materials.filter(
+    (material) => material.stock <= material.minStock,
+  );
+
+  function calculateReportTotal(report: Report) {
+    const employeeTotal = report.employees.reduce((sum, entry) => {
+      const employee = employees.find(
+        (item) => item.id === entry.employeeId,
+      );
+
+      return sum + (employee?.hourlyRate ?? 0) * entry.hours;
+    }, 0);
+
+    const materialTotal = report.materials.reduce((sum, entry) => {
+      const material = materials.find(
+        (item) => item.id === entry.materialId,
+      );
+
+      return sum + (material?.sellingPrice ?? 0) * entry.quantity;
+    }, 0);
+
+    const serviceTotal = report.services.reduce((sum, entry) => {
+      const service = services.find(
+        (item) => item.id === entry.serviceId,
+      );
+
+      return sum + (service?.price ?? 0) * entry.quantity;
+    }, 0);
+
+    return employeeTotal + materialTotal + serviceTotal;
+  }
+
+  function updateReport(updatedReport: Report) {
+    setReports((currentReports) =>
+      currentReports.map((report) =>
+        report.id === updatedReport.id ? updatedReport : report,
+      ),
+    );
+  }
+
+  function createNewReport() {
+    const newReport: Report = {
+      id: Date.now(),
+      site: "Neue Baustelle",
+      customer: "Neuer Kunde",
+      date: new Date().toLocaleDateString("de-DE"),
+      status: "Entwurf",
+      employees: [],
+      materials: [],
+      services: [],
+      note: "",
+    };
+
+    setReports((currentReports) => [newReport, ...currentReports]);
+    setSelectedReportId(newReport.id);
+    setActivePage("reports");
+  }
+
+  const pageTitle =
+    navigation.find((item) => item.id === activePage)?.label ?? "Übersicht";
+
+  return (
+    <div className="app-shell">
+      <aside className={`sidebar ${mobileMenuOpen ? "sidebar-open" : ""}`}>
+        <div className="brand">
+          <div className="brand-icon">
+            <PackageCheck size={22} />
+          </div>
+
+          <div>
+            <strong>WerkFlow</strong>
+            <span>Handwerker-App</span>
+          </div>
+
+          <button
+            className="icon-button mobile-close"
+            onClick={() => setMobileMenuOpen(false)}
+            aria-label="Menü schließen"
+          >
+            <X size={20} />
+          </button>
+        </div>
+
+        <nav className="navigation">
+          {navigation.map((item) => {
+            const Icon = item.icon;
+
+            return (
+              <button
+                key={item.id}
+                className={
+                  activePage === item.id
+                    ? "navigation-item active"
+                    : "navigation-item"
+                }
+                onClick={() => {
+                  setActivePage(item.id);
+                  setMobileMenuOpen(false);
+                }}
+              >
+                <Icon size={19} />
+                <span>{item.label}</span>
+              </button>
+            );
+          })}
+        </nav>
+
+        <div className="sidebar-profile">
+          <div className="profile-avatar">RB</div>
+
+          <div>
+            <strong>Raphael Berger</strong>
+            <span>Administrator</span>
+          </div>
+        </div>
+      </aside>
+
+      <main className="main-content">
+        <header className="topbar">
+          <div className="topbar-title">
+            <button
+              className="icon-button mobile-menu"
+              onClick={() => setMobileMenuOpen(true)}
+              aria-label="Menü öffnen"
+            >
+              <Menu size={22} />
+            </button>
+
+            <div>
+              <p>WerkFlow Betriebsübersicht</p>
+              <h1>{pageTitle}</h1>
+            </div>
+          </div>
+
+          <div className="topbar-actions">
+            <div className="search-field">
+              <Search size={18} />
+
+              <input
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+                placeholder="Suchen …"
+              />
+            </div>
+
+            <button className="primary-button" onClick={createNewReport}>
+              <Plus size={18} />
+              Neuer Rapport
+            </button>
+          </div>
+        </header>
+
+        <section className="page-content">
+          {activePage === "dashboard" && (
+            <Dashboard
+              reports={reports}
+              lowStockMaterials={lowStockMaterials}
+              reportTotal={calculateReportTotal}
+              onOpenReports={() => setActivePage("reports")}
+              onOpenWarehouse={() => setActivePage("warehouse")}
+              onSelectReport={(reportId) => {
+                setSelectedReportId(reportId);
+                setActivePage("reports");
+              }}
+            />
+          )}
+
+          {activePage === "reports" && (
+            <ReportsPage
+              reports={reports}
+              selectedReport={selectedReport}
+              employees={employees}
+              materials={materials}
+              services={services}
+              reportTotal={calculateReportTotal}
+              onSelectReport={setSelectedReportId}
+              onUpdateReport={updateReport}
+              onCreateReport={createNewReport}
+            />
+          )}
+
+          {activePage === "materials" && (
+            <MaterialsPage
+              materials={materials}
+              search={search}
+              onAddMaterial={() => {
+                const newMaterial: Material = {
+                  id: Date.now(),
+                  name: "Neues Material",
+                  sku: `MAT-${materials.length + 1}`,
+                  category: "Sonstiges",
+                  supplier: "Nicht zugeordnet",
+                  manufacturer: "Nicht zugeordnet",
+                  unit: "Stück",
+                  stock: 0,
+                  minStock: 0,
+                  purchasePrice: 0,
+                  sellingPrice: 0,
+                  updatedAt: new Date().toLocaleDateString("de-DE"),
+                };
+
+                setMaterials((currentMaterials) => [
+                  ...currentMaterials,
+                  newMaterial,
+                ]);
+              }}
+            />
+          )}
+
+          {activePage === "services" && (
+            <ServicesPage
+              services={services}
+              onAddService={() => {
+                const newService: Service = {
+                  id: Date.now(),
+                  name: "Neue Leistung",
+                  unit: "Stück",
+                  price: 0,
+                  category: "Sonstiges",
+                };
+
+                setServices((currentServices) => [
+                  ...currentServices,
+                  newService,
+                ]);
+              }}
+            />
+          )}
+
+          {activePage === "warehouse" && (
+            <WarehousePage materials={materials} />
+          )}
+
+          {activePage === "employees" && (
+            <EmployeesPage employees={employees} />
+          )}
+
+          {activePage === "suppliers" && <SuppliersPage />}
+
+          {activePage === "invoices" && <InvoicesPage />}
+
+          {activePage === "settings" && <SettingsPage />}
+        </section>
+      </main>
+    </div>
+  );
+}
+
+type DashboardProps = {
+  reports: Report[];
+  lowStockMaterials: Material[];
+  reportTotal: (report: Report) => number;
+  onOpenReports: () => void;
+  onOpenWarehouse: () => void;
+  onSelectReport: (reportId: number) => void;
+};
+
+function Dashboard({
+  reports,
+  lowStockMaterials,
+  reportTotal,
+  onOpenReports,
+  onOpenWarehouse,
+  onSelectReport,
+}: DashboardProps) {
+  const completeValue = reports.reduce(
+    (sum, report) => sum + reportTotal(report),
+    0,
+  );
+
+  return (
+    <>
+      <div className="hero">
+        <div>
+          <span className="badge badge-green">
+            <CheckCircle2 size={15} />
+            Demo-Grundgerüst aktiv
+          </span>
+
+          <h2>Der digitale Bauleiter für deinen Betrieb.</h2>
+
+          <p>
+            Rapport, Material, Mitarbeiter, Lager und Rechnung greifen auf
+            dieselbe Datenbasis zu.
+          </p>
+        </div>
+
+        <button className="secondary-button" onClick={onOpenReports}>
+          Rapporte ansehen
+          <ChevronRight size={17} />
+        </button>
+      </div>
+
+      <div className="statistics-grid">
+        <StatisticCard
+          icon={<ClipboardList />}
+          label="Offene Rapporte"
+          value={String(
+            reports.filter((report) => report.status !== "Abgerechnet").length,
+          )}
+          information="Aktuelle Baustellen"
+        />
+
+        <StatisticCard
+          icon={<Clock3 />}
+          label="Erfasste Stunden"
+          value="173 h"
+          information="+13 Überstunden"
+        />
+
+        <StatisticCard
+          icon={<Euro />}
+          label="Auftragswert"
+          value={money(completeValue)}
+          information="Aktuelle Rapporte"
+        />
+
+        <StatisticCard
+          icon={<AlertTriangle />}
+          label="Niedriger Bestand"
+          value={String(lowStockMaterials.length)}
+          information="Nachbestellung prüfen"
+        />
+      </div>
+
+      <div className="dashboard-columns">
+        <Card
+          title="Aktuelle Rapporte"
+          actionText="Alle anzeigen"
+          onAction={onOpenReports}
+        >
+          <div className="list">
+            {reports.map((report) => (
+              <button
+                className="list-row"
+                key={report.id}
+                onClick={() => onSelectReport(report.id)}
+              >
+                <div>
+                  <strong>{report.site}</strong>
+                  <span>
+                    {report.customer} · {report.date}
+                  </span>
+                </div>
+
+                <div className="list-row-right">
+                  <StatusBadge status={report.status} />
+                  <strong>{money(reportTotal(report))}</strong>
+                </div>
+              </button>
+            ))}
+          </div>
+        </Card>
+
+        <Card
+          title="Lagerwarnungen"
+          actionText="Zum Lager"
+          onAction={onOpenWarehouse}
+        >
+          {lowStockMaterials.length === 0 ? (
+            <div className="empty-state">
+              Keine kritischen Lagerbestände.
+            </div>
+          ) : (
+            lowStockMaterials.map((material) => (
+              <div className="warning-row" key={material.id}>
+                <AlertTriangle size={18} />
+
+                <div>
+                  <strong>{material.name}</strong>
+                  <span>
+                    {material.stock} {material.unit} verfügbar · Mindestbestand{" "}
+                    {material.minStock}
+                  </span>
+                </div>
+              </div>
+            ))
+          )}
+
+          <div className="warning-row warning-row-green">
+            <TrendingUp size={18} />
+
+            <div>
+              <strong>Preisänderungen</strong>
+              <span>
+                Neue Einkaufspreise können später automatisch übernommen
+                werden.
+              </span>
+            </div>
+          </div>
+        </Card>
+      </div>
+    </>
+  );
+}
+
+type MaterialsPageProps = {
+  materials: Material[];
+  search: string;
+  onAddMaterial: () => void;
+};
+
+function MaterialsPage({
+  materials,
+  search,
+  onAddMaterial,
+}: MaterialsPageProps) {
+  const filteredMaterials = materials.filter((material) =>
+    material.name.toLowerCase().includes(search.toLowerCase()),
+  );
+
+  return (
+    <Card
+      title="Materialdatenbank"
+      actionText="+ Material"
+      onAction={onAddMaterial}
+    >
+      <div className="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Material</th>
+              <th>Kategorie</th>
+              <th>Lieferant</th>
+              <th>Bestand</th>
+              <th>Einkauf</th>
+              <th>Verkauf</th>
+              <th>Aktualisiert</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {filteredMaterials.map((material) => (
+              <tr key={material.id}>
+                <td>
+                  <strong>{material.name}</strong>
+                  <small>
+                    {material.sku} · {material.manufacturer}
+                  </small>
+                </td>
+
+                <td>{material.category}</td>
+                <td>{material.supplier}</td>
+
+                <td>
+                  <span
+                    className={
+                      material.stock <= material.minStock
+                        ? "stock-low"
+                        : undefined
+                    }
+                  >
+                    {material.stock} {material.unit}
+                  </span>
+                </td>
+
+                <td>{money(material.purchasePrice)}</td>
+                <td>{money(material.sellingPrice)}</td>
+                <td>{material.updatedAt}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </Card>
+  );
+}
+
+type ServicesPageProps = {
+  services: Service[];
+  onAddService: () => void;
+};
+
+function ServicesPage({
+  services,
+  onAddService,
+}: ServicesPageProps) {
+  return (
+    <Card
+      title="Festpreis-Leistungen"
+      actionText="+ Leistung"
+      onAction={onAddService}
+    >
+      <div className="service-grid">
+        {services.map((service) => (
+          <div className="service-card" key={service.id}>
+            <span>{service.category}</span>
+            <h3>{service.name}</h3>
+
+            <div>
+              <strong>{money(service.price)}</strong>
+              <small>pro {service.unit}</small>
+            </div>
+          </div>
+        ))}
+      </div>
+    </Card>
+  );
+}
+
+type EmployeesPageProps = {
+  employees: Employee[];
+};
+
+function EmployeesPage({ employees }: EmployeesPageProps) {
+  return (
+    <div className="employee-grid">
+      {employees.map((employee) => (
+        <div className="employee-card" key={employee.id}>
+          <div className="employee-header">
+            <div className="employee-avatar">
+              {employee.name
+                .split(" ")
+                .map((word) => word[0])
+                .join("")}
+            </div>
+
+            <div>
+              <h3>{employee.name}</h3>
+              <span>{employee.role}</span>
+            </div>
+          </div>
+
+          <div className="employee-statistics">
+            <div>
+              <span>Abrechnung</span>
+              <strong>{money(employee.hourlyRate)}/h</strong>
+            </div>
+
+            <div>
+              <span>Diese Woche</span>
+              <strong>{employee.weeklyHours} h</strong>
+            </div>
+
+            <div>
+              <span>Überstunden</span>
+              <strong>{employee.overtime} h</strong>
+            </div>
+          </div>
+
+          <button className="secondary-button full-width">
+            Profil öffnen
+          </button>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+type ReportsPageProps = {
+  reports: Report[];
+  selectedReport: Report;
+  employees: Employee[];
+  materials: Material[];
+  services: Service[];
+  reportTotal: (report: Report) => number;
+  onSelectReport: (reportId: number) => void;
+  onUpdateReport: (report: Report) => void;
+  onCreateReport: () => void;
+};
+
+function ReportsPage({
+  reports,
+  selectedReport,
+  employees,
+  materials,
+  services,
+  reportTotal,
+  onSelectReport,
+  onUpdateReport,
+  onCreateReport,
+}: ReportsPageProps) {
+  return (
+    <div className="reports-layout">
+      <Card
+        title="Rapporte"
+        actionText="+ Neuer Rapport"
+        onAction={onCreateReport}
+      >
+        <div className="list">
+          {reports.map((report) => (
+            <button
+              key={report.id}
+              className={
+                selectedReport.id === report.id
+                  ? "list-row selected"
+                  : "list-row"
+              }
+              onClick={() => onSelectReport(report.id)}
+            >
+              <div>
+                <strong>{report.site}</strong>
+                <span>
+                  {report.customer} · {report.date}
+                </span>
+              </div>
+
+              <div className="list-row-right">
+                <StatusBadge status={report.status} />
+                <strong>{money(reportTotal(report))}</strong>
+              </div>
+            </button>
+          ))}
+        </div>
+      </Card>
+
+      <ReportEditor
+        report={selectedReport}
+        employees={employees}
+        materials={materials}
+        services={services}
+        total={reportTotal(selectedReport)}
+        onChange={onUpdateReport}
+      />
+    </div>
+  );
+}
+
+type ReportEditorProps = {
+  report: Report;
+  employees: Employee[];
+  materials: Material[];
+  services: Service[];
+  total: number;
+  onChange: (report: Report) => void;
+};
+
+function ReportEditor({
+  report,
+  employees,
+  materials,
+  services,
+  total,
+  onChange,
+}: ReportEditorProps) {
+  function addEmployeeEntry() {
+    onChange({
+      ...report,
+      employees: [
+        ...report.employees,
+        {
+          employeeId: employees[0].id,
+          hours: 1,
+        },
+      ],
+    });
+  }
+
+  function addMaterialEntry() {
+    onChange({
+      ...report,
+      materials: [
+        ...report.materials,
+        {
+          materialId: materials[0].id,
+          quantity: 1,
+        },
+      ],
+    });
+  }
+
+  function addServiceEntry() {
+    onChange({
+      ...report,
+      services: [
+        ...report.services,
+        {
+          serviceId: services[0].id,
+          quantity: 1,
+        },
+      ],
+    });
+  }
+
+  return (
+    <div className="card report-editor">
+      <div className="card-header report-editor-header">
+        <div>
+          <span className="badge">
+            Rapport #{String(report.id).slice(-4)}
+          </span>
+          <h2>{report.site}</h2>
+        </div>
+
+        <strong className="report-total">{money(total)}</strong>
+      </div>
+
+      <div className="form-grid">
+        <label>
+          Baustelle
+          <input
+            value={report.site}
+            onChange={(event) =>
+              onChange({
+                ...report,
+                site: event.target.value,
+              })
+            }
+          />
+        </label>
+
+        <label>
+          Kunde
+          <input
+            value={report.customer}
+            onChange={(event) =>
+              onChange({
+                ...report,
+                customer: event.target.value,
+              })
+            }
+          />
+        </label>
+      </div>
+
+      <EditorSection
+        title="Mitarbeiter & Zeiten"
+        actionText="Mitarbeiter hinzufügen"
+        onAction={addEmployeeEntry}
+      >
+        {report.employees.map((entry, index) => (
+          <div className="entry-row" key={`${entry.employeeId}-${index}`}>
+            <select
+              value={entry.employeeId}
+              onChange={(event) => {
+                const updatedEntries = [...report.employees];
+
+                updatedEntries[index] = {
+                  ...entry,
+                  employeeId: Number(event.target.value),
+                };
+
+                onChange({
+                  ...report,
+                  employees: updatedEntries,
+                });
+              }}
+            >
+              {employees.map((employee) => (
+                <option key={employee.id} value={employee.id}>
+                  {employee.name} – {employee.role}
+                </option>
+              ))}
+            </select>
+
+            <input
+              type="number"
+              min="0"
+              step="0.25"
+              value={entry.hours}
+              onChange={(event) => {
+                const updatedEntries = [...report.employees];
+
+                updatedEntries[index] = {
+                  ...entry,
+                  hours: Number(event.target.value),
+                };
+
+                onChange({
+                  ...report,
+                  employees: updatedEntries,
+                });
+              }}
+            />
+
+            <span>Stunden</span>
+          </div>
+        ))}
+      </EditorSection>
+
+      <EditorSection
+        title="Material"
+        actionText="Material hinzufügen"
+        onAction={addMaterialEntry}
+      >
+        {report.materials.map((entry, index) => {
+          const selectedMaterial = materials.find(
+            (material) => material.id === entry.materialId,
+          );
+
+          return (
+            <div
+              className="entry-row"
+              key={`${entry.materialId}-${index}`}
+            >
+              <select
+                value={entry.materialId}
+                onChange={(event) => {
+                  const updatedEntries = [...report.materials];
+
+                  updatedEntries[index] = {
+                    ...entry,
+                    materialId: Number(event.target.value),
+                  };
+
+                  onChange({
+                    ...report,
+                    materials: updatedEntries,
+                  });
+                }}
+              >
+                {materials.map((material) => (
+                  <option key={material.id} value={material.id}>
+                    {material.name}
+                  </option>
+                ))}
+              </select>
+
+              <input
+                type="number"
+                min="0"
+                step="0.1"
+                value={entry.quantity}
+                onChange={(event) => {
+                  const updatedEntries = [...report.materials];
+
+                  updatedEntries[index] = {
+                    ...entry,
+                    quantity: Number(event.target.value),
+                  };
+
+                  onChange({
+                    ...report,
+                    materials: updatedEntries,
+                  });
+                }}
+              />
+
+              <span>{selectedMaterial?.unit}</span>
+            </div>
+          );
+        })}
+
+        <div className="ai-information">
+          KI-Vorschlag: 70 Rinnenhalter erkannt. Die tatsächlich verbaute
+          Menge kann direkt auf 67 geändert werden.
+        </div>
+      </EditorSection>
+
+      <EditorSection
+        title="Festpreis-Leistungen"
+        actionText="Leistung hinzufügen"
+        onAction={addServiceEntry}
+      >
+        {report.services.map((entry, index) => {
+          const selectedService = services.find(
+            (service) => service.id === entry.serviceId,
+          );
+
+          return (
+            <div
+              className="entry-row"
+              key={`${entry.serviceId}-${index}`}
+            >
+              <select
+                value={entry.serviceId}
+                onChange={(event) => {
+                  const updatedEntries = [...report.services];
+
+                  updatedEntries[index] = {
+                    ...entry,
+                    serviceId: Number(event.target.value),
+                  };
+
+                  onChange({
+                    ...report,
+                    services: updatedEntries,
+                  });
+                }}
+              >
+                {services.map((service) => (
+                  <option key={service.id} value={service.id}>
+                    {service.name} – {money(service.price)}
+                  </option>
+                ))}
+              </select>
+
+              <input
+                type="number"
+                min="0"
+                step="1"
+                value={entry.quantity}
+                onChange={(event) => {
+                  const updatedEntries = [...report.services];
+
+                  updatedEntries[index] = {
+                    ...entry,
+                    quantity: Number(event.target.value),
+                  };
+
+                  onChange({
+                    ...report,
+                    services: updatedEntries,
+                  });
+                }}
+              />
+
+              <span>{selectedService?.unit}</span>
+            </div>
+          );
+        })}
+      </EditorSection>
+
+      <label className="note-field">
+        Notiz
+        <textarea
+          value={report.note}
+          onChange={(event) =>
+            onChange({
+              ...report,
+              note: event.target.value,
+            })
+          }
+        />
+      </label>
+
+      <div className="report-actions">
+        <button className="secondary-button">
+          Zwischenspeichern
+        </button>
+
+        <button
+          className="primary-button"
+          onClick={() =>
+            onChange({
+              ...report,
+              status: "Freigegeben",
+            })
+          }
+        >
+          Rapport freigeben
+        </button>
+      </div>
+    </div>
+  );
+}
+
+type EditorSectionProps = {
+  title: string;
+  actionText: string;
+  onAction: () => void;
+  children: React.ReactNode;
+};
+
+function EditorSection({
+  title,
+  actionText,
+  onAction,
+  children,
+}: EditorSectionProps) {
+  return (
+    <div className="editor-section">
+      <div className="editor-section-header">
+        <h3>{title}</h3>
+
+        <button className="text-button" onClick={onAction}>
+          <Plus size={16} />
+          {actionText}
+        </button>
+      </div>
+
+      {children}
+    </div>
+  );
+}
+
+type WarehousePageProps = {
+  materials: Material[];
+};
+
+function WarehousePage({ materials }: WarehousePageProps) {
+  return (
+    <Card
+      title="Lagerübersicht"
+      actionText="Bestellvorschlag"
+      onAction={() => {
+        window.alert(
+          "Demo: Ein Bestellvorschlag für niedrige Lagerbestände wurde vorbereitet.",
+        );
+      }}
+    >
+      <div className="warehouse-grid">
+        {materials.map((material) => {
+          const percentage = Math.min(
+            100,
+            Math.round(
+              (material.stock /
+                Math.max(material.minStock * 2, 1)) *
+                100,
+            ),
+          );
+
+          return (
+            <div className="warehouse-card" key={material.id}>
+              <div>
+                <strong>{material.name}</strong>
+                <span>
+                  {material.sku} · {material.unit}
+                </span>
+              </div>
+
+              <div className="warehouse-stock">{material.stock}</div>
+
+              <div className="progress-bar">
+                <i style={{ width: `${percentage}%` }} />
+              </div>
+
+              <small>Mindestbestand: {material.minStock}</small>
+            </div>
+          );
+        })}
+      </div>
+    </Card>
+  );
+}
+
+function SuppliersPage() {
+  const suppliers = [
+    {
+      company: "Würth",
+      category: "Werkzeuge & Befestigung",
+      contact: "Thomas Maier",
+      phone: "+49 171 555 1234",
+      email: "thomas.maier@example.de",
+    },
+    {
+      company: "Rheinzink Direkt",
+      category: "Titanzink & Zubehör",
+      contact: "Anna Keller",
+      phone: "+49 160 222 9911",
+      email: "anna.keller@example.de",
+    },
+    {
+      company: "DachProfi Süd",
+      category: "Dach- und Spenglerbedarf",
+      contact: "Markus Steiner",
+      phone: "+49 172 888 4512",
+      email: "markus.steiner@example.de",
+    },
+  ];
+
+  return (
+    <div className="supplier-grid">
+      {suppliers.map((supplier) => (
+        <div className="supplier-card" key={supplier.company}>
+          <Building2 size={24} />
+
+          <h3>{supplier.company}</h3>
+          <span>{supplier.category}</span>
+
+          <hr />
+
+          <small>Außendienst</small>
+          <strong>{supplier.contact}</strong>
+          <a href={`tel:${supplier.phone}`}>{supplier.phone}</a>
+          <a href={`mailto:${supplier.email}`}>{supplier.email}</a>
+
+          <button className="secondary-button full-width">
+            Kontakt öffnen
+          </button>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function InvoicesPage() {
+  return (
+    <Card
+      title="Rechnungsübersicht"
+      actionText="+ Rechnung"
+      onAction={() => {
+        window.alert(
+          "Demo: Eine Rechnung kann später aus einem freigegebenen Rapport erstellt werden.",
+        );
+      }}
+    >
+      <div className="invoice-summary">
+        <div>
+          <span>Offen</span>
+          <strong>{money(6820)}</strong>
+        </div>
+
+        <div>
+          <span>Bezahlt</span>
+          <strong>{money(12450)}</strong>
+        </div>
+
+        <div>
+          <span>Überfällig</span>
+          <strong>{money(980)}</strong>
+        </div>
+      </div>
+
+      <div className="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Nummer</th>
+              <th>Kunde</th>
+              <th>Projekt</th>
+              <th>Betrag</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>RE-2026-1042</td>
+              <td>Familie Müller</td>
+              <td>EFH Müller – Attika</td>
+              <td>{money(2380)}</td>
+              <td>
+                <span className="status status-draft">
+                  Entwurf
+                </span>
+              </td>
+            </tr>
+
+            <tr>
+              <td>RE-2026-1041</td>
+              <td>Hausverwaltung West</td>
+              <td>Wohnanlage West</td>
+              <td>{money(4440)}</td>
+              <td>
+                <span className="status status-approved">
+                  Versendet
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </Card>
+  );
+}
+
+function SettingsPage() {
+  const settings = [
+    "Stundensätze & Rollen",
+    "Materialaufschläge",
+    "Rechnungsdaten",
+    "DATEV & Buchhaltung",
+    "Benutzerrechte",
+    "KI-Einstellungen",
+  ];
+
+  return (
+    <div className="settings-grid">
+      {settings.map((setting) => (
+        <button className="settings-card" key={setting}>
+          <Settings size={21} />
+
+          <div>
+            <strong>{setting}</strong>
+            <span>Konfiguration öffnen</span>
+          </div>
+
+          <ChevronRight size={18} />
+        </button>
+      ))}
+    </div>
+  );
+}
+
+type StatisticCardProps = {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+  information: string;
+};
+
+function StatisticCard({
+  icon,
+  label,
+  value,
+  information,
+}: StatisticCardProps) {
+  return (
+    <div className="statistic-card">
+      <div className="statistic-icon">{icon}</div>
+      <span>{label}</span>
+      <strong>{value}</strong>
+      <small>{information}</small>
+    </div>
+  );
+}
+
+type CardProps = {
+  title: string;
+  actionText?: string;
+  onAction?: () => void;
+  children: React.ReactNode;
+};
+
+function Card({
+  title,
+  actionText,
+  onAction,
+  children,
+}: CardProps) {
+  return (
+    <div className="card">
+      <div className="card-header">
+        <h2>{title}</h2>
+
+        {actionText && (
+          <button className="text-button" onClick={onAction}>
+            {actionText}
+          </button>
+        )}
+      </div>
+
+      {children}
+    </div>
+  );
+}
+
+function StatusBadge({ status }: { status: ReportStatus }) {
+  let className = "status status-draft";
+
+  if (status === "Freigegeben") {
+    className = "status status-approved";
+  }
+
+  if (status === "Abgerechnet") {
+    className = "status status-complete";
+  }
+
+  return <span className={className}>{status}</span>;
+}
 </html>
