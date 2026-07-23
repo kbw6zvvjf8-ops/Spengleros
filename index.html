@@ -1,6098 +1,2500 @@
-<!DOCTYPE html>
-
-<html lang="de">
-
-<head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-
-<meta name="theme-color" content="#0f5b66">
-
-<title>SpenglerOS</title>
-
-<style>
-
-:root{
-
-  --bg:#edf2f4;
-
-  --card:#fff;
-
-  --text:#17212b;
-
-  --muted:#697681;
-
-  --primary:#0f5b66;
-
-  --dark:#093f47;
-
-  --light:#dceff1;
-
-  --accent:#d48b2d;
-
-  --accent-light:#fff0db;
-
-  --danger:#b74747;
-
-  --success:#2e7d5a;
-
-  --border:#d7e0e4;
-
-  --shadow:0 8px 24px rgba(20,40,50,.08);
-
-}
-
-*{
-
-  box-sizing:border-box;
-
-}
-
-body{
-
-  margin:0;
-
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
-
-  background:linear-gradient(180deg,#e5edef,#f7f9fa);
-
-  color:var(--text);
-
-}
-
-.app{
-
-  max-width:620px;
-
-  min-height:100vh;
-
-  margin:auto;
-
-  background:var(--bg);
-
-  padding-bottom:94px;
-
-}
-
-header{
-
-  position:sticky;
-
-  top:0;
-
-  z-index:20;
-
-  padding:18px 16px 21px;
-
-  color:#fff;
-
-  background:
-
-    radial-gradient(circle at 90% 15%,rgba(255,255,255,.15),transparent 30%),
-
-    linear-gradient(135deg,var(--dark),var(--primary));
-
-  border-radius:0 0 25px 25px;
-
-  box-shadow:0 8px 22px rgba(9,63,71,.18);
-
-}
-
-.header-row{
-
-  display:flex;
-
-  align-items:center;
-
-  gap:10px;
-
-}
-
-.back{
-
-  display:none;
-
-  border:0;
-
-  background:rgba(255,255,255,.16);
-
-  color:#fff;
-
-  border-radius:10px;
-
-  padding:9px 11px;
-
-  font-size:18px;
-
-}
-
-.brand small{
-
-  font-weight:900;
-
-  letter-spacing:1.3px;
-
-  opacity:.8;
-
-}
-
-.brand h1{
-
-  margin:4px 0 2px;
-
-  font-size:25px;
-
-}
-
-.brand p{
-
-  margin:0;
-
-  opacity:.9;
-
-  font-size:13px;
-
-}
-
-main{
-
-  padding:14px;
-
-}
-
-.screen{
-
-  display:none;
-
-}
-
-.screen.active{
-
-  display:block;
-
-}
-
-.grid{
-
-  display:grid;
-
-  grid-template-columns:1fr 1fr;
-
-  gap:10px;
-
-}
-
-.card,
-
-.item{
-
-  background:var(--card);
-
-  border:1px solid var(--border);
-
-  border-radius:17px;
-
-  padding:15px;
-
-  margin-bottom:11px;
-
-  box-shadow:var(--shadow);
-
-}
-
-.card h3{
-
-  margin:0 0 9px;
-
-  color:var(--dark);
-
-}
-
-.item strong{
-
-  display:block;
-
-  margin-bottom:5px;
-
-}
-
-.item p{
-
-  margin:3px 0;
-
-  color:var(--muted);
-
-  font-size:13px;
-
-}
-
-.metric{
-
-  font-size:25px;
-
-  font-weight:850;
-
-  margin-top:8px;
-
-}
-
-.section-title{
-
-  font-size:18px;
-
-  color:var(--dark);
-
-  margin:20px 0 10px;
-
-}
-
-.menu{
-
-  display:grid;
-
-  grid-template-columns:1fr 1fr;
-
-  gap:10px;
-
-}
-
-.menu-card{
-
-  background:#fff;
-
-  border:1px solid var(--border);
-
-  border-radius:16px;
-
-  padding:15px;
-
-  box-shadow:var(--shadow);
-
-  cursor:pointer;
-
-}
-
-.menu-card span{
-
-  display:block;
-
-  font-size:25px;
-
-  margin-bottom:7px;
-
-}
-
-.menu-card strong{
-
-  display:block;
-
-  color:var(--dark);
-
-}
-
-.menu-card small{
-
-  color:var(--muted);
-
-}
-
-label{
-
-  display:block;
-
-  margin:11px 0 5px;
-
-  font-size:13px;
-
-  font-weight:800;
-
-}
-
-input,
-
-select,
-
-textarea{
-
-  width:100%;
-
-  padding:11px;
-
-  border:1px solid var(--border);
-
-  border-radius:11px;
-
-  background:#fff;
-
-  font-size:15px;
-
-  color:var(--text);
-
-}
-
-textarea{
-
-  min-height:88px;
-
-  resize:vertical;
-
-}
-
-.row{
-
-  display:grid;
-
-  grid-template-columns:1fr 1fr;
-
-  gap:9px;
-
-}
-
-.btn{
-
-  width:100%;
-
-  margin-top:10px;
-
-  padding:12px;
-
-  border:0;
-
-  border-radius:12px;
-
-  color:#fff;
-
-  font-weight:800;
-
-  font-size:14px;
-
-  background:linear-gradient(135deg,var(--dark),var(--primary));
-
-  cursor:pointer;
-
-}
-
-.btn.secondary{
-
-  color:#845212;
-
-  background:var(--accent-light);
-
-  border:1px solid #edca96;
-
-}
-
-.btn.ghost{
-
-  color:var(--primary);
-
-  background:#fff;
-
-  border:1px solid var(--border);
-
-}
-
-.btn.danger{
-
-  background:var(--danger);
-
-}
-
-.btn.success{
-
-  background:var(--success);
-
-}
-
-.btn.small{
-
-  padding:8px 10px;
-
-  font-size:12px;
-
-}
-
-.btnrow{
-
-  display:grid;
-
-  grid-template-columns:1fr 1fr;
-
-  gap:9px;
-
-}
-
-.tabs{
-
-  display:flex;
-
-  gap:7px;
-
-  overflow:auto;
-
-  margin-bottom:11px;
-
-  padding-bottom:3px;
-
-}
-
-.tab{
-
-  white-space:nowrap;
-
-  padding:8px 12px;
-
-  border:1px solid var(--border);
-
-  border-radius:999px;
-
-  background:#fff;
-
-  font-weight:750;
-
-  color:var(--muted);
-
-}
-
-.tab.active{
-
-  color:#fff;
-
-  background:var(--primary);
-
-}
-
-.sub{
-
-  display:none;
-
-}
-
-.sub.active{
-
-  display:block;
-
-}
-
-.chips{
-
-  display:flex;
-
-  flex-wrap:wrap;
-
-  gap:7px;
-
-  margin-top:10px;
-
-}
-
-.chip{
-
-  padding:8px 11px;
-
-  border:1px solid var(--border);
-
-  border-radius:999px;
-
-  background:#fff;
-
-  color:var(--primary);
-
-  font-weight:800;
-
-}
-
-.chip.active{
-
-  background:var(--primary);
-
-  color:#fff;
-
-}
-
-.result{
-
-  margin-top:12px;
-
-  padding:12px;
-
-  line-height:1.5;
-
-  border:1px solid #c7e1e4;
-
-  border-radius:13px;
-
-  background:#eef8f9;
-
-}
-
-.badge{
-
-  display:inline-block;
-
-  margin-top:5px;
-
-  padding:5px 9px;
-
-  border-radius:999px;
-
-  background:var(--light);
-
-  color:var(--dark);
-
-  font-size:11px;
-
-  font-weight:800;
-
-}
-
-.badge.ok{
-
-  background:#e5f3ec;
-
-  color:var(--success);
-
-}
-
-.badge.warn{
-
-  background:var(--accent-light);
-
-  color:#865313;
-
-}
-
-.note{
-
-  color:var(--muted);
-
-  font-size:12px;
-
-}
-
-.total{
-
-  margin-top:12px;
-
-  text-align:right;
-
-  color:var(--dark);
-
-  font-size:20px;
-
-  font-weight:850;
-
-}
-
-table{
-
-  width:100%;
-
-  border-collapse:collapse;
-
-  font-size:13px;
-
-}
-
-td,
-
-th{
-
-  padding:8px 3px;
-
-  border-bottom:1px solid var(--border);
-
-  text-align:left;
-
-}
-
-td:last-child,
-
-th:last-child{
-
-  text-align:right;
-
-}
-
-.photo-grid{
-
-  display:grid;
-
-  grid-template-columns:1fr 1fr;
-
-  gap:9px;
-
-}
-
-.photo{
-
-  height:112px;
-
-  border:1px solid var(--border);
-
-  border-radius:13px;
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
-  background:linear-gradient(135deg,#dce8eb,#f8fafb);
-
-  font-size:34px;
-
-  overflow:hidden;
-
-}
-
-.photo img{
-
-  width:100%;
-
-  height:100%;
-
-  object-fit:cover;
-
-}
-
-.check{
-
-  display:flex;
-
-  gap:8px;
-
-  align-items:center;
-
-  padding:9px 0;
-
-  border-bottom:1px solid var(--border);
-
-}
-
-.check input{
-
-  width:19px;
-
-  height:19px;
-
-}
-
-.progress{
-
-  height:9px;
-
-  background:#e6ecef;
-
-  border-radius:999px;
-
-  overflow:hidden;
-
-}
-
-.progress span{
-
-  display:block;
-
-  height:100%;
-
-  background:linear-gradient(90deg,var(--primary),var(--accent));
-
-}
-
-.search{
-
-  margin-bottom:10px;
-
-}
-
-nav{
-
-  position:fixed;
-
-  left:50%;
-
-  bottom:0;
-
-  transform:translateX(-50%);
-
-  width:min(620px,100%);
-
-  display:grid;
-
-  grid-template-columns:repeat(5,1fr);
-
-  padding:8px 4px calc(10px + env(safe-area-inset-bottom));
-
-  background:rgba(255,255,255,.98);
-
-  border-top:1px solid var(--border);
-
-  box-shadow:0 -7px 20px rgba(20,40,50,.08);
-
-  z-index:30;
-
-}
-
-nav button{
-
-  padding:6px 2px;
-
-  border:0;
-
-  border-radius:11px;
-
-  background:transparent;
-
-  color:#75838d;
-
-  font-size:11px;
-
-}
-
-nav button span{
-
-  display:block;
-
-  font-size:20px;
-
-}
-
-nav button.active{
-
-  color:var(--primary);
-
-  background:var(--light);
-
-  font-weight:800;
-
-}
-
-@media(max-width:420px){
-
-  .grid,
-
-  .row,
-
-  .menu,
-
-  .btnrow{
-
-    grid-template-columns:1fr;
-
-  }
-
-}
-
-@media print{
-
-  header,
-
-  nav,
-
-  .no-print{
-
-    display:none!important;
-
-  }
-
-  .app{
-
-    max-width:none;
-
-    padding:0;
-
-  }
-
-  .screen{
-
-    display:none!important;
-
-  }
-
-  #invoice-detail{
-
-    display:block!important;
-
-  }
-
-  .card{
-
-    box-shadow:none;
-
-    border:0;
-
-  }
-
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="app">
-
-<header>
-
-  <div class="header-row">
-
-    <button id="backBtn" class="back" onclick="goBack()">←</button>
-
-    <div class="brand">
-
-      <small>DIGITALES HANDWERKERBÜRO</small>
-
-      <h1 id="headerTitle">SpenglerOS</h1>
-
-      <p id="headerSub">
-
-        Einmal dokumentieren – alles automatisch erledigen
-
-      </p>
-
-    </div>
-
-  </div>
-
-</header>
-
-<main>
-
-<section id="home" class="screen active">
-
-  <div class="grid">
-
-    <div class="card">
-
-      <h3>Kunden</h3>
-
-      <div id="countCustomers" class="metric">0</div>
-
-    </div>
-
-    <div class="card">
-
-      <h3>Aufträge</h3>
-
-      <div id="countOrders" class="metric">0</div>
-
-    </div>
-
-    <div class="card">
-
-      <h3>Rapporte</h3>
-
-      <div id="countReports" class="metric">0</div>
-
-    </div>
-
-    <div class="card">
-
-      <h3>Rechnungen</h3>
-
-      <div id="countInvoices" class="metric">0</div>
-
-    </div>
-
-  </div>
-
-  <div class="card">
-
-    <h3>Schnellzugriff</h3>
-
-    <div class="menu">
-
-      <div class="menu-card"
-
-        onclick="rootNav('customers',1,'Kunden','Kundenverwaltung')">
-
-        <span>👤</span>
-
-        <strong>Kunden</strong>
-
-        <small>Anlegen und verwalten</small>
-
-      </div>
-
-      <div class="menu-card"
-
-        onclick="rootNav('orders',2,'Aufträge','Baustellen & Projekte')">
-
-        <span>📁</span>
-
-        <strong>Aufträge</strong>
-
-        <small>Komplette Baustellenmappe</small>
-
-      </div>
-
-      <div class="menu-card"
-
-        onclick="rootNav('report',3,'Rapport','Dokumentation & Rechnung')">
-
-        <span>📝</span>
-
-        <strong>Rapport</strong>
-
-        <small>Arbeit und Material erfassen</small>
-
-      </div>
-
-      <div class="menu-card"
-
-        onclick="rootNav('tools',4,'Werkzeuge','Rechner & Fachwissen')">
-
-        <span>📐</span>
-
-        <strong>Werkzeuge</strong>
-
-        <small>Rechner und Fachregeln</small>
-
-      </div>
-
-    </div>
-
-  </div>
-
-  <div class="card">
-
-    <h3>Offene Aufträge</h3>
-
-    <div id="homeOrders"></div>
-
-  </div>
-
-  <div class="card">
-
-    <h3>Wichtig</h3>
-
-    <p class="note">
-
-      Die Daten werden lokal im Browser gespeichert. Für echte Betriebe
-
-      braucht die App später Cloud, Login, revisionssichere Rechnungen
-
-      und automatische Belegerkennung.
-
-    </p>
-
-  </div>
-
-</section>
-
-<section id="customers" class="screen">
-
-  <div class="tabs">
-
-    <button class="tab active"
-
-      onclick="showSub('customerListArea',this,'customers')">
-
-      Kunden
-
-    </button>
-
-    <button class="tab"
-
-      onclick="showSub('customerNewArea',this,'customers')">
-
-      Neu
-
-    </button>
-
-  </div>
-
-  <div id="customerListArea" class="sub active">
-
-    <input class="search"
-
-      id="customerSearch"
-
-      placeholder="Kunden suchen"
-
-      oninput="renderCustomers()">
-
-    <div id="customerList"></div>
-
-  </div>
-
-  <div id="customerNewArea" class="sub">
-
-    <div class="card">
-
-      <h3>Neuen Kunden anlegen</h3>
-
-      <label>Name oder Firma</label>
-
-      <input id="customerName">
-
-      <label>Adresse</label>
-
-      <input id="customerAddress">
-
-      <div class="row">
-
-        <div>
-
-          <label>Telefon</label>
-
-          <input id="customerPhone">
-
-        </div>
-
-        <div>
-
-          <label>E-Mail</label>
-
-          <input id="customerEmail">
-
-        </div>
-
-      </div>
-
-      <button class="btn" onclick="addCustomer()">
-
-        Kunde speichern
-
-      </button>
-
-    </div>
-
-  </div>
-
-</section>
-
-<section id="customer-detail" class="screen">
-
-  <div id="customerDetail"></div>
-
-</section>
-
-<section id="orders" class="screen">
-
-  <div class="tabs">
-
-    <button class="tab active"
-
-      onclick="showSub('orderListArea',this,'orders')">
-
-      Aufträge
-
-    </button>
-
-    <button class="tab"
-
-      onclick="showSub('orderNewArea',this,'orders')">
-
-      Neu
-
-    </button>
-
-  </div>
-
-  <div id="orderListArea" class="sub active">
-
-    <input class="search"
-
-      id="orderSearch"
-
-      placeholder="Aufträge suchen"
-
-      oninput="renderOrders()">
-
-    <div id="orderList"></div>
-
-  </div>
-
-  <div id="orderNewArea" class="sub">
-
-    <div class="card">
-
-      <h3>Neuen Auftrag anlegen</h3>
-
-      <label>Kunde</label>
-
-      <select id="orderCustomer"></select>
-
-      <label>Bezeichnung</label>
-
-      <input id="orderTitle"
-
-        placeholder="z. B. Dachrinne erneuern">
-
-      <label>Baustellenadresse</label>
-
-      <input id="orderAddress">
-
-      <label>Beschreibung</label>
-
-      <textarea id="orderDescription"></textarea>
-
-      <div class="row">
-
-        <div>
-
-          <label>Status</label>
-
-          <select id="orderStatus">
-
-            <option>Geplant</option>
-
-            <option>In Arbeit</option>
-
-            <option>Abgeschlossen</option>
-
-            <option>Bezahlt</option>
-
-          </select>
-
-        </div>
-
-        <div>
-
-          <label>Priorität</label>
-
-          <select id="orderPriority">
-
-            <option>Normal</option>
-
-            <option>Hoch</option>
-
-            <option>Niedrig</option>
-
-          </select>
-
-        </div>
-
-      </div>
-
-      <button class="btn" onclick="addOrder()">
-
-        Auftrag speichern
-
-      </button>
-
-    </div>
-
-  </div>
-
-</section>
-
-<section id="order-detail" class="screen">
-
-  <div id="orderDetail"></div>
-
-</section>
-
-<section id="order-measure" class="screen">
-
-  <div class="card">
-
-    <h3>Aufmaß</h3>
-
-    <div class="row">
-
-      <div>
-
-        <label>Länge in m</label>
-
-        <input id="measureLength"
-
-          type="number"
-
-          step="0.01">
-
-      </div>
-
-      <div>
-
-        <label>Breite oder Höhe in m</label>
-
-        <input id="measureWidth"
-
-          type="number"
-
-          step="0.01">
-
-      </div>
-
-    </div>
-
-    <label>Abzüge in m²</label>
-
-    <input id="measureDeduct"
-
-      type="number"
-
-      step="0.01"
-
-      value="0">
-
-    <label>Notizen</label>
-
-    <textarea id="measureNotes"></textarea>
-
-    <button class="btn" onclick="saveMeasurement()">
-
-      Aufmaß speichern
-
-    </button>
-
-    <div id="measureResult" class="result"></div>
-
-  </div>
-
-</section>
-
-<section id="order-photos" class="screen">
-
-  <div class="card">
-
-    <h3>Baustellenfotos</h3>
-
-    <input id="photoInput"
-
-      type="file"
-
-      accept="image/*"
-
-      multiple
-
-      onchange="addPhotos(event)">
-
-    <div id="photoGrid"
-
-      class="photo-grid"
-
-      style="margin-top:10px">
-
-    </div>
-
-    <p class="note">
-
-      Fotos werden lokal im Browser gespeichert. Viele große Bilder
-
-      können den verfügbaren Speicher füllen.
-
-    </p>
-
-  </div>
-
-</section>
-
-<section id="order-checklist" class="screen">
-
-  <div class="card">
-
-    <h3>Checkliste</h3>
-
-    <label class="check">
-
-      <input type="checkbox" data-check="material">
-
-      Material geladen
-
-    </label>
-
-    <label class="check">
-
-      <input type="checkbox" data-check="safety">
-
-      Leiter oder Gerüst geprüft
-
-    </label>
-
-    <label class="check">
-
-      <input type="checkbox" data-check="slope">
-
-      Gefälle kontrolliert
-
-    </label>
-
-    <label class="check">
-
-      <input type="checkbox" data-check="drain">
-
-      Ablauf getestet
-
-    </label>
-
-    <label class="check">
-
-      <input type="checkbox" data-check="photos">
-
-      Fotos gemacht
-
-    </label>
-
-    <label class="check">
-
-      <input type="checkbox" data-check="signature">
-
-      Kunde informiert oder Unterschrift erhalten
-
-    </label>
-
-    <button class="btn" onclick="saveChecklist()">
-
-      Checkliste speichern
-
-    </button>
-
-  </div>
-
-</section>
-
-<section id="report" class="screen">
-
-  <div class="card">
-
-    <h3>Rapport erstellen</h3>
-
-    <label>Auftrag</label>
-
-    <select id="reportOrder"></select>
-
-    <label>Ausgeführte Arbeiten</label>
-
-    <textarea id="reportText"
-
-      placeholder="Was wurde auf der Baustelle gemacht?"></textarea>
-
-    <button class="btn secondary" onclick="speechDemo()">
-
-      🎙 Spracheingabe simulieren
-
-    </button>
-
-    <div class="row">
-
-      <div>
-
-        <label>Mitarbeiter</label>
-
-        <input id="workers"
-
-          type="number"
-
-          value="2">
-
-      </div>
-
-      <div>
-
-        <label>Stunden je Mitarbeiter</label>
-
-        <input id="hours"
-
-          type="number"
-
-          step="0.25"
-
-          value="5">
-
-      </div>
-
-    </div>
-
-    <div class="row">
-
-      <div>
-
-        <label>Stundenlohn netto</label>
-
-        <input id="hourlyRate"
-
-          type="number"
-
-          step="0.01"
-
-          value="58">
-
-      </div>
-
-      <div>
-
-        <label>Fahrtkosten netto</label>
-
-        <input id="travelCost"
-
-          type="number"
-
-          step="0.01"
-
-          value="35">
-
-      </div>
-
-    </div>
-
-  </div>
-
-  <div class="card">
-
-    <h3>Lieferantenrechnung</h3>
-
-    <label>Foto oder PDF auswählen</label>
-
-    <input id="supplierInvoice"
-
-      type="file"
-
-      accept="image/*,.pdf">
-
-    <p class="note">
-
-      Die automatische Erkennung ist noch nicht aktiv. Du überträgst
-
-      die Positionen aktuell manuell aus der Lieferantenrechnung.
-
-    </p>
-
-    <div id="materialRows"></div>
-
-    <button class="btn secondary" onclick="addMaterialRow()">
-
-      + Materialposition
-
-    </button>
-
-  </div>
-
-  <div class="card">
-
-    <h3>Materialaufschlag</h3>
-
-    <div class="chips">
-
-      <button class="chip"
-
-        onclick="setMarkup(5,this)">
-
-        5 %
-
-      </button>
-
-      <button class="chip"
-
-        onclick="setMarkup(10,this)">
-
-        10 %
-
-      </button>
-
-      <button class="chip active"
-
-        onclick="setMarkup(25,this)">
-
-        25 %
-
-      </button>
-
-      <button class="chip"
-
-        onclick="setMarkup(50,this)">
-
-        50 %
-
-      </button>
-
-      <button class="chip"
-
-        onclick="setMarkup(75,this)">
-
-        75 %
-
-      </button>
-
-      <button class="chip"
-
-        onclick="setMarkup(100,this)">
-
-        100 %
-
-      </button>
-
-    </div>
-
-    <label>Eigener Aufschlag in Prozent</label>
-
-    <input id="customMarkup"
-
-      type="number"
-
-      oninput="setCustomMarkup()">
-
-    <div id="materialSummary" class="result"></div>
-
-  </div>
-
-  <button class="btn" onclick="createInvoice()">
-
-    Rapport speichern und Rechnung erstellen
-
-  </button>
-
-</section>
-
-<section id="invoices" class="screen">
-
-  <div class="tabs">
-
-    <button class="tab active"
-
-      onclick="showSub('invoiceListArea',this,'invoices')">
-
-      Rechnungen
-
-    </button>
-
-    <button class="tab"
-
-      onclick="showSub('settingsArea',this,'invoices')">
-
-      Mein Betrieb
-
-    </button>
-
-  </div>
-
-  <div id="invoiceListArea" class="sub active">
-
-    <div id="invoiceList"></div>
-
-  </div>
-
-  <div id="settingsArea" class="sub">
-
-    <div class="card">
-
-      <h3>Firmendaten</h3>
-
-      <label>Firmenname</label>
-
-      <input id="companyName">
-
-      <label>Adresse</label>
-
-      <input id="companyAddress">
-
-      <div class="row">
-
-        <div>
-
-          <label>Steuernummer</label>
-
-          <input id="taxNumber">
-
-        </div>
-
-        <div>
-
-          <label>USt-IdNr.</label>
-
-          <input id="vatId">
-
-        </div>
-
-      </div>
-
-      <label>Bankverbindung oder Rechnungshinweis</label>
-
-      <textarea id="bankInfo"></textarea>
-
-      <label>Zahlungsziel in Tagen</label>
-
-      <input id="paymentDays"
-
-        type="number"
-
-        value="14">
-
-      <label>Nächste Rechnungsnummer</label>
-
-      <input id="nextInvoiceNumber"
-
-        type="number"
-
-        value="1001">
-
-      <button class="btn" onclick="saveCompanySettings()">
-
-        Firmendaten speichern
-
-      </button>
-
-    </div>
-
-    <div class="card">
-
-      <h3>Datensicherung</h3>
-
-      <div class="btnrow">
-
-        <button class="btn secondary" onclick="exportData()">
-
-          Daten exportieren
-
-        </button>
-
-        <label class="btn ghost"
-
-          style="text-align:center;cursor:pointer">
-
-          Daten importieren
-
-          <input type="file"
-
-            accept=".json"
-
-            onchange="importData(event)"
-
-            style="display:none">
-
-        </label>
-
-      </div>
-
-      <button class="btn danger" onclick="deleteAllData()">
-
-        Alle Daten löschen
-
-      </button>
-
-    </div>
-
-  </div>
-
-</section>
-
-<section id="invoice-detail" class="screen">
-
-  <div id="invoiceDetail"></div>
-
-</section>
-
-<section id="tools" class="screen">
-
-  <div class="tabs">
-
-    <button class="tab active"
-
-      onclick="showSub('gutterArea',this,'tools')">
-
-      Dachrinne
-
-    </button>
-
-    <button class="tab"
-
-      onclick="showSub('seamArea',this,'tools')">
-
-      Stehfalz
-
-    </button>
-
-    <button class="tab"
-
-      onclick="showSub('weightArea',this,'tools')">
-
-      Blechgewicht
-
-    </button>
-
-    <button class="tab"
-
-      onclick="showSub('rulesArea',this,'tools')">
-
-      Fachregeln
-
-    </button>
-
-  </div>
-
-  <div id="gutterArea" class="sub active">
-
-    <div class="card">
-
-      <h3>Dachrinnenrechner</h3>
-
-      <label>Dachfläche in m²</label>
-
-      <input id="roofArea"
-
-        type="number"
-
-        value="120">
-
-      <label>Anzahl der Abläufe</label>
-
-      <input id="drainCount"
-
-        type="number"
-
-        value="2">
-
-      <button class="btn" onclick="calculateGutter()">
-
-        Berechnen
-
-      </button>
-
-      <div id="gutterResult" class="result">
-
-        Noch keine Berechnung.
-
-      </div>
-
-      <p class="note">
-
-        Vereinfachte Demo, noch keine vollständige Normberechnung.
-
-      </p>
-
-    </div>
-
-  </div>
-
-  <div id="seamArea" class="sub">
-
-    <div class="card">
-
-      <h3>Stehfalz-Zuschnitt</h3>
-
-      <div class="row">
-
-        <div>
-
-          <label>Breite in m</label>
-
-          <input id="facadeWidth"
-
-            type="number"
-
-            value="8">
-
-        </div>
-
-        <div>
-
-          <label>Höhe in m</label>
-
-          <input id="facadeHeight"
-
-            type="number"
-
-            value="4.8">
-
-        </div>
-
-      </div>
-
-      <div class="row">
-
-        <div>
-
-          <label>Sichtbreite in mm</label>
-
-          <input id="panWidth"
-
-            type="number"
-
-            value="430">
-
-        </div>
-
-        <div>
-
-          <label>Verschnitt in %</label>
-
-          <input id="wastePercent"
-
-            type="number"
-
-            value="8">
-
-        </div>
-
-      </div>
-
-      <button class="btn" onclick="calculateSeam()">
-
-        Berechnen
-
-      </button>
-
-      <div id="seamResult" class="result">
-
-        Noch keine Berechnung.
-
-      </div>
-
-    </div>
-
-  </div>
-
-  <div id="weightArea" class="sub">
-
-    <div class="card">
-
-      <h3>Blechgewicht</h3>
-
-      <label>Werkstoff</label>
-
-      <select id="materialDensity">
-
-        <option value="7.2">Titanzink</option>
-
-        <option value="8.9">Kupfer</option>
-
-        <option value="2.7">Aluminium</option>
-
-        <option value="7.9">Edelstahl</option>
-
-      </select>
-
-      <div class="row">
-
-        <div>
-
-          <label>Fläche in m²</label>
-
-          <input id="sheetArea"
-
-            type="number"
-
-            value="20">
-
-        </div>
-
-        <div>
-
-          <label>Dicke in mm</label>
-
-          <input id="sheetThickness"
-
-            type="number"
-
-            step="0.1"
-
-            value="0.7">
-
-        </div>
-
-      </div>
-
-      <button class="btn" onclick="calculateWeight()">
-
-        Gewicht berechnen
-
-      </button>
-
-      <div id="weightResult" class="result">
-
-        Noch keine Berechnung.
-
-      </div>
-
-    </div>
-
-  </div>
-
-  <div id="rulesArea" class="sub">
-
-    <div class="card">
-
-      <h3>Fachregeln – Inhaltsverzeichnis</h3>
-
-      <input id="rulesSearch"
-
-        class="search"
-
-        placeholder="z. B. Stehfalz, Attika oder Rinne"
-
-        oninput="renderRules()">
-
-      <div id="rulesList"></div>
-
-      <p class="note">
-
-        Die Inhalte sind eigene Kurzbeschreibungen. Vollständige
-
-        Fachregeln und DIN-Texte können urheberrechtlich geschützt sein.
-
-      </p>
-
-    </div>
-
-  </div>
-
-</section>
-
-</main>
-
-<nav>
-
-  <button class="active"
-
-    onclick="rootNav(
-
-      'home',
-
-      0,
-
-      'SpenglerOS',
-
-      'Einmal dokumentieren – alles automatisch erledigen'
-
-    )">
-
-    <span>⌂</span>
-
-    Start
-
-  </button>
-
-  <button
-
-    onclick="rootNav(
-
-      'customers',
-
-      1,
-
-      'Kunden',
-
-      'Kundenverwaltung'
-
-    )">
-
-    <span>👤</span>
-
-    Kunden
-
-  </button>
-
-  <button
-
-    onclick="rootNav(
-
-      'orders',
-
-      2,
-
-      'Aufträge',
-
-      'Baustellen & Projekte'
-
-    )">
-
-    <span>📁</span>
-
-    Aufträge
-
-  </button>
-
-  <button
-
-    onclick="rootNav(
-
-      'report',
-
-      3,
-
-      'Rapport',
-
-      'Dokumentation & Rechnung'
-
-    )">
-
-    <span>📝</span>
-
-    Rapport
-
-  </button>
-
-  <button
-
-    onclick="rootNav(
-
-      'tools',
-
-      4,
-
-      'Werkzeuge',
-
-      'Rechner & Fachwissen'
-
-    )">
-
-    <span>📐</span>
-
-    Werkzeuge
-
-  </button>
-
-</nav>
-
-</div>
-
-<script>
-
-const defaultData = {
-
-  customers: [],
-
-  orders: [],
-
-  reports: [],
-
-  invoices: [],
-
-  settings: {
-
-    companyName: "Mein Spenglerbetrieb",
-
-    companyAddress: "",
-
-    taxNumber: "",
-
-    vatId: "",
-
-    bankInfo: "",
-
-    paymentDays: 14,
-
-    nextInvoiceNumber: 1001
-
-  }
-
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
+
+type Page =
+  | "dashboard"
+  | "reports"
+  | "materials"
+  | "services"
+  | "warehouse"
+  | "employees"
+  | "suppliers"
+  | "invoices"
+  | "settings";
+
+type EmployeeRole = "Obermonteur" | "Monteur" | "Helfer" | "Azubi";
+
+type Employee = {
+  id: number;
+  name: string;
+  role: EmployeeRole;
+  hourlyRate: number;
+  weeklyHours: number;
+  monthlyHours: number;
+  targetMonthlyHours: number;
 };
 
-let data =
+type Material = {
+  id: number;
+  name: string;
+  articleNumber: string;
+  category: string;
+  manufacturer: string;
+  supplier: string;
+  unit: string;
+  stock: number;
+  minimumStock: number;
+  purchasePrice: number;
+  sellingPrice: number;
+  lastPriceUpdate: string;
+};
 
-  JSON.parse(localStorage.getItem("spenglerosData") || "null") ||
+type Service = {
+  id: number;
+  name: string;
+  category: string;
+  unit: string;
+  price: number;
+};
 
-  defaultData;
+type Supplier = {
+  id: number;
+  company: string;
+  type: "Lieferant" | "Hersteller";
+  contactName: string;
+  phone: string;
+  email: string;
+};
 
-let markup = 25;
+type EmployeeEntry = {
+  employeeId: number;
+  hours: number;
+};
 
-let historyStack = [];
+type MaterialEntry = {
+  materialId: number;
+  quantity: number;
+};
 
-let currentOrderId = null;
+type ServiceEntry = {
+  serviceId: number;
+  quantity: number;
+};
 
-let currentCustomerId = null;
+type Report = {
+  id: number;
+  project: string;
+  customer: string;
+  date: string;
+  status: "Entwurf" | "Freigegeben" | "Abgerechnet";
+  employees: EmployeeEntry[];
+  materials: MaterialEntry[];
+  services: ServiceEntry[];
+  description: string;
+};
 
-let currentInvoiceId = null;
-
-const rules = [
-
+const initialEmployees: Employee[] = [
   {
-
-    t: "Dachentwässerung",
-
-    d: "Dachrinnen, Abläufe, Fallrohre, Gefälle und Bemessungsgrundlagen."
-
+    id: 1,
+    name: "Raphael Berger",
+    role: "Obermonteur",
+    hourlyRate: 78,
+    weeklyHours: 38.5,
+    monthlyHours: 173,
+    targetMonthlyHours: 160,
   },
-
   {
-
-    t: "Stehfalz",
-
-    d: "Scharenbreiten, Fest- und Schiebehafte, Scharlängen und Dehnung."
-
+    id: 2,
+    name: "Max Huber",
+    role: "Monteur",
+    hourlyRate: 65,
+    weeklyHours: 40,
+    monthlyHours: 161,
+    targetMonthlyHours: 160,
   },
-
   {
-
-    t: "Attikaabdeckungen",
-
-    d: "Halter, Stöße, Tropfkanten, Aufkantungen und Befestigung."
-
+    id: 3,
+    name: "Lukas Klein",
+    role: "Helfer",
+    hourlyRate: 48,
+    weeklyHours: 37,
+    monthlyHours: 152,
+    targetMonthlyHours: 160,
   },
-
   {
-
-    t: "Anschlüsse",
-
-    d: "Wandanschlüsse, Kamine, Kehlen, Ortgänge und Verwahrungen."
-
+    id: 4,
+    name: "Ben Fischer",
+    role: "Azubi",
+    hourlyRate: 32,
+    weeklyHours: 35,
+    monthlyHours: 146,
+    targetMonthlyHours: 160,
   },
-
-  {
-
-    t: "Werkstoffe",
-
-    d: "Titanzink, Kupfer, Aluminium, Edelstahl und Materialverträglichkeit."
-
-  },
-
-  {
-
-    t: "Fassaden",
-
-    d: "Hinterlüftung, Unterkonstruktion, Befestigung und Detailausbildung."
-
-  }
-
 ];
 
-function saveData(){
+const initialMaterials: Material[] = [
+  {
+    id: 1,
+    name: "Soudal Fix All Kleber",
+    articleNumber: "KL-001",
+    category: "Klebstoffe",
+    manufacturer: "Soudal",
+    supplier: "Würth",
+    unit: "Kartusche",
+    stock: 24,
+    minimumStock: 10,
+    purchasePrice: 11.5,
+    sellingPrice: 18.4,
+    lastPriceUpdate: "20.07.2026",
+  },
+  {
+    id: 2,
+    name: "Titanzink 0,7 mm",
+    articleNumber: "TZ-070",
+    category: "Bleche",
+    manufacturer: "Rheinzink",
+    supplier: "Rheinzink Direkt",
+    unit: "m²",
+    stock: 86,
+    minimumStock: 25,
+    purchasePrice: 28.5,
+    sellingPrice: 45.6,
+    lastPriceUpdate: "18.07.2026",
+  },
+  {
+    id: 3,
+    name: "Rinnenhalter 333 mm",
+    articleNumber: "RH-333",
+    category: "Dachentwässerung",
+    manufacturer: "Grömo",
+    supplier: "DachProfi Süd",
+    unit: "Stück",
+    stock: 67,
+    minimumStock: 40,
+    purchasePrice: 3.2,
+    sellingPrice: 5.5,
+    lastPriceUpdate: "12.07.2026",
+  },
+  {
+    id: 4,
+    name: "Spenglerschraube 4,5 × 35",
+    articleNumber: "SS-4535",
+    category: "Befestigung",
+    manufacturer: "Würth",
+    supplier: "Würth",
+    unit: "Stück",
+    stock: 320,
+    minimumStock: 100,
+    purchasePrice: 0.18,
+    sellingPrice: 0.45,
+    lastPriceUpdate: "08.07.2026",
+  },
+];
 
-  localStorage.setItem(
+const initialServices: Service[] = [
+  {
+    id: 1,
+    name: "Attika-Ecke ausbilden",
+    category: "Attika",
+    unit: "Stück",
+    price: 30,
+  },
+  {
+    id: 2,
+    name: "Rinnenstoß verlöten",
+    category: "Dachrinne",
+    unit: "Stück",
+    price: 5,
+  },
+  {
+    id: 3,
+    name: "Ablaufkasten montieren",
+    category: "Entwässerung",
+    unit: "Stück",
+    price: 85,
+  },
+  {
+    id: 4,
+    name: "Kamin einfassen",
+    category: "Anschlüsse",
+    unit: "Pauschale",
+    price: 420,
+  },
+];
 
-    "spenglerosData",
+const initialSuppliers: Supplier[] = [
+  {
+    id: 1,
+    company: "Würth",
+    type: "Lieferant",
+    contactName: "Thomas Maier",
+    phone: "+49 171 555 1234",
+    email: "thomas.maier@beispiel.de",
+  },
+  {
+    id: 2,
+    company: "Rheinzink",
+    type: "Hersteller",
+    contactName: "Anna Keller",
+    phone: "+49 160 222 9911",
+    email: "anna.keller@beispiel.de",
+  },
+  {
+    id: 3,
+    company: "DachProfi Süd",
+    type: "Lieferant",
+    contactName: "Markus Steiner",
+    phone: "+49 172 888 4512",
+    email: "markus.steiner@beispiel.de",
+  },
+];
 
-    JSON.stringify(data)
+const initialReports: Report[] = [
+  {
+    id: 1001,
+    project: "EFH Müller – Attika",
+    customer: "Familie Müller",
+    date: "23.07.2026",
+    status: "Entwurf",
+    employees: [
+      { employeeId: 1, hours: 8 },
+      { employeeId: 4, hours: 4 },
+    ],
+    materials: [
+      { materialId: 1, quantity: 2 },
+      { materialId: 2, quantity: 12.5 },
+    ],
+    services: [{ serviceId: 1, quantity: 4 }],
+    description: "Vier Attika-Ecken hergestellt und Anschlüsse angepasst.",
+  },
+  {
+    id: 1002,
+    project: "Wohnanlage West – Dachrinne",
+    customer: "Hausverwaltung West",
+    date: "22.07.2026",
+    status: "Freigegeben",
+    employees: [
+      { employeeId: 2, hours: 7.5 },
+      { employeeId: 3, hours: 5 },
+    ],
+    materials: [{ materialId: 3, quantity: 67 }],
+    services: [{ serviceId: 2, quantity: 12 }],
+    description:
+      "Die App schlug 70 Rinnenhalter vor. Tatsächlich wurden 67 verbaut.",
+  },
+];
 
+const navigation: { id: Page; label: string; icon: string }[] = [
+  { id: "dashboard", label: "Übersicht", icon: "▦" },
+  { id: "reports", label: "Rapporte", icon: "▤" },
+  { id: "materials", label: "Materialdatenbank", icon: "▣" },
+  { id: "services", label: "Festpreis-Leistungen", icon: "€" },
+  { id: "warehouse", label: "Lager", icon: "□" },
+  { id: "employees", label: "Mitarbeiter", icon: "♟" },
+  { id: "suppliers", label: "Lieferanten & Hersteller", icon: "⌂" },
+  { id: "invoices", label: "Rechnungen", icon: "≡" },
+  { id: "settings", label: "Einstellungen", icon: "⚙" },
+];
+
+function euro(value: number) {
+  return new Intl.NumberFormat("de-DE", {
+    style: "currency",
+    currency: "EUR",
+  }).format(value);
+}
+
+function today() {
+  return new Date().toLocaleDateString("de-DE");
+}
+
+export default function HandwerkerApp() {
+  const [activePage, setActivePage] = useState<Page>("dashboard");
+  const [mobileMenu, setMobileMenu] = useState(false);
+  const [search, setSearch] = useState("");
+
+  const [employees, setEmployees] =
+    useState<Employee[]>(initialEmployees);
+
+  const [materials, setMaterials] =
+    useState<Material[]>(initialMaterials);
+
+  const [services, setServices] =
+    useState<Service[]>(initialServices);
+
+  const [suppliers, setSuppliers] =
+    useState<Supplier[]>(initialSuppliers);
+
+  const [reports, setReports] =
+    useState<Report[]>(initialReports);
+
+  const [selectedReportId, setSelectedReportId] = useState(
+    initialReports[0].id,
   );
 
-  renderEverything();
-
-}
-
-function euro(value){
-
-  return new Intl.NumberFormat("de-DE",{
-
-    style:"currency",
-
-    currency:"EUR"
-
-  }).format(value || 0);
-
-}
-
-function esc(value){
-
-  return String(value ?? "").replace(
-
-    /[&<>"']/g,
-
-    character => ({
-
-      "&":"&amp;",
-
-      "<":"&lt;",
-
-      ">":"&gt;",
-
-      '"':"&quot;",
-
-      "'":"&#039;"
-
-    })[character]
-
-  );
-
-}
-
-function setHeader(title,subtitle,showBack){
-
-  headerTitle.textContent = title;
-
-  headerSub.textContent = subtitle;
-
-  backBtn.style.display = showBack ? "block" : "none";
-
-}
-
-function rootNav(id,index,title,subtitle){
-
-  historyStack = [];
-
-  document.querySelectorAll(".screen").forEach(screen => {
-
-    screen.classList.remove("active");
-
-  });
-
-  document.getElementById(id).classList.add("active");
-
-  document.querySelectorAll("nav button").forEach(button => {
-
-    button.classList.remove("active");
-
-  });
-
-  document.querySelectorAll("nav button")[index]
-
-    .classList.add("active");
-
-  setHeader(title,subtitle,false);
-
-  renderEverything();
-
-}
-
-function openScreen(id,title,subtitle){
-
-  const current =
-
-    document.querySelector(".screen.active");
-
-  if(current){
-
-    historyStack.push({
-
-      id:current.id,
-
-      title:headerTitle.textContent,
-
-      subtitle:headerSub.textContent
-
-    });
-
-  }
-
-  document.querySelectorAll(".screen").forEach(screen => {
-
-    screen.classList.remove("active");
-
-  });
-
-  document.getElementById(id).classList.add("active");
-
-  setHeader(title,subtitle,true);
-
-  renderEverything();
-
-}
-
-function goBack(){
-
-  const previous = historyStack.pop();
-
-  if(!previous){
-
-    rootNav(
-
-      "home",
-
-      0,
-
-      "SpenglerOS",
-
-      "Einmal dokumentieren – alles automatisch erledigen"
-
-    );
-
-    return;
-
-  }
-
-  document.querySelectorAll(".screen").forEach(screen => {
-
-    screen.classList.remove("active");
-
-  });
-
-  document.getElementById(previous.id)
-
-    .classList.add("active");
-
-  setHeader(
-
-    previous.title,
-
-    previous.subtitle,
-
-    historyStack.length > 0
-
-  );
-
-  renderEverything();
-
-}
-
-function showSub(id,button,parentId){
-
-  document.querySelectorAll(
-
-    "#" + parentId + " .sub"
-
-  ).forEach(area => {
-
-    area.classList.remove("active");
-
-  });
-
-  document.getElementById(id)
-
-    .classList.add("active");
-
-  button.parentElement
-
-    .querySelectorAll(".tab")
-
-    .forEach(tab => {
-
-      tab.classList.remove("active");
-
-    });
-
-  button.classList.add("active");
-
-}
-
-function addCustomer(){
-
-  const name = customerName.value.trim();
-
-  if(!name){
-
-    alert("Bitte Kundennamen eingeben.");
-
-    return;
-
-  }
-
-  data.customers.push({
-
-    id:Date.now(),
-
-    name:name,
-
-    address:customerAddress.value,
-
-    phone:customerPhone.value,
-
-    email:customerEmail.value
-
-  });
-
-  customerName.value = "";
-
-  customerAddress.value = "";
-
-  customerPhone.value = "";
-
-  customerEmail.value = "";
-
-  saveData();
-
-  alert("Kunde gespeichert.");
-
-}
-
-function editCustomer(id){
-
-  const customer =
-
-    data.customers.find(item => item.id === id);
-
-  if(!customer){
-
-    return;
-
-  }
-
-  const name =
-
-    prompt("Name oder Firma",customer.name);
-
-  if(name === null){
-
-    return;
-
-  }
-
-  customer.name =
-
-    name.trim() || customer.name;
-
-  customer.address =
-
-    prompt("Adresse",customer.address) ||
-
-    customer.address;
-
-  customer.phone =
-
-    prompt("Telefon",customer.phone) ||
-
-    customer.phone;
-
-  customer.email =
-
-    prompt("E-Mail",customer.email) ||
-
-    customer.email;
-
-  saveData();
-
-  openCustomer(id);
-
-}
-
-function deleteCustomer(id){
-
-  if(!confirm(
-
-    "Kunde löschen? Zugehörige Aufträge bleiben bestehen."
-
-  )){
-
-    return;
-
-  }
-
-  data.customers =
-
-    data.customers.filter(item => item.id !== id);
-
-  saveData();
-
-  rootNav(
-
-    "customers",
-
-    1,
-
-    "Kunden",
-
-    "Kundenverwaltung"
-
-  );
-
-}
-
-function addOrder(){
-
-  if(
-
-    !orderCustomer.value ||
-
-    !orderTitle.value.trim()
-
-  ){
-
-    alert(
-
-      "Bitte Kunde und Auftragsbezeichnung wählen."
-
-    );
-
-    return;
-
-  }
-
-  data.orders.push({
-
-    id:Date.now(),
-
-    customerId:Number(orderCustomer.value),
-
-    title:orderTitle.value.trim(),
-
-    address:orderAddress.value,
-
-    description:orderDescription.value,
-
-    status:orderStatus.value,
-
-    priority:orderPriority.value,
-
-    measurement:null,
-
-    photos:[],
-
-    checklist:{},
-
-    notes:"",
-
-    created:new Date().toISOString()
-
-  });
-
-  orderTitle.value = "";
-
-  orderAddress.value = "";
-
-  orderDescription.value = "";
-
-  saveData();
-
-  alert("Auftrag gespeichert.");
-
-}
-
-function editOrder(id){
-
-  const order =
-
-    data.orders.find(item => item.id === id);
-
-  if(!order){
-
-    return;
-
-  }
-
-  order.title =
-
-    prompt("Bezeichnung",order.title) ||
-
-    order.title;
-
-  order.address =
-
-    prompt("Baustellenadresse",order.address) ||
-
-    order.address;
-
-  order.description =
-
-    prompt("Beschreibung",order.description) ||
-
-    order.description;
-
-  order.status =
-
-    prompt(
-
-      "Status: Geplant, In Arbeit, Abgeschlossen oder Bezahlt",
-
-      order.status
-
-    ) || order.status;
-
-  order.priority =
-
-    prompt(
-
-      "Priorität: Niedrig, Normal oder Hoch",
-
-      order.priority
-
-    ) || order.priority;
-
-  saveData();
-
-  openOrder(id);
-
-}
-
-function deleteOrder(id){
-
-  if(!confirm(
-
-    "Auftrag wirklich löschen? Rapporte und Rechnungen bleiben als Historie erhalten."
-
-  )){
-
-    return;
-
-  }
-
-  data.orders =
-
-    data.orders.filter(item => item.id !== id);
-
-  saveData();
-
-  rootNav(
-
-    "orders",
-
-    2,
-
-    "Aufträge",
-
-    "Baustellen & Projekte"
-
-  );
-
-}
-
-function openCustomer(id){
-
-  currentCustomerId = id;
-
-  const customer =
-
-    data.customers.find(item => item.id === id);
-
-  if(customer){
-
-    openScreen(
-
-      "customer-detail",
-
-      customer.name,
-
-      "Kundendetails"
-
-    );
-
-  }
-
-}
-
-function openOrder(id){
-
-  currentOrderId = id;
-
-  const order =
-
-    data.orders.find(item => item.id === id);
-
-  if(order){
-
-    openScreen(
-
-      "order-detail",
-
-      order.title,
-
-      "Baustellenmappe"
-
-    );
-
-  }
-
-}
-
-function openInvoice(id){
-
-  currentInvoiceId = id;
-
-  const invoice =
-
-    data.invoices.find(item => item.id === id);
-
-  if(invoice){
-
-    openScreen(
-
-      "invoice-detail",
-
-      "Rechnung " + invoice.number,
-
-      "Rechnungsvorschau"
-
-    );
-
-  }
-
-}
-
-function renderCustomerDetail(){
-
-  const box =
-
-    document.getElementById("customerDetail");
-
-  if(!box){
-
-    return;
-
-  }
-
-  const customer =
-
-    data.customers.find(
-
-      item => item.id === currentCustomerId
-
-    );
-
-  if(!customer){
-
-    box.innerHTML = "";
-
-    return;
-
-  }
-
-  const orders =
-
-    data.orders.filter(
-
-      order => order.customerId === customer.id
-
-    );
-
-  box.innerHTML = `
-
-    <div class="card">
-
-      <h3>${esc(customer.name)}</h3>
-
-      <p>${esc(customer.address)}</p>
-
-      <p>
-
-        ${esc(customer.phone)}
-
-        ${esc(customer.email)}
-
-      </p>
-
-      <div class="btnrow">
-
-        <button class="btn secondary"
-
-          onclick="editCustomer(${customer.id})">
-
-          Bearbeiten
-
-        </button>
-
-        <button class="btn danger"
-
-          onclick="deleteCustomer(${customer.id})">
-
-          Löschen
-
-        </button>
-
-      </div>
-
-    </div>
-
-    <h2 class="section-title">
-
-      Aufträge
-
-    </h2>
-
-    ${
-
-      orders.length
-
-      ? orders.map(order => `
-
-        <div class="item"
-
-          onclick="openOrder(${order.id})">
-
-          <strong>
-
-            ${esc(order.title)}
-
-          </strong>
-
-          <p>
-
-            ${esc(order.address)}
-
-          </p>
-
-          <span class="badge">
-
-            ${esc(order.status)}
-
-          </span>
-
-        </div>
-
-      `).join("")
-
-      : `<p class="note">Noch keine Aufträge.</p>`
-
+  useEffect(() => {
+    const saved = localStorage.getItem("werkflow-data");
+
+    if (!saved) return;
+
+    try {
+      const data = JSON.parse(saved);
+
+      if (data.employees) setEmployees(data.employees);
+      if (data.materials) setMaterials(data.materials);
+      if (data.services) setServices(data.services);
+      if (data.suppliers) setSuppliers(data.suppliers);
+      if (data.reports) setReports(data.reports);
+    } catch {
+      console.error("Gespeicherte Daten konnten nicht geladen werden.");
     }
+  }, []);
 
-  `;
-
-}
-
-function renderOrderDetail(){
-
-  const box =
-
-    document.getElementById("orderDetail");
-
-  if(!box){
-
-    return;
-
-  }
-
-  const order =
-
-    data.orders.find(
-
-      item => item.id === currentOrderId
-
+  useEffect(() => {
+    localStorage.setItem(
+      "werkflow-data",
+      JSON.stringify({
+        employees,
+        materials,
+        services,
+        suppliers,
+        reports,
+      }),
     );
+  }, [employees, materials, services, suppliers, reports]);
 
-  if(!order){
+  const selectedReport =
+    reports.find((report) => report.id === selectedReportId) ??
+    reports[0];
 
-    box.innerHTML = "";
-
-    return;
-
-  }
-
-  const customer =
-
-    data.customers.find(
-
-      item => item.id === order.customerId
-
-    );
-
-  const reports =
-
-    data.reports.filter(
-
-      report => report.orderId === order.id
-
-    );
-
-  const invoices =
-
-    data.invoices.filter(
-
-      invoice => invoice.orderId === order.id
-
-    );
-
-  const progress = {
-
-    "Geplant":20,
-
-    "In Arbeit":55,
-
-    "Abgeschlossen":85,
-
-    "Bezahlt":100
-
-  }[order.status] || 20;
-
-  box.innerHTML = `
-
-    <div class="card">
-
-      <h3>${esc(order.title)}</h3>
-
-      <p>${esc(customer?.name || "")}</p>
-
-      <p>${esc(order.address || "")}</p>
-
-      <span class="badge ${
-
-        order.status === "Bezahlt"
-
-        ? "ok"
-
-        : order.status === "In Arbeit"
-
-        ? "warn"
-
-        : ""
-
-      }">
-
-        ${esc(order.status)}
-
-      </span>
-
-      <p class="note">
-
-        Priorität: ${esc(order.priority)}
-
-      </p>
-
-      <div class="progress">
-
-        <span style="width:${progress}%"></span>
-
-      </div>
-
-      <p class="note">
-
-        Fortschritt ${progress} %
-
-      </p>
-
-      <div class="btnrow">
-
-        <button class="btn secondary"
-
-          onclick="editOrder(${order.id})">
-
-          Bearbeiten
-
-        </button>
-
-        <button class="btn danger"
-
-          onclick="deleteOrder(${order.id})">
-
-          Löschen
-
-        </button>
-
-      </div>
-
-    </div>
-
-    <div class="menu">
-
-      <div class="menu-card"
-
-        onclick="openScreen(
-
-          'order-measure',
-
-          'Aufmaß',
-
-          '${esc(order.title)}'
-
-        )">
-
-        <span>📐</span>
-
-        <strong>Aufmaß</strong>
-
-        <small>
-
-          ${
-
-            order.measurement
-
-            ? "gespeichert"
-
-            : "noch offen"
-
-          }
-
-        </small>
-
-      </div>
-
-      <div class="menu-card"
-
-        onclick="openScreen(
-
-          'order-photos',
-
-          'Fotos',
-
-          '${esc(order.title)}'
-
-        )">
-
-        <span>📷</span>
-
-        <strong>Fotos</strong>
-
-        <small>
-
-          ${order.photos?.length || 0} Bilder
-
-        </small>
-
-      </div>
-
-      <div class="menu-card"
-
-        onclick="openScreen(
-
-          'order-checklist',
-
-          'Checkliste',
-
-          '${esc(order.title)}'
-
-        )">
-
-        <span>✅</span>
-
-        <strong>Checkliste</strong>
-
-        <small>Montage prüfen</small>
-
-      </div>
-
-      <div class="menu-card"
-
-        onclick="prepareReport(${order.id})">
-
-        <span>📝</span>
-
-        <strong>Rapport</strong>
-
-        <small>
-
-          ${reports.length} Einträge
-
-        </small>
-
-      </div>
-
-    </div>
-
-    <h2 class="section-title">
-
-      Rapporte
-
-    </h2>
-
-    ${
-
-      reports.length
-
-      ? reports.map(report => `
-
-        <div class="item">
-
-          <strong>
-
-            ${new Date(report.date)
-
-              .toLocaleDateString("de-DE")}
-
-          </strong>
-
-          <p>
-
-            ${esc(report.text)}
-
-          </p>
-
-          <p>
-
-            ${report.workerCount} Mitarbeiter
-
-            ·
-
-            ${report.hoursEach} Std.
-
-          </p>
-
-        </div>
-
-      `).join("")
-
-      : `<p class="note">Noch keine Rapporte.</p>`
-
-    }
-
-    <h2 class="section-title">
-
-      Rechnungen
-
-    </h2>
-
-    ${
-
-      invoices.length
-
-      ? invoices.map(invoice => `
-
-        <div class="item"
-
-          onclick="openInvoice(${invoice.id})">
-
-          <strong>
-
-            Rechnung ${invoice.number}
-
-          </strong>
-
-          <p>
-
-            ${euro(invoice.gross)}
-
-            ·
-
-            ${new Date(invoice.date)
-
-              .toLocaleDateString("de-DE")}
-
-          </p>
-
-        </div>
-
-      `).join("")
-
-      : `<p class="note">Noch keine Rechnungen.</p>`
-
-    }
-
-  `;
-
-}
-
-function prepareReport(orderId){
-
-  rootNav(
-
-    "report",
-
-    3,
-
-    "Rapport",
-
-    "Dokumentation & Rechnung"
-
+  const lowStockMaterials = materials.filter(
+    (material) => material.stock <= material.minimumStock,
   );
 
-  reportOrder.value = String(orderId);
-
-}
-
-function saveMeasurement(){
-
-  const order =
-
-    data.orders.find(
-
-      item => item.id === currentOrderId
-
-    );
-
-  if(!order){
-
-    return;
-
-  }
-
-  const length =
-
-    Number(measureLength.value) || 0;
-
-  const width =
-
-    Number(measureWidth.value) || 0;
-
-  const deduct =
-
-    Number(measureDeduct.value) || 0;
-
-  order.measurement = {
-
-    length:length,
-
-    width:width,
-
-    deduct:deduct,
-
-    area:Math.max(0,length * width - deduct),
-
-    notes:measureNotes.value
-
-  };
-
-  saveData();
-
-  renderMeasurement();
-
-  alert("Aufmaß gespeichert.");
-
-}
-
-function renderMeasurement(){
-
-  const order =
-
-    data.orders.find(
-
-      item => item.id === currentOrderId
-
-    );
-
-  if(!order){
-
-    return;
-
-  }
-
-  const measurement =
-
-    order.measurement || {};
-
-  measureLength.value =
-
-    measurement.length || "";
-
-  measureWidth.value =
-
-    measurement.width || "";
-
-  measureDeduct.value =
-
-    measurement.deduct || 0;
-
-  measureNotes.value =
-
-    measurement.notes || "";
-
-  measureResult.innerHTML =
-
-    measurement.area !== undefined
-
-    ? `
-
-      Nettofläche:
-
-      <strong>
-
-        ${Number(measurement.area).toFixed(2)} m²
-
-      </strong>
-
-    `
-
-    : "Noch kein Aufmaß gespeichert.";
-
-}
-
-function addPhotos(event){
-
-  const order =
-
-    data.orders.find(
-
-      item => item.id === currentOrderId
-
-    );
-
-  if(!order){
-
-    return;
-
-  }
-
-  const files =
-
-    [...event.target.files].slice(0,6);
-
-  files.forEach(file => {
-
-    const reader = new FileReader();
-
-    reader.onload = result => {
-
-      order.photos = order.photos || [];
-
-      order.photos.push(
-
-        result.target.result
-
+  function calculateReportTotal(report: Report) {
+    const employeeTotal = report.employees.reduce((sum, entry) => {
+      const employee = employees.find(
+        (item) => item.id === entry.employeeId,
       );
 
-      saveData();
+      return sum + (employee?.hourlyRate ?? 0) * entry.hours;
+    }, 0);
 
-      renderPhotos();
+    const materialTotal = report.materials.reduce((sum, entry) => {
+      const material = materials.find(
+        (item) => item.id === entry.materialId,
+      );
 
+      return sum + (material?.sellingPrice ?? 0) * entry.quantity;
+    }, 0);
+
+    const serviceTotal = report.services.reduce((sum, entry) => {
+      const service = services.find(
+        (item) => item.id === entry.serviceId,
+      );
+
+      return sum + (service?.price ?? 0) * entry.quantity;
+    }, 0);
+
+    return employeeTotal + materialTotal + serviceTotal;
+  }
+
+  const totalReportValue = useMemo(
+    () =>
+      reports.reduce(
+        (sum, report) => sum + calculateReportTotal(report),
+        0,
+      ),
+    [reports, employees, materials, services],
+  );
+
+  function updateReport(updatedReport: Report) {
+    setReports((current) =>
+      current.map((report) =>
+        report.id === updatedReport.id ? updatedReport : report,
+      ),
+    );
+  }
+
+  function createReport() {
+    const report: Report = {
+      id: Date.now(),
+      project: "Neue Baustelle",
+      customer: "Neuer Kunde",
+      date: today(),
+      status: "Entwurf",
+      employees: [],
+      materials: [],
+      services: [],
+      description: "",
     };
 
-    reader.readAsDataURL(file);
-
-  });
-
-}
-
-function renderPhotos(){
-
-  const order =
-
-    data.orders.find(
-
-      item => item.id === currentOrderId
-
-    );
-
-  if(!order){
-
-    return;
-
+    setReports((current) => [report, ...current]);
+    setSelectedReportId(report.id);
+    setActivePage("reports");
   }
 
-  photoGrid.innerHTML =
-
-    (order.photos || []).map((photo,index) => `
-
-      <div class="photo">
-
-        <img src="${photo}"
-
-          alt="Baustellenfoto ${index + 1}">
-
-      </div>
-
-    `).join("") ||
-
-    `<p class="note">Noch keine Fotos.</p>`;
-
-}
-
-function saveChecklist(){
-
-  const order =
-
-    data.orders.find(
-
-      item => item.id === currentOrderId
-
-    );
-
-  if(!order){
-
-    return;
-
+  function addMaterial() {
+    setMaterials((current) => [
+      ...current,
+      {
+        id: Date.now(),
+        name: "Neues Material",
+        articleNumber: `MAT-${current.length + 1}`,
+        category: "Sonstiges",
+        manufacturer: "Nicht eingetragen",
+        supplier: "Nicht eingetragen",
+        unit: "Stück",
+        stock: 0,
+        minimumStock: 0,
+        purchasePrice: 0,
+        sellingPrice: 0,
+        lastPriceUpdate: today(),
+      },
+    ]);
   }
 
-  order.checklist = {};
-
-  document.querySelectorAll(
-
-    "[data-check]"
-
-  ).forEach(checkbox => {
-
-    order.checklist[checkbox.dataset.check] =
-
-      checkbox.checked;
-
-  });
-
-  saveData();
-
-  alert("Checkliste gespeichert.");
-
-}
-
-function renderChecklist(){
-
-  const order =
-
-    data.orders.find(
-
-      item => item.id === currentOrderId
-
-    );
-
-  if(!order){
-
-    return;
-
+  function addService() {
+    setServices((current) => [
+      ...current,
+      {
+        id: Date.now(),
+        name: "Neue Leistung",
+        category: "Sonstiges",
+        unit: "Stück",
+        price: 0,
+      },
+    ]);
   }
 
-  document.querySelectorAll(
-
-    "[data-check]"
-
-  ).forEach(checkbox => {
-
-    checkbox.checked =
-
-      Boolean(
-
-        order.checklist?.[
-
-          checkbox.dataset.check
-
-        ]
-
-      );
-
-  });
-
-}
-
-function speechDemo(){
-
-  reportText.value =
-
-    "Bestehende Dachrinne demontiert und fachgerecht entsorgt. Anschließend wurden 8 Meter Zinkrinne 333 sowie zwei Ablaufstutzen montiert. Zwei Mitarbeiter waren jeweils fünf Stunden im Einsatz.";
-
-}
-
-function addMaterialRow(
-
-  name="",
-
-  quantity=1,
-
-  unit="Stk.",
-
-  purchasePrice=0
-
-){
-
-  const row =
-
-    document.createElement("div");
-
-  row.className =
-
-    "item material-row";
-
-  row.innerHTML = `
-
-    <label>Materialbezeichnung</label>
-
-    <input class="material-name"
-
-      value="${esc(name)}">
-
-    <div class="row">
-
-      <div>
-
-        <label>Menge</label>
-
-        <input class="material-quantity"
-
-          type="number"
-
-          step="0.01"
-
-          value="${quantity}"
-
-          oninput="updateMaterialSummary()">
-
-      </div>
-
-      <div>
-
-        <label>Einheit</label>
-
-        <input class="material-unit"
-
-          value="${esc(unit)}">
-
-      </div>
-
-    </div>
-
-    <label>
-
-      Einkaufspreis je Einheit netto
-
-    </label>
-
-    <input class="material-price"
-
-      type="number"
-
-      step="0.01"
-
-      value="${purchasePrice}"
-
-      oninput="updateMaterialSummary()">
-
-    <button class="btn danger small"
-
-      onclick="
-
-        this.closest('.material-row').remove();
-
-        updateMaterialSummary();
-
-      ">
-
-      Position löschen
-
-    </button>
-
-  `;
-
-  materialRows.appendChild(row);
-
-  updateMaterialSummary();
-
-}
-
-function getMaterials(){
-
-  return [
-
-    ...document.querySelectorAll(
-
-      ".material-row"
-
-    )
-
-  ].map(row => ({
-
-    name:
-
-      row.querySelector(
-
-        ".material-name"
-
-      ).value || "Material",
-
-    quantity:
-
-      Number(
-
-        row.querySelector(
-
-          ".material-quantity"
-
-        ).value
-
-      ) || 0,
-
-    unit:
-
-      row.querySelector(
-
-        ".material-unit"
-
-      ).value || "Stk.",
-
-    purchasePrice:
-
-      Number(
-
-        row.querySelector(
-
-          ".material-price"
-
-        ).value
-
-      ) || 0
-
-  }));
-
-}
-
-function setMarkup(value,button){
-
-  markup = value;
-
-  customMarkup.value = "";
-
-  document.querySelectorAll(
-
-    ".chip"
-
-  ).forEach(chip => {
-
-    chip.classList.remove("active");
-
-  });
-
-  button.classList.add("active");
-
-  updateMaterialSummary();
-
-}
-
-function setCustomMarkup(){
-
-  markup =
-
-    Number(customMarkup.value) || 0;
-
-  document.querySelectorAll(
-
-    ".chip"
-
-  ).forEach(chip => {
-
-    chip.classList.remove("active");
-
-  });
-
-  updateMaterialSummary();
-
-}
-
-function updateMaterialSummary(){
-
-  const materials = getMaterials();
-
-  const purchaseTotal =
-
-    materials.reduce(
-
-      (sum,item) =>
-
-        sum +
-
-        item.quantity *
-
-        item.purchasePrice,
-
-      0
-
-    );
-
-  const saleTotal =
-
-    purchaseTotal *
-
-    (1 + markup / 100);
-
-  materialSummary.innerHTML = `
-
-    Material-Einkauf:
-
-    <strong>
-
-      ${euro(purchaseTotal)}
-
-    </strong>
-
-    <br>
-
-    Aufschlag:
-
-    <strong>
-
-      ${markup} %
-
-    </strong>
-
-    <br>
-
-    Material-Verkauf:
-
-    <strong>
-
-      ${euro(saleTotal)}
-
-    </strong>
-
-    <br>
-
-    Material-Rohertrag:
-
-    <strong>
-
-      ${euro(saleTotal - purchaseTotal)}
-
-    </strong>
-
-  `;
-
-}
-
-function createInvoice(){
-
-  if(!reportOrder.value){
-
-    alert(
-
-      "Bitte zuerst einen Auftrag anlegen."
-
-    );
-
-    return;
-
+  function addEmployee() {
+    setEmployees((current) => [
+      ...current,
+      {
+        id: Date.now(),
+        name: "Neuer Mitarbeiter",
+        role: "Monteur",
+        hourlyRate: 0,
+        weeklyHours: 0,
+        monthlyHours: 0,
+        targetMonthlyHours: 160,
+      },
+    ]);
   }
 
-  const materials =
-
-    getMaterials();
-
-  const workerCount =
-
-    Number(workers.value) || 0;
-
-  const hoursEach =
-
-    Number(hours.value) || 0;
-
-  const rate =
-
-    Number(hourlyRate.value) || 0;
-
-  const travel =
-
-    Number(travelCost.value) || 0;
-
-  const labor =
-
-    workerCount *
-
-    hoursEach *
-
-    rate;
-
-  const purchaseTotal =
-
-    materials.reduce(
-
-      (sum,item) =>
-
-        sum +
-
-        item.quantity *
-
-        item.purchasePrice,
-
-      0
-
-    );
-
-  const materialSale =
-
-    purchaseTotal *
-
-    (1 + markup / 100);
-
-  const net =
-
-    labor +
-
-    materialSale +
-
-    travel;
-
-  const vat =
-
-    net * 0.19;
-
-  const gross =
-
-    net + vat;
-
-  const report = {
-
-    id:Date.now(),
-
-    orderId:Number(reportOrder.value),
-
-    text:reportText.value,
-
-    workerCount:workerCount,
-
-    hoursEach:hoursEach,
-
-    rate:rate,
-
-    travel:travel,
-
-    materials:materials,
-
-    markup:markup,
-
-    date:new Date().toISOString()
-
-  };
-
-  data.reports.push(report);
-
-  const invoice = {
-
-    id:Date.now() + 1,
-
-    number:data.settings.nextInvoiceNumber++,
-
-    orderId:Number(reportOrder.value),
-
-    reportId:report.id,
-
-    labor:labor,
-
-    materialPurchase:purchaseTotal,
-
-    materialSale:materialSale,
-
-    travel:travel,
-
-    materials:materials,
-
-    markup:markup,
-
-    net:net,
-
-    vat:vat,
-
-    gross:gross,
-
-    date:new Date().toISOString(),
-
-    status:"Offen"
-
-  };
-
-  data.invoices.push(invoice);
-
-  saveData();
-
-  alert(
-
-    "Rapport gespeichert und Rechnung erstellt."
-
-  );
-
-  openInvoice(invoice.id);
-
-}
-
-function renderCustomers(){
-
-  const query =
-
-    (customerSearch?.value || "")
-
-      .toLowerCase();
-
-  customerList.innerHTML =
-
-    data.customers
-
-      .filter(customer =>
-
-        (
-
-          customer.name +
-
-          " " +
-
-          customer.address
-
-        )
-
-        .toLowerCase()
-
-        .includes(query)
-
-      )
-
-      .map(customer => `
-
-        <div class="item"
-
-          onclick="openCustomer(${customer.id})">
-
-          <strong>
-
-            ${esc(customer.name)}
-
-          </strong>
-
-          <p>
-
-            ${esc(customer.address)}
-
-          </p>
-
-          <p>
-
-            ${esc(customer.phone)}
-
-            ${esc(customer.email)}
-
-          </p>
-
-        </div>
-
-      `).join("") ||
-
-      `<p class="note">
-
-        Noch keine Kunden gespeichert.
-
-      </p>`;
-
-  orderCustomer.innerHTML =
-
-    data.customers.map(customer => `
-
-      <option value="${customer.id}">
-
-        ${esc(customer.name)}
-
-      </option>
-
-    `).join("");
-
-}
-
-function renderOrders(){
-
-  const query =
-
-    (orderSearch?.value || "")
-
-      .toLowerCase();
-
-  const orders =
-
-    data.orders.filter(order =>
-
-      (
-
-        order.title +
-
-        " " +
-
-        order.description +
-
-        " " +
-
-        order.address
-
-      )
-
-      .toLowerCase()
-
-      .includes(query)
-
-    );
-
-  orderList.innerHTML =
-
-    orders.map(order => {
-
-      const customer =
-
-        data.customers.find(
-
-          item => item.id === order.customerId
-
-        );
-
-      return `
-
-        <div class="item"
-
-          onclick="openOrder(${order.id})">
-
-          <strong>
-
-            ${esc(order.title)}
-
-          </strong>
-
-          <p>
-
-            ${esc(customer?.name || "")}
-
-          </p>
-
-          <p>
-
-            ${esc(
-
-              order.address ||
-
-              order.description ||
-
-              ""
-
-            )}
-
-          </p>
-
-          <span class="badge ${
-
-            order.status === "Bezahlt"
-
-            ? "ok"
-
-            : order.status === "In Arbeit"
-
-            ? "warn"
-
-            : ""
-
-          }">
-
-            ${esc(order.status)}
-
-          </span>
-
-        </div>
-
-      `;
-
-    }).join("") ||
-
-    `<p class="note">
-
-      Noch keine Aufträge gespeichert.
-
-    </p>`;
-
-  reportOrder.innerHTML =
-
-    data.orders.map(order => `
-
-      <option value="${order.id}">
-
-        ${esc(order.title)}
-
-      </option>
-
-    `).join("");
-
-  homeOrders.innerHTML =
-
-    data.orders
-
-      .filter(order =>
-
-        ![
-
-          "Abgeschlossen",
-
-          "Bezahlt"
-
-        ].includes(order.status)
-
-      )
-
-      .slice(0,3)
-
-      .map(order => `
-
-        <div class="item"
-
-          onclick="openOrder(${order.id})">
-
-          <strong>
-
-            ${esc(order.title)}
-
-          </strong>
-
-          <span class="badge">
-
-            ${esc(order.status)}
-
-          </span>
-
-        </div>
-
-      `).join("") ||
-
-      `<p class="note">
-
-        Keine offenen Aufträge.
-
-      </p>`;
-
-}
-
-function renderInvoices(){
-
-  invoiceList.innerHTML =
-
-    data.invoices
-
-      .slice()
-
-      .reverse()
-
-      .map(invoice => {
-
-        const order =
-
-          data.orders.find(
-
-            item => item.id === invoice.orderId
-
-          );
-
-        const customer =
-
-          order &&
-
-          data.customers.find(
-
-            item =>
-
-              item.id === order.customerId
-
-          );
-
-        return `
-
-          <div class="item"
-
-            onclick="openInvoice(${invoice.id})">
-
-            <strong>
-
-              Rechnung ${invoice.number}
-
-            </strong>
-
-            <p>
-
-              ${esc(customer?.name || "")}
-
-              ·
-
-              ${esc(order?.title || "")}
-
-            </p>
-
-            <p>
-
-              ${new Date(invoice.date)
-
-                .toLocaleDateString("de-DE")}
-
-              ·
-
-              ${euro(invoice.gross)}
-
-            </p>
-
-            <span class="badge ${
-
-              invoice.status === "Bezahlt"
-
-              ? "ok"
-
-              : "warn"
-
-            }">
-
-              ${esc(invoice.status)}
-
-            </span>
-
+  function addSupplier() {
+    setSuppliers((current) => [
+      ...current,
+      {
+        id: Date.now(),
+        company: "Neuer Lieferant",
+        type: "Lieferant",
+        contactName: "",
+        phone: "",
+        email: "",
+      },
+    ]);
+  }
+
+  const pageTitle =
+    navigation.find((item) => item.id === activePage)?.label ??
+    "Übersicht";
+
+  return (
+    <>
+      <div className="app">
+        <aside className={mobileMenu ? "sidebar open" : "sidebar"}>
+          <div className="logo">
+            <div className="logoMark">W</div>
+
+            <div>
+              <strong>WerkFlow</strong>
+              <span>Handwerker-App</span>
+            </div>
+
+            <button
+              className="closeMenu"
+              onClick={() => setMobileMenu(false)}
+            >
+              ×
+            </button>
           </div>
 
-        `;
-
-      }).join("") ||
-
-      `<p class="note">
-
-        Noch keine Rechnungen erstellt.
-
-      </p>`;
-
-}
-
-function renderInvoiceDetail(){
-
-  const box =
-
-    document.getElementById(
-
-      "invoiceDetail"
-
-    );
-
-  if(!box){
-
-    return;
-
-  }
-
-  const invoice =
-
-    data.invoices.find(
-
-      item => item.id === currentInvoiceId
-
-    );
-
-  if(!invoice){
-
-    box.innerHTML = "";
-
-    return;
-
-  }
-
-  const order =
-
-    data.orders.find(
-
-      item => item.id === invoice.orderId
-
-    );
-
-  const customer =
-
-    order &&
-
-    data.customers.find(
-
-      item => item.id === order.customerId
-
-    );
-
-  const invoiceDate =
-
-    new Date(invoice.date);
-
-  const dueDate =
-
-    new Date(invoiceDate);
-
-  dueDate.setDate(
-
-    dueDate.getDate() +
-
-    (Number(data.settings.paymentDays) || 14)
-
-  );
-
-  box.innerHTML = `
-
-    <div class="card">
-
-      <p>
-
-        <strong>
-
-          ${esc(data.settings.companyName)}
-
-        </strong>
-
-        <br>
-
-        ${esc(data.settings.companyAddress)}
-
-        <br>
-
-        ${
-
-          data.settings.taxNumber
-
-          ? "Steuernummer: " +
-
-            esc(data.settings.taxNumber) +
-
-            "<br>"
-
-          : ""
-
-        }
-
-        ${
-
-          data.settings.vatId
-
-          ? "USt-IdNr.: " +
-
-            esc(data.settings.vatId)
-
-          : ""
-
-        }
-
-      </p>
-
-      <hr>
-
-      <p>
-
-        <strong>
-
-          ${esc(customer?.name || "")}
-
-        </strong>
-
-        <br>
-
-        ${esc(customer?.address || "")}
-
-      </p>
-
-      <h2>
-
-        Rechnung ${invoice.number}
-
-      </h2>
-
-      <p class="note">
-
-        Rechnungsdatum:
-
-        ${invoiceDate.toLocaleDateString("de-DE")}
-
-        ·
-
-        Zahlungsziel:
-
-        ${dueDate.toLocaleDateString("de-DE")}
-
-      </p>
-
-      <table>
-
-        <tr>
-
-          <th>Position</th>
-
-          <th>Betrag</th>
-
-        </tr>
-
-        <tr>
-
-          <td>Arbeitszeit</td>
-
-          <td>${euro(invoice.labor)}</td>
-
-        </tr>
-
-        ${invoice.materials.map(material => `
-
-          <tr>
-
-            <td>
-
-              ${esc(material.name)}
-
-              <br>
-
-              <span class="note">
-
-                ${material.quantity}
-
-                ${esc(material.unit)}
-
-                ·
-
-                ${invoice.markup} % Aufschlag
-
-              </span>
-
-            </td>
-
-            <td>
-
-              ${euro(
-
-                material.quantity *
-
-                material.purchasePrice *
-
-                (1 + invoice.markup / 100)
-
-              )}
-
-            </td>
-
-          </tr>
-
-        `).join("")}
-
-        <tr>
-
-          <td>Fahrtkosten</td>
-
-          <td>${euro(invoice.travel)}</td>
-
-        </tr>
-
-        <tr>
-
-          <td>Netto</td>
-
-          <td>${euro(invoice.net)}</td>
-
-        </tr>
-
-        <tr>
-
-          <td>19 % MwSt.</td>
-
-          <td>${euro(invoice.vat)}</td>
-
-        </tr>
-
-        <tr>
-
-          <th>Gesamt</th>
-
-          <th>${euro(invoice.gross)}</th>
-
-        </tr>
-
-      </table>
-
-      <div class="total">
-
-        ${euro(invoice.gross)}
-
-      </div>
-
-      <p class="note">
-
-        ${esc(data.settings.bankInfo)}
-
-      </p>
-
-      <div class="btnrow no-print">
-
-        <button class="btn secondary"
-
-          onclick="toggleInvoiceStatus(${invoice.id})">
-
-          ${
-
-            invoice.status === "Bezahlt"
-
-            ? "Als offen markieren"
-
-            : "Als bezahlt markieren"
-
-          }
-
-        </button>
-
-        <button class="btn"
-
-          onclick="window.print()">
-
-          Drucken oder PDF
-
-        </button>
-
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-function toggleInvoiceStatus(id){
-
-  const invoice =
-
-    data.invoices.find(
-
-      item => item.id === id
-
-    );
-
-  if(!invoice){
-
-    return;
-
-  }
-
-  invoice.status =
-
-    invoice.status === "Bezahlt"
-
-    ? "Offen"
-
-    : "Bezahlt";
-
-  const order =
-
-    data.orders.find(
-
-      item => item.id === invoice.orderId
-
-    );
-
-  if(
-
-    order &&
-
-    invoice.status === "Bezahlt"
-
-  ){
-
-    order.status = "Bezahlt";
-
-  }
-
-  saveData();
-
-  renderInvoiceDetail();
-
-}
-
-function saveCompanySettings(){
-
-  data.settings = {
-
-    companyName:companyName.value,
-
-    companyAddress:companyAddress.value,
-
-    taxNumber:taxNumber.value,
-
-    vatId:vatId.value,
-
-    bankInfo:bankInfo.value,
-
-    paymentDays:
-
-      Number(paymentDays.value) || 14,
-
-    nextInvoiceNumber:
-
-      Number(nextInvoiceNumber.value) ||
-
-      1001
-
-  };
-
-  saveData();
-
-  alert("Firmendaten gespeichert.");
-
-}
-
-function exportData(){
-
-  const file = new Blob(
-
-    [JSON.stringify(data,null,2)],
-
-    {type:"application/json"}
-
-  );
-
-  const url =
-
-    URL.createObjectURL(file);
-
-  const link =
-
-    document.createElement("a");
-
-  link.href = url;
-
-  link.download =
-
-    "spengleros-sicherung.json";
-
-  link.click();
-
-  URL.revokeObjectURL(url);
-
-}
-
-function importData(event){
-
-  const file =
-
-    event.target.files[0];
-
-  if(!file){
-
-    return;
-
-  }
-
-  const reader =
-
-    new FileReader();
-
-  reader.onload = result => {
-
-    try{
-
-      data =
-
-        JSON.parse(result.target.result);
-
-      saveData();
-
-      alert("Daten importiert.");
-
-    }catch{
-
-      alert(
-
-        "Ungültige Sicherungsdatei."
-
-      );
-
-    }
-
-  };
-
-  reader.readAsText(file);
-
-}
-
-function deleteAllData(){
-
-  if(!confirm(
-
-    "Wirklich alle Daten löschen?"
-
-  )){
-
-    return;
-
-  }
-
-  localStorage.removeItem(
-
-    "spenglerosData"
-
-  );
-
-  location.reload();
-
-}
-
-function calculateGutter(){
-
-  const area =
-
-    Number(roofArea.value) || 0;
-
-  const drains =
-
-    Math.max(
-
-      1,
-
-      Number(drainCount.value) || 1
-
-    );
-
-  const areaPerDrain =
-
-    area / drains;
-
-  gutterResult.innerHTML = `
-
-    Dachfläche je Ablauf:
-
-    <strong>
-
-      ${areaPerDrain.toFixed(1)} m²
-
-    </strong>
-
-    <br>
-
-    ${
-
-      areaPerDrain <= 50
-
-      ? "Kleinere Dimension prüfen."
-
-      : areaPerDrain <= 100
-
-      ? "Mittlere Dimension prüfen."
-
-      : "Größere Dimension oder zusätzlichen Ablauf prüfen."
-
-    }
-
-  `;
-
-}
-
-function calculateSeam(){
-
-  const width =
-
-    Number(facadeWidth.value) || 0;
-
-  const height =
-
-    Number(facadeHeight.value) || 0;
-
-  const pan =
-
-    (Number(panWidth.value) || 430) /
-
-    1000;
-
-  const waste =
-
-    (Number(wastePercent.value) || 0) /
-
-    100;
-
-  const pans =
-
-    Math.ceil(width / pan);
-
-  const area =
-
-    width * height;
-
-  seamResult.innerHTML = `
-
-    Scharen:
-
-    <strong>${pans}</strong>
-
-    <br>
-
-    Nettofläche:
-
-    <strong>
-
-      ${area.toFixed(2)} m²
-
-    </strong>
-
-    <br>
-
-    Material inklusive Verschnitt:
-
-    <strong>
-
-      ${(area * (1 + waste)).toFixed(2)} m²
-
-    </strong>
-
-    <br>
-
-    Gesamte Scharenlänge:
-
-    <strong>
-
-      ${(pans * height * (1 + waste)).toFixed(1)} m
-
-    </strong>
-
-  `;
-
-}
-
-function calculateWeight(){
-
-  const density =
-
-    Number(materialDensity.value);
-
-  const area =
-
-    Number(sheetArea.value) || 0;
-
-  const thickness =
-
-    Number(sheetThickness.value) || 0;
-
-  weightResult.innerHTML = `
-
-    Geschätztes Gewicht:
-
-    <strong>
-
-      ${(area * thickness * density).toFixed(1)} kg
-
-    </strong>
-
-  `;
-
-}
-
-function renderRules(){
-
-  const query =
-
-    (rulesSearch?.value || "")
-
-      .toLowerCase();
-
-  rulesList.innerHTML =
-
-    rules
-
-      .filter(rule =>
-
-        (
-
-          rule.t +
-
-          " " +
-
-          rule.d
-
-        )
-
-        .toLowerCase()
-
-        .includes(query)
-
-      )
-
-      .map(rule => `
-
-        <div class="item">
-
-          <strong>
-
-            ${esc(rule.t)}
-
-          </strong>
-
-          <p>
-
-            ${esc(rule.d)}
-
-          </p>
-
-        </div>
-
-      `).join("") ||
-
-      `<p class="note">
-
-        Kein Treffer.
-
-      </p>`;
-
-}
-
-function renderEverything(){
-
-  countCustomers.textContent =
-
-    data.customers.length;
-
-  countOrders.textContent =
-
-    data.orders.length;
-
-  countReports.textContent =
-
-    data.reports.length;
-
-  countInvoices.textContent =
-
-    data.invoices.length;
-
-  renderCustomers();
-
-  renderOrders();
-
-  renderInvoices();
-
-  renderCustomerDetail();
-
-  renderOrderDetail();
-
-  renderInvoiceDetail();
-
-  renderRules();
-
-  companyName.value =
-
-    data.settings.companyName;
-
-  companyAddress.value =
-
-    data.settings.companyAddress;
-
-  taxNumber.value =
-
-    data.settings.taxNumber;
-
-  vatId.value =
-
-    data.settings.vatId;
-
-  bankInfo.value =
-
-    data.settings.bankInfo;
-
-  paymentDays.value =
-
-    data.settings.paymentDays;
-
-  nextInvoiceNumber.value =
-
-    data.settings.nextInvoiceNumber;
-
-  if(
-
-    document
-
-      .getElementById("order-measure")
-
-      .classList.contains("active")
-
-  ){
-
-    renderMeasurement();
-
-  }
-
-  if(
-
-    document
-
-      .getElementById("order-photos")
-
-      .classList.contains("active")
-
-  ){
-
-    renderPhotos();
-
-  }
-
-  if(
-
-    document
-
-      .getElementById("order-checklist")
-
-      .classList.contains("active")
-
-  ){
-
-    renderChecklist();
-
-  }
-
-}
-
-addMaterialRow(
-
-  "Zinkrinne 333",
-
-  8,
-
-  "m",
-
-  28.40
-
-);
-
-addMaterialRow(
-
-  "Ablaufstutzen",
-
-  2,
-
-  "Stk.",
-
-  19.90
-
-);
-
-renderEverything();
-
-</script>
-
-<!-- SPENGLEROS FACHWISSEN-UPDATE START -->
-<script>
-(function(){
-
-const knowledgeBase = [
-  {
-    id:"dachentwaesserung",
-    title:"Dachentwässerung",
-    icon:"🌧️",
-    description:"Dachrinnen, Fallrohre, Abläufe und Gefälle",
-    chapters:[
-      {
-        id:"entwaesserung-grundlagen",
-        title:"Grundlagen der Dachentwässerung",
-        content:`
-          <h3>Grundlagen der Dachentwässerung</h3>
-
-          <p>
-            Eine Dachentwässerung muss das anfallende Niederschlagswasser
-            sicher aufnehmen und ableiten. Bei der Planung werden unter
-            anderem Dachfläche, Dachform, Regenspende, Anzahl der Abläufe,
-            Rinnengröße und Fallrohrgröße berücksichtigt.
-          </p>
-
-          <h4>Wichtige Prüfpunkte</h4>
-
-          <ul>
-            <li>Wirksame Dachfläche ermitteln</li>
-            <li>Anzahl und Position der Abläufe bestimmen</li>
-            <li>Rinnengröße passend auswählen</li>
-            <li>Fallrohrdimension prüfen</li>
-            <li>Notentwässerung berücksichtigen</li>
-            <li>Wasserführung kontrollieren</li>
-          </ul>
-
-          <p class="note">
-            Diese Zusammenfassung ersetzt keine vollständige
-            fachtechnische Bemessung.
-          </p>
-        `
-      },
-      {
-        id:"rinnengefaelle",
-        title:"Rinnengefälle",
-        content:`
-          <h3>Rinnengefälle</h3>
-
-          <p>
-            Das Gefälle unterstützt die Wasserführung zum Ablauf.
-            Hoch- und Tiefpunkte müssen vor der Montage eindeutig
-            festgelegt werden.
-          </p>
-
-          <h4>Auf der Baustelle prüfen</h4>
-
-          <ul>
-            <li>Kein Gegengefälle</li>
-            <li>Rinnenhalter gleichmäßig ausrichten</li>
-            <li>Ablauf am geplanten Tiefpunkt</li>
-            <li>Wasserprobe durchführen</li>
-            <li>Bewegung des Werkstoffs ermöglichen</li>
-          </ul>
-        `
-      },
-      {
-        id:"fallrohre",
-        title:"Fallrohre und Abläufe",
-        content:`
-          <h3>Fallrohre und Abläufe</h3>
-
-          <p>
-            Fallrohre müssen auf die zu erwartende Wassermenge abgestimmt
-            werden. Auch Einlauf, Rohrführung, Bögen, Schellen und der
-            Anschluss an die Entwässerungsleitung sind zu beachten.
-          </p>
-
-          <h4>Typische Bauteile</h4>
-
-          <ul>
-            <li>Ablaufstutzen</li>
-            <li>Rohrbogen</li>
-            <li>Fallrohr</li>
-            <li>Rohrschellen</li>
-            <li>Standrohr</li>
-            <li>Anschlussleitung</li>
-          </ul>
-        `
-      },
-      {
-        id:"rinnenhalter",
-        title:"Rinnenhalter",
-        content:`
-          <h3>Rinnenhalter</h3>
-
-          <p>
-            Die Rinnenhalter tragen die Dachrinne und müssen entsprechend
-            der Belastung, dem Untergrund und dem verwendeten Rinnensystem
-            angeordnet und sicher befestigt werden.
-          </p>
-
-          <h4>Kontrollpunkte</h4>
-
-          <ul>
-            <li>Geeigneter Halter für Rinnenform und Größe</li>
-            <li>Sicherer Befestigungsuntergrund</li>
-            <li>Gleichmäßige Ausrichtung</li>
-            <li>Belastung durch Schnee und Eis beachten</li>
-            <li>Gefälle korrekt herstellen</li>
-          </ul>
-        `
-      }
-    ]
-  },
-
-  {
-    id:"stehfalz",
-    title:"Stehfalz",
-    icon:"📏",
-    description:"Scharen, Falze, Hafte, Befestigung und Dehnung",
-    chapters:[
-      {
-        id:"stehfalz-grundlagen",
-        title:"Grundlagen des Stehfalzes",
-        content:`
-          <h3>Stehfalz – Grundlagen</h3>
-
-          <p>
-            Eine Stehfalzdeckung besteht aus längs verlaufenden
-            Blechscharen, die über Falze miteinander verbunden werden.
-            Die Ausführung richtet sich unter anderem nach Werkstoff,
-            Dachneigung, Scharenlänge, Windbeanspruchung und Untergrund.
-          </p>
-
-          <h4>Wichtige Punkte</h4>
-
-          <ul>
-            <li>Geeigneter Untergrund</li>
-            <li>Passende Trennlage</li>
-            <li>Scharenbreite festlegen</li>
-            <li>Haftabstände bestimmen</li>
-            <li>Fest- und Schiebehaftbereiche planen</li>
-            <li>Materialbewegung berücksichtigen</li>
-          </ul>
-        `
-      },
-      {
-        id:"doppelstehfalz",
-        title:"Doppelstehfalz",
-        content:`
-          <h3>Doppelstehfalz</h3>
-
-          <p>
-            Beim Doppelstehfalz wird die Falzverbindung zweimal
-            geschlossen. Dadurch entsteht eine besonders sichere und
-            bewährte Verbindung für Dachflächen.
-          </p>
-
-          <h4>Bei der Ausführung beachten</h4>
-
-          <ul>
-            <li>Falzhöhe und Profil gleichmäßig herstellen</li>
-            <li>Material nicht beschädigen</li>
-            <li>Hafte vollständig in den Falz einbinden</li>
-            <li>Falz sauber und ohne unzulässige Spannungen schließen</li>
-            <li>Quer- und Anschlussdetails abstimmen</li>
-          </ul>
-        `
-      },
-      {
-        id:"winkelstehfalz",
-        title:"Winkelstehfalz",
-        content:`
-          <h3>Winkelstehfalz</h3>
-
-          <p>
-            Der Winkelstehfalz wird häufig bei Fassaden eingesetzt.
-            Er erzeugt eine klare Linienführung und lässt sich optisch
-            gut gestalten.
-          </p>
-
-          <h4>Planungspunkte</h4>
-
-          <ul>
-            <li>Scharenaufteilung</li>
-            <li>Rand- und Eckbereiche</li>
-            <li>Unterkonstruktion</li>
-            <li>Hinterlüftung</li>
-            <li>Fenster- und Sockelanschlüsse</li>
-          </ul>
-        `
-      },
-      {
-        id:"hafte",
-        title:"Fest- und Schiebehafte",
-        content:`
-          <h3>Fest- und Schiebehafte</h3>
-
-          <p>
-            Hafte verbinden die Scharen mit dem Untergrund. Der
-            Festhaftbereich fixiert die Schar. Schiebehafte ermöglichen
-            temperaturbedingte Längenänderungen.
-          </p>
-
-          <h4>Kontrollpunkte</h4>
-
-          <ul>
-            <li>Festhaftbereich richtig positionieren</li>
-            <li>Schiebehafte nicht blockieren</li>
-            <li>Geeignete Befestigungsmittel verwenden</li>
-            <li>Abstände an Beanspruchung anpassen</li>
-            <li>Bewegungsrichtung der Scharen beachten</li>
-          </ul>
-        `
-      },
-      {
-        id:"scharenbreiten",
-        title:"Scharenbreiten",
-        content:`
-          <h3>Scharenbreiten</h3>
-
-          <p>
-            Die Scharenbreite beeinflusst Optik, Materialverbrauch,
-            Windbeanspruchung und Verformungsverhalten.
-          </p>
-
-          <h4>Bei der Einteilung beachten</h4>
-
-          <ul>
-            <li>Gesamtbreite der Fläche</li>
-            <li>Gewünschte Sichtbreite</li>
-            <li>Falzzugaben</li>
-            <li>Randbereiche</li>
-            <li>Fenster und Öffnungen</li>
-            <li>Verschnitt</li>
-          </ul>
-        `
-      }
-    ]
-  },
-
-  {
-    id:"attika",
-    title:"Attika und Mauerabdeckungen",
-    icon:"🏢",
-    description:"Abdeckungen, Halter, Stöße und Tropfkanten",
-    chapters:[
-      {
-        id:"attika-grundlagen",
-        title:"Grundlagen",
-        content:`
-          <h3>Attika- und Mauerabdeckungen</h3>
-
-          <p>
-            Abdeckungen schützen die darunterliegenden Bauteile vor
-            Niederschlag. Sie benötigen ausreichende Überstände,
-            wirksame Tropfkanten und eine sichere Befestigung.
-          </p>
-
-          <h4>Planungspunkte</h4>
-
-          <ul>
-            <li>Abdeckungsbreite</li>
-            <li>Aufkantungen</li>
-            <li>Tropfkanten</li>
-            <li>Gefälle</li>
-            <li>Halterabstände</li>
-            <li>Stoßausbildung</li>
-          </ul>
-        `
-      },
-      {
-        id:"attika-stoesse",
-        title:"Stöße und Dehnung",
-        content:`
-          <h3>Stöße und Dehnung</h3>
-
-          <p>
-            Lange Abdeckungen müssen Längenänderungen aufnehmen können.
-            Starre Verbindungen können zu Beulen, offenen Stößen oder
-            Schäden an den Befestigungen führen.
-          </p>
-
-          <h4>Kontrollpunkte</h4>
-
-          <ul>
-            <li>Werkstoff und Bauteillänge berücksichtigen</li>
-            <li>Geeignete Stoßausbildung wählen</li>
-            <li>Bewegung nicht durch Schrauben blockieren</li>
-            <li>Halter und Festpunkte planen</li>
-          </ul>
-        `
-      },
-      {
-        id:"tropfkanten",
-        title:"Tropfkanten",
-        content:`
-          <h3>Tropfkanten</h3>
-
-          <p>
-            Tropfkanten sollen Wasser kontrolliert von der Fassade oder
-            dem darunterliegenden Bauteil wegführen.
-          </p>
-
-          <h4>Beachten</h4>
-
-          <ul>
-            <li>Ausreichender Abstand zur Fassade</li>
-            <li>Saubere und durchgehende Kantung</li>
-            <li>Kein Rücklaufen des Wassers</li>
-            <li>Anschlüsse und Ecken sorgfältig ausbilden</li>
-          </ul>
-        `
-      }
-    ]
-  },
-
-  {
-    id:"anschluesse",
-    title:"Anschlüsse und Verwahrungen",
-    icon:"🧱",
-    description:"Wände, Kamine, Kehlen, Ortgänge und Dachfenster",
-    chapters:[
-      {
-        id:"wandanschluss",
-        title:"Wandanschlüsse",
-        content:`
-          <h3>Wandanschlüsse</h3>
-
-          <p>
-            Wandanschlüsse müssen Wasser sicher ableiten und gegen
-            Hinterlaufen geschützt sein. Die obere Verwahrung und die
-            Anschlusshöhe sind besonders wichtig.
-          </p>
-
-          <h4>Typische Fehler</h4>
-
-          <ul>
-            <li>Zu geringe Anschlusshöhe</li>
-            <li>Fehlende Hinterlaufsicherung</li>
-            <li>Starre Verbindung beweglicher Bauteile</li>
-            <li>Ungeeignete Dichtstoffe</li>
-            <li>Unterbrochene Wasserführung</li>
-          </ul>
-        `
-      },
-      {
-        id:"kaminanschluss",
-        title:"Kaminanschlüsse",
-        content:`
-          <h3>Kaminanschlüsse</h3>
-
-          <p>
-            Vorder-, Seiten- und Hinteranschluss müssen als Einheit
-            funktionieren. Hinter dem Kamin ist eine sichere Ableitung
-            von Wasser und Schnee besonders wichtig.
-          </p>
-        `
-      },
-      {
-        id:"kehlen",
-        title:"Kehlen",
-        content:`
-          <h3>Kehlen</h3>
-
-          <p>
-            Kehlen nehmen das Wasser aus zwei Dachflächen auf. Daher
-            müssen Breite, seitliche Anschlüsse und Wasserführung auf
-            die zu erwartende Belastung abgestimmt sein.
-          </p>
-        `
-      },
-      {
-        id:"ortgaenge",
-        title:"Ortgang und Randanschlüsse",
-        content:`
-          <h3>Ortgang und Randanschlüsse</h3>
-
-          <p>
-            Randanschlüsse müssen Niederschlag ableiten und gleichzeitig
-            erhöhte Windbeanspruchungen aufnehmen.
-          </p>
-
-          <h4>Prüfpunkte</h4>
-
-          <ul>
-            <li>Sicherer Abschluss der Deckung</li>
-            <li>Windbeanspruchung berücksichtigen</li>
-            <li>Materialbewegung ermöglichen</li>
-            <li>Saubere Tropf- und Wasserführung</li>
-          </ul>
-        `
-      }
-    ]
-  },
-
-  {
-    id:"werkstoffe",
-    title:"Werkstoffe",
-    icon:"🔩",
-    description:"Titanzink, Kupfer, Aluminium und Edelstahl",
-    chapters:[
-      {
-        id:"titanzink",
-        title:"Titanzink",
-        content:`
-          <h3>Titanzink</h3>
-
-          <p>
-            Titanzink wird für Dachrinnen, Abdeckungen, Dächer und
-            Fassaden eingesetzt. Bei Lagerung und Verarbeitung sind
-            Feuchtigkeit, Materialverträglichkeit und Bewegung zu
-            berücksichtigen.
-          </p>
-
-          <h4>Praxispunkte</h4>
-
-          <ul>
-            <li>Trocken und belüftet lagern</li>
-            <li>Weißrost vermeiden</li>
-            <li>Geeignete Werkzeuge verwenden</li>
-            <li>Materialbewegung einplanen</li>
-            <li>Verträglichkeit mit anderen Baustoffen prüfen</li>
-          </ul>
-        `
-      },
-      {
-        id:"kupfer",
-        title:"Kupfer",
-        content:`
-          <h3>Kupfer</h3>
-
-          <p>
-            Kupfer bildet im Laufe der Zeit eine schützende Patina.
-            Ablaufendes Kupferwasser kann darunterliegende,
-            unedlere Metalle beeinflussen.
-          </p>
-        `
-      },
-      {
-        id:"aluminium",
-        title:"Aluminium",
-        content:`
-          <h3>Aluminium</h3>
-
-          <p>
-            Aluminium ist leicht und wird häufig beschichtet eingesetzt.
-            Beschichtungen müssen beim Schneiden, Kanten und Montieren
-            vor Beschädigungen geschützt werden.
-          </p>
-        `
-      },
-      {
-        id:"materialvertraeglichkeit",
-        title:"Materialverträglichkeit",
-        content:`
-          <h3>Materialverträglichkeit</h3>
-
-          <p>
-            Unterschiedliche Metalle dürfen nicht beliebig direkt
-            miteinander verbunden werden. Feuchtigkeit kann in
-            Verbindung mit unterschiedlichen Metallen Kontaktkorrosion
-            begünstigen.
-          </p>
-
-          <h4>Prüfen</h4>
-
-          <ul>
-            <li>Direkten Metallkontakt</li>
-            <li>Fließrichtung des Regenwassers</li>
-            <li>Trennlagen</li>
-            <li>Befestigungsmittel</li>
-            <li>Herstellerangaben</li>
-          </ul>
-        `
-      }
-    ]
-  },
-
-  {
-    id:"fassaden",
-    title:"Metallfassaden",
-    icon:"🏗️",
-    description:"Unterkonstruktion, Hinterlüftung und Befestigung",
-    chapters:[
-      {
-        id:"fassaden-grundlagen",
-        title:"Grundlagen",
-        content:`
-          <h3>Metallfassaden – Grundlagen</h3>
-
-          <p>
-            Bei hinterlüfteten Metallfassaden müssen Bekleidung,
-            Befestigung, Unterkonstruktion, Dämmung und Hinterlüftung
-            als Gesamtsystem geplant werden.
-          </p>
-
-          <h4>Prüfpunkte</h4>
-
-          <ul>
-            <li>Tragfähiger Untergrund</li>
-            <li>Geeignete Unterkonstruktion</li>
-            <li>Be- und Entlüftungsöffnungen</li>
-            <li>Windlasten</li>
-            <li>Fest- und Gleitpunkte</li>
-            <li>Fenster- und Sockelanschlüsse</li>
-          </ul>
-        `
-      },
-      {
-        id:"hinterlueftung",
-        title:"Hinterlüftung",
-        content:`
-          <h3>Hinterlüftung</h3>
-
-          <p>
-            Der Hinterlüftungsraum unterstützt den Feuchteabtransport
-            und muss vom unteren bis zum oberen Abschluss wirksam
-            ausgebildet sein.
-          </p>
-
-          <h4>Beachten</h4>
-
-          <ul>
-            <li>Freie Luftführung</li>
-            <li>Be- und Entlüftungsöffnungen</li>
-            <li>Insektenschutz ohne starke Querschnittsverengung</li>
-            <li>Unterbrechungen durch Fenster und Bauteile</li>
-          </ul>
-        `
-      }
-    ]
-  }
-];
-
-function fwEscape(value){
-  if(typeof esc === "function"){
-    return esc(value);
-  }
-
-  return String(value ?? "").replace(/[&<>"']/g,function(character){
-    return {
-      "&":"&amp;",
-      "<":"&lt;",
-      ">":"&gt;",
-      '"':"&quot;",
-      "'":"&#039;"
-    }[character];
-  });
-}
-
-function getFwFavorites(){
-  return JSON.parse(
-    localStorage.getItem("spenglerosFwFavorites") || "[]"
-  );
-}
-
-function saveFwFavorites(favorites){
-  localStorage.setItem(
-    "spenglerosFwFavorites",
-    JSON.stringify(favorites)
-  );
-}
-
-function getFwNotes(){
-  return JSON.parse(
-    localStorage.getItem("spenglerosFwNotes") || "{}"
-  );
-}
-
-function initializeKnowledgeArea(){
-  const area = document.getElementById("rulesArea");
-
-  if(!area){
-    return;
-  }
-
-  area.innerHTML = `
-    <div id="fwOverview">
-
-      <div class="card">
-        <h3>📚 Fachwissen</h3>
-
-        <input
-          id="fwSearch"
-          class="search"
-          placeholder="z. B. Stehfalz, Attika oder Dachrinne"
-          oninput="renderKnowledgeArea()"
-        >
-
-        <div class="btnrow">
-
-          <button
-            class="btn secondary"
-            onclick="showFwFavorites()"
-          >
-            ⭐ Favoriten
-          </button>
-
-          <button
-            class="btn ghost"
-            onclick="showFwOwnNotes()"
-          >
-            📝 Eigene Notizen
-          </button>
-
-        </div>
-      </div>
-
-      <div id="fwCategoryList"></div>
-
-    </div>
-
-    <div id="fwDetail" style="display:none">
-
-      <button
-        class="btn ghost"
-        onclick="closeFwDetail()"
-      >
-        ← Zurück zum Inhaltsverzeichnis
-      </button>
-
-      <div
-        id="fwDetailContent"
-        style="margin-top:12px"
-      ></div>
-
-    </div>
-
-    <div id="fwOwnNotesArea" style="display:none">
-
-      <button
-        class="btn ghost"
-        onclick="closeFwOwnNotes()"
-      >
-        ← Zurück zum Fachwissen
-      </button>
-
-      <div class="card" style="margin-top:12px">
-
-        <h3>Eigene Fachnotiz</h3>
-
-        <label>Titel</label>
-        <input id="fwOwnTitle">
-
-        <label>Notiz</label>
-        <textarea
-          id="fwOwnText"
-          placeholder="Eigene Erfahrungen, Maße oder Hinweise"
-        ></textarea>
-
-        <button
-          class="btn"
-          onclick="saveFwOwnNote()"
-        >
-          Notiz speichern
-        </button>
-
-      </div>
-
-      <div id="fwOwnNotesList"></div>
-
-    </div>
-  `;
-
-  renderKnowledgeArea();
-}
-
-function renderKnowledgeArea(){
-  const list =
-    document.getElementById("fwCategoryList");
-
-  if(!list){
-    return;
-  }
-
-  const search =
-    (
-      document.getElementById("fwSearch")?.value ||
-      ""
-    ).toLowerCase();
-
-  const favorites =
-    getFwFavorites();
-
-  const html =
-    knowledgeBase.map(function(category){
-
-      const matchingChapters =
-        category.chapters.filter(function(chapter){
-
-          const searchableText =
-            category.title + " " +
-            category.description + " " +
-            chapter.title + " " +
-            chapter.content.replace(/<[^>]+>/g," ");
-
-          return searchableText
-            .toLowerCase()
-            .includes(search);
-        });
-
-      if(search && matchingChapters.length === 0){
-        return "";
-      }
-
-      const chapters =
-        search
-        ? matchingChapters
-        : category.chapters;
-
-      return `
-        <div class="card">
-
-          <h3>
-            ${category.icon}
-            ${fwEscape(category.title)}
-          </h3>
-
-          <p>
-            ${fwEscape(category.description)}
-          </p>
-
-          ${chapters.map(function(chapter){
-            return `
-              <div
-                class="item"
-                onclick="openKnowledgeChapter(
-                  '${category.id}',
-                  '${chapter.id}'
-                )"
-              >
-
-                <strong>
-                  ${fwEscape(chapter.title)}
-                </strong>
-
-                <p>
-                  Antippen und nachlesen
-                </p>
-
-                ${
-                  favorites.includes(chapter.id)
-                  ? `<span class="badge ok">⭐ Favorit</span>`
-                  : ""
+          <nav>
+            {navigation.map((item) => (
+              <button
+                key={item.id}
+                className={
+                  activePage === item.id
+                    ? "navButton active"
+                    : "navButton"
                 }
-
-              </div>
-            `;
-          }).join("")}
-
-        </div>
-      `;
-    }).join("");
-
-  list.innerHTML =
-    html ||
-    `
-      <div class="card">
-        <p class="note">
-          Kein passender Eintrag gefunden.
-        </p>
-      </div>
-    `;
-}
-
-function openKnowledgeChapter(categoryId,chapterId){
-  const category =
-    knowledgeBase.find(function(item){
-      return item.id === categoryId;
-    });
-
-  const chapter =
-    category?.chapters.find(function(item){
-      return item.id === chapterId;
-    });
-
-  if(!category || !chapter){
-    return;
-  }
-
-  const favorites =
-    getFwFavorites();
-
-  const notes =
-    getFwNotes();
-
-  document.getElementById("fwOverview").style.display =
-    "none";
-
-  document.getElementById("fwOwnNotesArea").style.display =
-    "none";
-
-  document.getElementById("fwDetail").style.display =
-    "block";
-
-  document.getElementById("fwDetailContent").innerHTML = `
-    <div class="card">
-
-      <p class="note">
-        ${category.icon}
-        ${fwEscape(category.title)}
-      </p>
-
-      ${chapter.content}
-
-      <button
-        class="btn secondary"
-        onclick="toggleFwFavorite(
-          '${categoryId}',
-          '${chapterId}'
-        )"
-      >
-        ${
-          favorites.includes(chapterId)
-          ? "⭐ Aus Favoriten entfernen"
-          : "☆ Zu Favoriten hinzufügen"
-        }
-      </button>
-
-      <label>Eigene Notiz zu diesem Kapitel</label>
-
-      <textarea
-        id="fwChapterNote"
-        placeholder="Eigene Erfahrung oder Hinweis"
-      >${fwEscape(notes[chapterId] || "")}</textarea>
-
-      <button
-        class="btn"
-        onclick="saveFwChapterNote('${chapterId}')"
-      >
-        Notiz speichern
-      </button>
-
-      <p class="note">
-        Diese Inhalte sind selbst formulierte Kurzfassungen und
-        allgemeine Arbeitshinweise. Sie ersetzen keine Prüfung der
-        aktuellen offiziellen Fachregeln, Normen, Herstellerangaben
-        oder objektspezifischen Planung.
-      </p>
-
-    </div>
-  `;
-}
-
-function closeFwDetail(){
-  document.getElementById("fwDetail").style.display =
-    "none";
-
-  document.getElementById("fwOverview").style.display =
-    "block";
-
-  renderKnowledgeArea();
-}
-
-function toggleFwFavorite(categoryId,chapterId){
-  let favorites =
-    getFwFavorites();
-
-  if(favorites.includes(chapterId)){
-    favorites =
-      favorites.filter(function(id){
-        return id !== chapterId;
-      });
-  }else{
-    favorites.push(chapterId);
-  }
-
-  saveFwFavorites(favorites);
-
-  openKnowledgeChapter(
-    categoryId,
-    chapterId
-  );
-}
-
-function saveFwChapterNote(chapterId){
-  const notes =
-    getFwNotes();
-
-  notes[chapterId] =
-    document.getElementById("fwChapterNote").value;
-
-  localStorage.setItem(
-    "spenglerosFwNotes",
-    JSON.stringify(notes)
-  );
-
-  alert("Notiz gespeichert.");
-}
-
-function showFwFavorites(){
-  const favorites =
-    getFwFavorites();
-
-  const results = [];
-
-  knowledgeBase.forEach(function(category){
-    category.chapters.forEach(function(chapter){
-      if(favorites.includes(chapter.id)){
-        results.push({
-          category:category,
-          chapter:chapter
-        });
-      }
-    });
-  });
-
-  document.getElementById("fwOverview").style.display =
-    "none";
-
-  document.getElementById("fwOwnNotesArea").style.display =
-    "none";
-
-  document.getElementById("fwDetail").style.display =
-    "block";
-
-  document.getElementById("fwDetailContent").innerHTML = `
-    <div class="card">
-
-      <h3>⭐ Favoriten</h3>
-
-      ${
-        results.length
-        ? results.map(function(result){
-            return `
-              <div
-                class="item"
-                onclick="openKnowledgeChapter(
-                  '${result.category.id}',
-                  '${result.chapter.id}'
-                )"
+                onClick={() => {
+                  setActivePage(item.id);
+                  setMobileMenu(false);
+                }}
               >
+                <span className="navIcon">{item.icon}</span>
+                {item.label}
+              </button>
+            ))}
+          </nav>
 
-                <strong>
-                  ${fwEscape(result.chapter.title)}
-                </strong>
+          <div className="user">
+            <div className="avatar">RB</div>
 
-                <p>
-                  ${fwEscape(result.category.title)}
-                </p>
+            <div>
+              <strong>Raphael Berger</strong>
+              <span>Administrator</span>
+            </div>
+          </div>
+        </aside>
 
+        <main>
+          <header>
+            <div className="headerTitle">
+              <button
+                className="menuButton"
+                onClick={() => setMobileMenu(true)}
+              >
+                ☰
+              </button>
+
+              <div>
+                <span>WerkFlow Betriebsübersicht</span>
+                <h1>{pageTitle}</h1>
               </div>
-            `;
-          }).join("")
-        : `
-          <p class="note">
-            Noch keine Favoriten gespeichert.
-          </p>
-        `
-      }
+            </div>
 
-    </div>
-  `;
-}
+            <div className="headerActions">
+              <input
+                className="search"
+                placeholder="Suchen …"
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+              />
 
-function getFwOwnNotes(){
-  return JSON.parse(
-    localStorage.getItem("spenglerosFwOwnNotes") ||
-    "[]"
-  );
-}
+              <button className="primary" onClick={createReport}>
+                + Neuer Rapport
+              </button>
+            </div>
+          </header>
 
-function showFwOwnNotes(){
-  document.getElementById("fwOverview").style.display =
-    "none";
+          <section className="content">
+            {activePage === "dashboard" && (
+              <>
+                <div className="hero">
+                  <div>
+                    <span className="greenBadge">
+                      ✓ Demo-Grundgerüst aktiv
+                    </span>
 
-  document.getElementById("fwDetail").style.display =
-    "none";
+                    <h2>
+                      Der digitale Bauleiter für deinen Betrieb.
+                    </h2>
 
-  document.getElementById("fwOwnNotesArea").style.display =
-    "block";
+                    <p>
+                      Rapporte, Mitarbeiter, Material, Lager und
+                      Rechnungen greifen auf dieselben Daten zu.
+                    </p>
+                  </div>
 
-  renderFwOwnNotes();
-}
+                  <button
+                    className="lightButton"
+                    onClick={() => setActivePage("reports")}
+                  >
+                    Rapporte ansehen →
+                  </button>
+                </div>
 
-function closeFwOwnNotes(){
-  document.getElementById("fwOwnNotesArea").style.display =
-    "none";
+                <div className="stats">
+                  <Stat
+                    title="Offene Rapporte"
+                    value={String(
+                      reports.filter(
+                        (report) =>
+                          report.status !== "Abgerechnet",
+                      ).length,
+                    )}
+                    text="Aktuelle Baustellen"
+                  />
 
-  document.getElementById("fwOverview").style.display =
-    "block";
+                  <Stat
+                    title="Erfasste Stunden"
+                    value="173 h"
+                    text="+13 Überstunden"
+                  />
 
-  renderKnowledgeArea();
-}
+                  <Stat
+                    title="Auftragswert"
+                    value={euro(totalReportValue)}
+                    text="Aktuelle Rapporte"
+                  />
 
-function saveFwOwnNote(){
-  const title =
-    document.getElementById("fwOwnTitle")
-      .value
-      .trim();
+                  <Stat
+                    title="Lagerwarnungen"
+                    value={String(lowStockMaterials.length)}
+                    text="Bestand prüfen"
+                  />
+                </div>
 
-  const text =
-    document.getElementById("fwOwnText")
-      .value
-      .trim();
+                <div className="dashboardGrid">
+                  <Card title="Aktuelle Rapporte">
+                    {reports.map((report) => (
+                      <button
+                        className="reportListItem"
+                        key={report.id}
+                        onClick={() => {
+                          setSelectedReportId(report.id);
+                          setActivePage("reports");
+                        }}
+                      >
+                        <div>
+                          <strong>{report.project}</strong>
+                          <span>
+                            {report.customer} · {report.date}
+                          </span>
+                        </div>
 
-  if(!title || !text){
-    alert("Bitte Titel und Notiz eingeben.");
-    return;
-  }
+                        <div className="alignRight">
+                          <Status status={report.status} />
+                          <strong>
+                            {euro(calculateReportTotal(report))}
+                          </strong>
+                        </div>
+                      </button>
+                    ))}
+                  </Card>
 
-  const notes =
-    getFwOwnNotes();
+                  <Card title="Lager und Preisänderungen">
+                    {lowStockMaterials.length === 0 ? (
+                      <div className="empty">
+                        Keine kritischen Lagerbestände.
+                      </div>
+                    ) : (
+                      lowStockMaterials.map((material) => (
+                        <div
+                          className="warning"
+                          key={material.id}
+                        >
+                          <strong>{material.name}</strong>
+                          <span>
+                            Bestand: {material.stock}{" "}
+                            {material.unit}
+                          </span>
+                        </div>
+                      ))
+                    )}
 
-  notes.push({
-    id:Date.now(),
-    title:title,
-    text:text,
-    date:new Date().toISOString()
-  });
+                    <div className="infoBox">
+                      <strong>Automatische Preisaktualisierung</strong>
+                      <span>
+                        Neue Preise aus eingescannten
+                        Großhändlerrechnungen können später
+                        automatisch übernommen werden.
+                      </span>
+                    </div>
+                  </Card>
+                </div>
+              </>
+            )}
 
-  localStorage.setItem(
-    "spenglerosFwOwnNotes",
-    JSON.stringify(notes)
-  );
+            {activePage === "reports" && (
+              <div className="reportsGrid">
+                <Card title="Rapporte">
+                  <button
+                    className="addButton"
+                    onClick={createReport}
+                  >
+                    + Neuen Rapport erstellen
+                  </button>
 
-  document.getElementById("fwOwnTitle").value =
-    "";
+                  {reports.map((report) => (
+                    <button
+                      key={report.id}
+                      className={
+                        report.id === selectedReport.id
+                          ? "reportListItem selected"
+                          : "reportListItem"
+                      }
+                      onClick={() =>
+                        setSelectedReportId(report.id)
+                      }
+                    >
+                      <div>
+                        <strong>{report.project}</strong>
+                        <span>{report.customer}</span>
+                      </div>
 
-  document.getElementById("fwOwnText").value =
-    "";
+                      <Status status={report.status} />
+                    </button>
+                  ))}
+                </Card>
 
-  renderFwOwnNotes();
-}
+                <ReportEditor
+                  report={selectedReport}
+                  employees={employees}
+                  materials={materials}
+                  services={services}
+                  total={calculateReportTotal(selectedReport)}
+                  onChange={updateReport}
+                />
+              </div>
+            )}
 
-function deleteFwOwnNote(id){
-  if(!confirm("Notiz wirklich löschen?")){
-    return;
-  }
-
-  const notes =
-    getFwOwnNotes().filter(function(note){
-      return note.id !== id;
-    });
-
-  localStorage.setItem(
-    "spenglerosFwOwnNotes",
-    JSON.stringify(notes)
-  );
-
-  renderFwOwnNotes();
-}
-
-function renderFwOwnNotes(){
-  const list =
-    document.getElementById("fwOwnNotesList");
-
-  if(!list){
-    return;
-  }
-
-  const notes =
-    getFwOwnNotes()
-      .slice()
-      .reverse();
-
-  list.innerHTML = `
-    <div class="card">
-
-      <h3>Gespeicherte Notizen</h3>
-
-      ${
-        notes.length
-        ? notes.map(function(note){
-            return `
-              <div class="item">
-
-                <strong>
-                  ${fwEscape(note.title)}
-                </strong>
-
-                <p>
-                  ${fwEscape(note.text)}
-                </p>
-
-                <p class="note">
-                  ${new Date(note.date)
-                    .toLocaleDateString("de-DE")}
-                </p>
-
-                <button
-                  class="btn danger small"
-                  onclick="deleteFwOwnNote(${note.id})"
-                >
-                  Notiz löschen
+            {activePage === "materials" && (
+              <Card title="Materialdatenbank">
+                <button className="addButton" onClick={addMaterial}>
+                  + Material anlegen
                 </button>
 
-              </div>
-            `;
-          }).join("")
-        : `
-          <p class="note">
-            Noch keine eigenen Notizen gespeichert.
-          </p>
-        `
-      }
+                <div className="tableWrapper">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Material</th>
+                        <th>Kategorie</th>
+                        <th>Hersteller</th>
+                        <th>Lieferant</th>
+                        <th>Bestand</th>
+                        <th>Einkauf</th>
+                        <th>Verkauf</th>
+                      </tr>
+                    </thead>
 
-    </div>
-  `;
+                    <tbody>
+                      {materials
+                        .filter((material) =>
+                          material.name
+                            .toLowerCase()
+                            .includes(search.toLowerCase()),
+                        )
+                        .map((material) => (
+                          <tr key={material.id}>
+                            <td>
+                              <input
+                                value={material.name}
+                                onChange={(event) =>
+                                  setMaterials((current) =>
+                                    current.map((item) =>
+                                      item.id === material.id
+                                        ? {
+                                            ...item,
+                                            name: event.target.value,
+                                          }
+                                        : item,
+                                    ),
+                                  )
+                                }
+                              />
+
+                              <small>
+                                {material.articleNumber}
+                              </small>
+                            </td>
+
+                            <td>{material.category}</td>
+                            <td>{material.manufacturer}</td>
+                            <td>{material.supplier}</td>
+
+                            <td>
+                              <input
+                                type="number"
+                                value={material.stock}
+                                onChange={(event) =>
+                                  setMaterials((current) =>
+                                    current.map((item) =>
+                                      item.id === material.id
+                                        ? {
+                                            ...item,
+                                            stock: Number(
+                                              event.target.value,
+                                            ),
+                                          }
+                                        : item,
+                                    ),
+                                  )
+                                }
+                              />
+                            </td>
+
+                            <td>
+                              <input
+                                type="number"
+                                step="0.01"
+                                value={material.purchasePrice}
+                                onChange={(event) =>
+                                  setMaterials((current) =>
+                                    current.map((item) =>
+                                      item.id === material.id
+                                        ? {
+                                            ...item,
+                                            purchasePrice: Number(
+                                              event.target.value,
+                                            ),
+                                            lastPriceUpdate:
+                                              today(),
+                                          }
+                                        : item,
+                                    ),
+                                  )
+                                }
+                              />
+                            </td>
+
+                            <td>{euro(material.sellingPrice)}</td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                </div>
+              </Card>
+            )}
+
+            {activePage === "services" && (
+              <Card title="Festpreis-Leistungen">
+                <button className="addButton" onClick={addService}>
+                  + Leistung anlegen
+                </button>
+
+                <div className="cardGrid">
+                  {services.map((service) => (
+                    <div className="smallCard" key={service.id}>
+                      <span>{service.category}</span>
+
+                      <input
+                        className="titleInput"
+                        value={service.name}
+                        onChange={(event) =>
+                          setServices((current) =>
+                            current.map((item) =>
+                              item.id === service.id
+                                ? {
+                                    ...item,
+                                    name: event.target.value,
+                                  }
+                                : item,
+                            ),
+                          )
+                        }
+                      />
+
+                      <div className="priceRow">
+                        <input
+                          type="number"
+                          step="0.01"
+                          value={service.price}
+                          onChange={(event) =>
+                            setServices((current) =>
+                              current.map((item) =>
+                                item.id === service.id
+                                  ? {
+                                      ...item,
+                                      price: Number(
+                                        event.target.value,
+                                      ),
+                                    }
+                                  : item,
+                              ),
+                            )
+                          }
+                        />
+
+                        <span>pro {service.unit}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </Card>
+            )}
+
+            {activePage === "warehouse" && (
+              <Card title="Lagerübersicht">
+                <div className="cardGrid four">
+                  {materials.map((material) => {
+                    const percentage = Math.min(
+                      100,
+                      Math.round(
+                        (material.stock /
+                          Math.max(
+                            material.minimumStock * 2,
+                            1,
+                          )) *
+                          100,
+                      ),
+                    );
+
+                    return (
+                      <div
+                        className="smallCard"
+                        key={material.id}
+                      >
+                        <strong>{material.name}</strong>
+                        <span>{material.articleNumber}</span>
+
+                        <div className="stockNumber">
+                          {material.stock}
+                        </div>
+
+                        <div className="progress">
+                          <div
+                            style={{
+                              width: `${percentage}%`,
+                            }}
+                          />
+                        </div>
+
+                        <small>
+                          Mindestbestand:{" "}
+                          {material.minimumStock}
+                        </small>
+                      </div>
+                    );
+                  })}
+                </div>
+              </Card>
+            )}
+
+            {activePage === "employees" && (
+              <>
+                <button className="addButton" onClick={addEmployee}>
+                  + Mitarbeiter anlegen
+                </button>
+
+                <div className="cardGrid">
+                  {employees.map((employee) => {
+                    const overtime =
+                      employee.monthlyHours -
+                      employee.targetMonthlyHours;
+
+                    return (
+                      <div
+                        className="employeeCard"
+                        key={employee.id}
+                      >
+                        <div className="employeeHeader">
+                          <div className="employeeAvatar">
+                            {employee.name
+                              .split(" ")
+                              .map((word) => word[0])
+                              .join("")}
+                          </div>
+
+                          <div>
+                            <input
+                              className="titleInput"
+                              value={employee.name}
+                              onChange={(event) =>
+                                setEmployees((current) =>
+                                  current.map((item) =>
+                                    item.id === employee.id
+                                      ? {
+                                          ...item,
+                                          name: event.target.value,
+                                        }
+                                      : item,
+                                  ),
+                                )
+                              }
+                            />
+
+                            <select
+                              value={employee.role}
+                              onChange={(event) =>
+                                setEmployees((current) =>
+                                  current.map((item) =>
+                                    item.id === employee.id
+                                      ? {
+                                          ...item,
+                                          role: event.target
+                                            .value as EmployeeRole,
+                                        }
+                                      : item,
+                                  ),
+                                )
+                              }
+                            >
+                              <option>Obermonteur</option>
+                              <option>Monteur</option>
+                              <option>Helfer</option>
+                              <option>Azubi</option>
+                            </select>
+                          </div>
+                        </div>
+
+                        <div className="employeeValues">
+                          <div>
+                            <span>Abrechnung</span>
+                            <strong>
+                              {euro(employee.hourlyRate)}/h
+                            </strong>
+                          </div>
+
+                          <div>
+                            <span>Diese Woche</span>
+                            <strong>
+                              {employee.weeklyHours} h
+                            </strong>
+                          </div>
+
+                          <div>
+                            <span>Dieser Monat</span>
+                            <strong>
+                              {employee.monthlyHours} h
+                            </strong>
+                          </div>
+
+                          <div>
+                            <span>Überstunden</span>
+                            <strong
+                              className={
+                                overtime >= 0
+                                  ? "positive"
+                                  : "negative"
+                              }
+                            >
+                              {overtime >= 0 ? "+" : ""}
+                              {overtime} h
+                            </strong>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </>
+            )}
+
+            {activePage === "suppliers" && (
+              <>
+                <button className="addButton" onClick={addSupplier}>
+                  + Lieferant oder Hersteller
+                </button>
+
+                <div className="cardGrid">
+                  {suppliers.map((supplier) => (
+                    <div
+                      className="supplierCard"
+                      key={supplier.id}
+                    >
+                      <span className="supplierType">
+                        {supplier.type}
+                      </span>
+
+                      <input
+                        className="titleInput"
+                        value={supplier.company}
+                        onChange={(event) =>
+                          setSuppliers((current) =>
+                            current.map((item) =>
+                              item.id === supplier.id
+                                ? {
+                                    ...item,
+                                    company: event.target.value,
+                                  }
+                                : item,
+                            ),
+                          )
+                        }
+                      />
+
+                      <label>
+                        Außendienstkontakt
+                        <input
+                          value={supplier.contactName}
+                          onChange={(event) =>
+                            setSuppliers((current) =>
+                              current.map((item) =>
+                                item.id === supplier.id
+                                  ? {
+                                      ...item,
+                                      contactName:
+                                        event.target.value,
+                                    }
+                                  : item,
+                              ),
+                            )
+                          }
+                        />
+                      </label>
+
+                      <label>
+                        Telefon
+                        <input
+                          value={supplier.phone}
+                          onChange={(event) =>
+                            setSuppliers((current) =>
+                              current.map((item) =>
+                                item.id === supplier.id
+                                  ? {
+                                      ...item,
+                                      phone: event.target.value,
+                                    }
+                                  : item,
+                              ),
+                            )
+                          }
+                        />
+                      </label>
+
+                      <label>
+                        E-Mail
+                        <input
+                          value={supplier.email}
+                          onChange={(event) =>
+                            setSuppliers((current) =>
+                              current.map((item) =>
+                                item.id === supplier.id
+                                  ? {
+                                      ...item,
+                                      email: event.target.value,
+                                    }
+                                  : item,
+                              ),
+                            )
+                          }
+                        />
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {activePage === "invoices" && (
+              <Card title="Rechnungsübersicht">
+                <div className="invoiceStats">
+                  <div>
+                    <span>Offen</span>
+                    <strong>{euro(6820)}</strong>
+                  </div>
+
+                  <div>
+                    <span>Bezahlt</span>
+                    <strong>{euro(12450)}</strong>
+                  </div>
+
+                  <div>
+                    <span>Überfällig</span>
+                    <strong>{euro(980)}</strong>
+                  </div>
+                </div>
+
+                <div className="tableWrapper">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Nummer</th>
+                        <th>Kunde</th>
+                        <th>Projekt</th>
+                        <th>Betrag</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr>
+                        <td>RE-2026-1042</td>
+                        <td>Familie Müller</td>
+                        <td>EFH Müller – Attika</td>
+                        <td>{euro(2380)}</td>
+                        <td>Entwurf</td>
+                      </tr>
+
+                      <tr>
+                        <td>RE-2026-1041</td>
+                        <td>Hausverwaltung West</td>
+                        <td>Wohnanlage West</td>
+                        <td>{euro(4440)}</td>
+                        <td>Versendet</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </Card>
+            )}
+
+            {activePage === "settings" && (
+              <div className="cardGrid">
+                {[
+                  "Stundensätze und Rollen",
+                  "Materialaufschläge",
+                  "Rechnungsdaten",
+                  "DATEV und Buchhaltung",
+                  "Benutzerrechte",
+                  "KI-Einstellungen",
+                ].map((setting) => (
+                  <button
+                    className="settingsCard"
+                    key={setting}
+                  >
+                    <strong>{setting}</strong>
+                    <span>Konfiguration öffnen →</span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </section>
+        </main>
+      </div>
+
+      <style jsx global>{`
+        * {
+          box-sizing: border-box;
+        }
+
+        html,
+        body {
+          margin: 0;
+          min-height: 100%;
+          background: #f3f6f4;
+          color: #17221b;
+          font-family: Arial, Helvetica, sans-serif;
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+          font: inherit;
+        }
+
+        button {
+          cursor: pointer;
+        }
+
+        .app {
+          min-height: 100vh;
+        }
+
+        .sidebar {
+          position: fixed;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          z-index: 50;
+          display: flex;
+          width: 270px;
+          flex-direction: column;
+          padding: 18px 14px;
+          background: #102319;
+          color: white;
+        }
+
+        .logo {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 7px 8px 24px;
+        }
+
+        .logoMark {
+          display: grid;
+          width: 43px;
+          height: 43px;
+          place-items: center;
+          border-radius: 12px;
+          background: #d5ff52;
+          color: #102319;
+          font-weight: 900;
+        }
+
+        .logo strong,
+        .logo span,
+        .user strong,
+        .user span {
+          display: block;
+        }
+
+        .logo span,
+        .user span {
+          margin-top: 3px;
+          color: #a1b4a8;
+          font-size: 12px;
+        }
+
+        .closeMenu {
+          display: none;
+          margin-left: auto;
+          border: none;
+          background: transparent;
+          color: white;
+          font-size: 26px;
+        }
+
+        nav {
+          display: flex;
+          flex-direction: column;
+          gap: 3px;
+        }
+
+        .navButton {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          width: 100%;
+          padding: 13px 14px;
+          border: none;
+          border-radius: 10px;
+          background: transparent;
+          color: #bdc9c1;
+          text-align: left;
+        }
+
+        .navButton:hover,
+        .navButton.active {
+          background: #203b2b;
+          color: white;
+        }
+
+        .navButton.active {
+          box-shadow: inset 3px 0 #d5ff52;
+        }
+
+        .navIcon {
+          display: inline-grid;
+          width: 22px;
+          place-items: center;
+          font-size: 18px;
+        }
+
+        .user {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          margin-top: auto;
+          padding: 16px 8px 4px;
+          border-top: 1px solid #2d4636;
+        }
+
+        .avatar,
+        .employeeAvatar {
+          display: grid;
+          place-items: center;
+          border-radius: 50%;
+          background: #d5ff52;
+          color: #102319;
+          font-weight: 900;
+        }
+
+        .avatar {
+          width: 39px;
+          height: 39px;
+          font-size: 13px;
+        }
+
+        main {
+          min-height: 100vh;
+          margin-left: 270px;
+        }
+
+        header {
+          position: sticky;
+          top: 0;
+          z-index: 30;
+          display: flex;
+          min-height: 86px;
+          align-items: center;
+          justify-content: space-between;
+          padding: 14px 30px;
+          border-bottom: 1px solid #e0e6e2;
+          background: white;
+        }
+
+        .headerTitle {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .headerTitle span {
+          color: #78837c;
+          font-size: 12px;
+        }
+
+        h1 {
+          margin: 3px 0 0;
+          font-size: 25px;
+        }
+
+        .menuButton {
+          display: none;
+          border: none;
+          background: transparent;
+          font-size: 24px;
+        }
+
+        .headerActions {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .search {
+          width: 210px;
+          padding: 11px 13px;
+          border: 1px solid #dce3df;
+          border-radius: 10px;
+          outline: none;
+          background: #f5f7f6;
+        }
+
+        .primary,
+        .lightButton,
+        .addButton {
+          padding: 11px 16px;
+          border: none;
+          border-radius: 10px;
+          font-weight: 700;
+        }
+
+        .primary {
+          background: #183a27;
+          color: white;
+        }
+
+        .lightButton {
+          background: white;
+          color: #183a27;
+        }
+
+        .addButton {
+          margin-bottom: 18px;
+          background: #183a27;
+          color: white;
+        }
+
+        .content {
+          max-width: 1600px;
+          margin: auto;
+          padding: 28px;
+        }
+
+        .hero {
+          display: flex;
+          align-items: flex-end;
+          justify-content: space-between;
+          gap: 20px;
+          padding: 34px;
+          border-radius: 19px;
+          background: linear-gradient(
+            130deg,
+            #173b28,
+            #326246
+          );
+          color: white;
+          box-shadow: 0 12px 30px rgba(16, 40, 25, 0.15);
+        }
+
+        .hero h2 {
+          margin: 14px 0 8px;
+          font-size: 35px;
+        }
+
+        .hero p {
+          max-width: 700px;
+          margin: 0;
+          color: #d9e5dd;
+        }
+
+        .greenBadge {
+          display: inline-block;
+          padding: 7px 11px;
+          border-radius: 999px;
+          background: #d5ff52;
+          color: #173520;
+          font-size: 12px;
+          font-weight: 800;
+        }
+
+        .stats {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 16px;
+          margin: 20px 0;
+        }
+
+        .stat,
+        .card,
+        .smallCard,
+        .employeeCard,
+        .supplierCard,
+        .settingsCard {
+          border: 1px solid #dfe6e1;
+          border-radius: 16px;
+          background: white;
+          box-shadow: 0 4px 14px rgba(22, 43, 29, 0.04);
+        }
+
+        .stat {
+          padding: 21px;
+        }
+
+        .stat span,
+        .stat small {
+          display: block;
+          color: #78847c;
+        }
+
+        .stat strong {
+          display: block;
+          margin: 9px 0;
+          font-size: 27px;
+        }
+
+        .dashboardGrid {
+          display: grid;
+          grid-template-columns: 1.4fr 1fr;
+          gap: 18px;
+        }
+
+        .card {
+          padding: 20px;
+        }
+
+        .cardTitle {
+          margin: 0 0 18px;
+          font-size: 20px;
+        }
+
+        .reportListItem {
+          display: flex;
+          width: 100%;
+          align-items: center;
+          justify-content: space-between;
+          gap: 15px;
+          margin-bottom: 8px;
+          padding: 14px;
+          border: 1px solid #e3e9e5;
+          border-radius: 12px;
+          background: white;
+          text-align: left;
+        }
+
+        .reportListItem:hover,
+        .reportListItem.selected {
+          border-color: #86aa91;
+          background: #f5faf7;
+        }
+
+        .reportListItem strong,
+        .reportListItem span {
+          display: block;
+        }
+
+        .reportListItem span {
+          margin-top: 4px;
+          color: #7b867f;
+          font-size: 13px;
+        }
+
+        .alignRight {
+          text-align: right;
+        }
+
+        .status {
+          display: inline-block !important;
+          margin: 0 0 6px !important;
+          padding: 5px 9px;
+          border-radius: 999px;
+          font-size: 11px !important;
+          font-weight: 800;
+        }
+
+        .status.entwurf {
+          background: #f2eddc;
+          color: #806a1e;
+        }
+
+        .status.freigegeben {
+          background: #e4f3e8;
+          color: #286c40;
+        }
+
+        .status.abgerechnet {
+          background: #e7edf3;
+          color: #435d75;
+        }
+
+        .warning,
+        .infoBox {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          margin-bottom: 10px;
+          padding: 14px;
+          border-radius: 12px;
+        }
+
+        .warning {
+          background: #fff1e2;
+          color: #8f541a;
+        }
+
+        .infoBox {
+          background: #edf7f0;
+          color: #2e6542;
+        }
+
+        .warning span,
+        .infoBox span {
+          font-size: 13px;
+          line-height: 1.4;
+        }
+
+        .reportsGrid {
+          display: grid;
+          grid-template-columns: 380px 1fr;
+          gap: 18px;
+        }
+
+        .reportEditor {
+          padding: 22px;
+          border: 1px solid #dfe6e1;
+          border-radius: 16px;
+          background: white;
+        }
+
+        .reportEditorHeader {
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          gap: 20px;
+          margin-bottom: 20px;
+        }
+
+        .reportEditorHeader h2 {
+          margin: 0 0 5px;
+        }
+
+        .reportTotal {
+          font-size: 25px;
+        }
+
+        .formGrid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 12px;
+        }
+
+        label {
+          display: block;
+          color: #657168;
+          font-size: 12px;
+          font-weight: 700;
+        }
+
+        input,
+        select,
+        textarea {
+          width: 100%;
+          padding: 10px;
+          border: 1px solid #d8e0db;
+          border-radius: 9px;
+          outline: none;
+          background: white;
+        }
+
+        label input,
+        label select,
+        label textarea {
+          margin-top: 6px;
+        }
+
+        .editorSection {
+          margin-top: 20px;
+          padding-top: 18px;
+          border-top: 1px solid #e4eae6;
+        }
+
+        .editorSectionHeader {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 10px;
+        }
+
+        .editorSectionHeader h3 {
+          margin: 0 0 12px;
+          font-size: 17px;
+        }
+
+        .textButton {
+          border: none;
+          background: transparent;
+          color: #287144;
+          font-weight: 700;
+        }
+
+        .entryRow {
+          display: grid;
+          grid-template-columns: 1fr 110px 90px 40px;
+          gap: 8px;
+          align-items: center;
+          margin: 8px 0;
+        }
+
+        .entryRow span {
+          color: #738078;
+          font-size: 13px;
+        }
+
+        .deleteButton {
+          height: 39px;
+          border: none;
+          border-radius: 8px;
+          background: #f8e9e9;
+          color: #a03c3c;
+        }
+
+        .aiBox {
+          margin-top: 12px;
+          padding: 13px;
+          border-radius: 10px;
+          background: #edf7f0;
+          color: #34634a;
+          font-size: 13px;
+        }
+
+        textarea {
+          min-height: 100px;
+          resize: vertical;
+        }
+
+        .descriptionLabel {
+          margin-top: 20px;
+        }
+
+        .reportButtons {
+          display: flex;
+          justify-content: flex-end;
+          gap: 10px;
+          margin-top: 18px;
+        }
+
+        .secondary {
+          padding: 11px 16px;
+          border: 1px solid #d7dfda;
+          border-radius: 10px;
+          background: white;
+          color: #183a27;
+          font-weight: 700;
+        }
+
+        .tableWrapper {
+          overflow-x: auto;
+        }
+
+        table {
+          width: 100%;
+          min-width: 900px;
+          border-collapse: collapse;
+        }
+
+        th,
+        td {
+          padding: 13px;
+          border-bottom: 1px solid #e5ebe7;
+          text-align: left;
+        }
+
+        th {
+          color: #728078;
+          font-size: 12px;
+          text-transform: uppercase;
+        }
+
+        td input {
+          min-width: 90px;
+        }
+
+        td small {
+          display: block;
+          margin-top: 5px;
+          color: #89938d;
+        }
+
+        .cardGrid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 16px;
+        }
+
+        .cardGrid.four {
+          grid-template-columns: repeat(4, 1fr);
+        }
+
+        .smallCard,
+        .employeeCard,
+        .supplierCard {
+          padding: 19px;
+        }
+
+        .smallCard > span,
+        .smallCard > small {
+          color: #78847d;
+          font-size: 12px;
+        }
+
+        .titleInput {
+          margin: 10px 0 18px;
+          border: none;
+          border-bottom: 1px solid #dce3df;
+          border-radius: 0;
+          padding-left: 0;
+          font-size: 18px;
+          font-weight: 800;
+        }
+
+        .priceRow {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 10px;
+        }
+
+        .priceRow input {
+          max-width: 120px;
+          font-size: 20px;
+          font-weight: 800;
+        }
+
+        .stockNumber {
+          margin: 20px 0 10px;
+          font-size: 31px;
+          font-weight: 900;
+        }
+
+        .progress {
+          height: 8px;
+          margin-bottom: 8px;
+          overflow: hidden;
+          border-radius: 999px;
+          background: #e5ebe7;
+        }
+
+        .progress div {
+          height: 100%;
+          border-radius: inherit;
+          background: #4d8d61;
+        }
+
+        .employeeHeader {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+
+        .employeeAvatar {
+          width: 49px;
+          height: 49px;
+          flex: 0 0 auto;
+        }
+
+        .employeeHeader > div:last-child {
+          flex: 1;
+        }
+
+        .employeeHeader .titleInput {
+          margin: 0 0 5px;
+        }
+
+        .employeeValues {
+          margin-top: 18px;
+        }
+
+        .employeeValues div {
+          display: flex;
+          justify-content: space-between;
+          gap: 10px;
+          padding: 9px 0;
+          border-bottom: 1px solid #edf1ee;
+        }
+
+        .employeeValues span {
+          color: #77837b;
+        }
+
+        .positive {
+          color: #2d7145;
+        }
+
+        .negative {
+          color: #a34c42;
+        }
+
+        .supplierType {
+          display: inline-block;
+          padding: 5px 8px;
+          border-radius: 999px;
+          background: #edf4ef;
+          color: #376048;
+          font-size: 11px;
+          font-weight: 800;
+        }
+
+        .supplierCard label {
+          margin-top: 10px;
+        }
+
+        .invoiceStats {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 12px;
+          margin-bottom: 22px;
+        }
+
+        .invoiceStats div {
+          padding: 17px;
+          border-radius: 12px;
+          background: #f3f7f4;
+        }
+
+        .invoiceStats span,
+        .invoiceStats strong {
+          display: block;
+        }
+
+        .invoiceStats span {
+          color: #748078;
+          font-size: 13px;
+        }
+
+        .invoiceStats strong {
+          margin-top: 6px;
+          font-size: 22px;
+        }
+
+        .settingsCard {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          padding: 22px;
+          border: 1px solid #dfe6e1;
+          text-align: left;
+        }
+
+        .settingsCard span {
+          color: #728078;
+        }
+
+        .empty {
+          padding: 20px;
+          color: #78847d;
+          text-align: center;
+        }
+
+        @media (max-width: 1100px) {
+          .stats {
+            grid-template-columns: repeat(2, 1fr);
+          }
+
+          .dashboardGrid,
+          .reportsGrid {
+            grid-template-columns: 1fr;
+          }
+
+          .cardGrid,
+          .cardGrid.four {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+
+        @media (max-width: 760px) {
+          .sidebar {
+            transform: translateX(-100%);
+            transition: transform 0.2s ease;
+          }
+
+          .sidebar.open {
+            transform: translateX(0);
+          }
+
+          .closeMenu,
+          .menuButton {
+            display: block;
+          }
+
+          main {
+            margin-left: 0;
+          }
+
+          header {
+            min-height: 76px;
+            padding: 12px 15px;
+          }
+
+          .search {
+            display: none;
+          }
+
+          .headerActions .primary {
+            padding: 10px;
+            font-size: 12px;
+          }
+
+          .content {
+            padding: 16px;
+          }
+
+          .hero {
+            display: block;
+            padding: 24px;
+          }
+
+          .hero h2 {
+            font-size: 27px;
+          }
+
+          .lightButton {
+            margin-top: 20px;
+          }
+
+          .stats,
+          .dashboardGrid,
+          .cardGrid,
+          .cardGrid.four,
+          .invoiceStats,
+          .formGrid {
+            grid-template-columns: 1fr;
+          }
+
+          .entryRow {
+            grid-template-columns: 1fr 80px 65px 38px;
+          }
+
+          .reportEditorHeader {
+            display: block;
+          }
+
+          .reportTotal {
+            display: block;
+            margin-top: 10px;
+          }
+        }
+      `}</style>
+    </>
+  );
 }
 
-/*
-  Falls deine alte App renderRules() aufruft,
-  wird diese Funktion überschrieben.
-*/
-window.renderRules = function(){
-  if(!document.getElementById("fwCategoryList")){
-    initializeKnowledgeArea();
-  }else{
-    renderKnowledgeArea();
-  }
-};
+function Stat({
+  title,
+  value,
+  text,
+}: {
+  title: string;
+  value: string;
+  text: string;
+}) {
+  return (
+    <div className="stat">
+      <span>{title}</span>
+      <strong>{value}</strong>
+      <small>{text}</small>
+    </div>
+  );
+}
 
-/*
-  Bereich nach dem Laden automatisch starten.
-*/
-setTimeout(function(){
-  initializeKnowledgeArea();
-},300);
+function Card({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="card">
+      <h2 className="cardTitle">{title}</h2>
+      {children}
+    </div>
+  );
+}
 
-})();
-</script>
-<!-- SPENGLEROS FACHWISSEN-UPDATE ENDE -->
-</body>
+function Status({
+  status,
+}: {
+  status: Report["status"];
+}) {
+  return (
+    <span className={`status ${status.toLowerCase()}`}>
+      {status}
+    </span>
+  );
+}
 
-</html>
+function ReportEditor({
+  report,
+  employees,
+  materials,
+  services,
+  total,
+  onChange,
+}: {
+  report: Report;
+  employees: Employee[];
+  materials: Material[];
+  services: Service[];
+  total: number;
+  onChange: (report: Report) => void;
+}) {
+  return (
+    <div className="reportEditor">
+      <div className="reportEditorHeader">
+        <div>
+          <h2>{report.project}</h2>
+          <Status status={report.status} />
+        </div>
+
+        <strong className="reportTotal">{euro(total)}</strong>
+      </div>
+
+      <div className="formGrid">
+        <label>
+          Baustelle
+          <input
+            value={report.project}
+            onChange={(event) =>
+              onChange({
+                ...report,
+                project: event.target.value,
+              })
+            }
+          />
+        </label>
+
+        <label>
+          Kunde
+          <input
+            value={report.customer}
+            onChange={(event) =>
+              onChange({
+                ...report,
+                customer: event.target.value,
+              })
+            }
+          />
+        </label>
+      </div>
+
+      <EditorSection
+        title="Mitarbeiter und Arbeitszeiten"
+        action="Mitarbeiter hinzufügen"
+        onAction={() =>
+          onChange({
+            ...report,
+            employees: [
+              ...report.employees,
+              {
+                employeeId: employees[0].id,
+                hours: 1,
+              },
+            ],
+          })
+        }
+      >
+        {report.employees.map((entry, index) => {
+          const employee = employees.find(
+            (item) => item.id === entry.employeeId,
+          );
+
+          return (
+            <div className="entryRow" key={index}>
+              <select
+                value={entry.employeeId}
+                onChange={(event) => {
+                  const entries = [...report.employees];
+
+                  entries[index] = {
+                    ...entry,
+                    employeeId: Number(event.target.value),
+                  };
+
+                  onChange({
+                    ...report,
+                    employees: entries,
+                  });
+                }}
+              >
+                {employees.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.name} – {item.role}
+                  </option>
+                ))}
+              </select>
+
+              <input
+                type="number"
+                min="0"
+                step="0.25"
+                value={entry.hours}
+                onChange={(event) => {
+                  const entries = [...report.employees];
+
+                  entries[index] = {
+                    ...entry,
+                    hours: Number(event.target.value),
+                  };
+
+                  onChange({
+                    ...report,
+                    employees: entries,
+                  });
+                }}
+              />
+
+              <span>
+                {employee
+                  ? `${euro(employee.hourlyRate)}/h`
+                  : "Stunden"}
+              </span>
+
+              <button
+                className="deleteButton"
+                onClick={() =>
+                  onChange({
+                    ...report,
+                    employees: report.employees.filter(
+                      (_, itemIndex) => itemIndex !== index,
+                    ),
+                  })
+                }
+              >
+                ×
+              </button>
+            </div>
+          );
+        })}
+      </EditorSection>
+
+      <EditorSection
+        title="Verwendetes Material"
+        action="Material hinzufügen"
+        onAction={() =>
+          onChange({
+            ...report,
+            materials: [
+              ...report.materials,
+              {
+                materialId: materials[0].id,
+                quantity: 1,
+              },
+            ],
+          })
+        }
+      >
+        {report.materials.map((entry, index) => {
+          const material = materials.find(
+            (item) => item.id === entry.materialId,
+          );
+
+          return (
+            <div className="entryRow" key={index}>
+              <select
+                value={entry.materialId}
+                onChange={(event) => {
+                  const entries = [...report.materials];
+
+                  entries[index] = {
+                    ...entry,
+                    materialId: Number(event.target.value),
+                  };
+
+                  onChange({
+                    ...report,
+                    materials: entries,
+                  });
+                }}
+              >
+                {materials.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+
+              <input
+                type="number"
+                min="0"
+                step="0.1"
+                value={entry.quantity}
+                onChange={(event) => {
+                  const entries = [...report.materials];
+
+                  entries[index] = {
+                    ...entry,
+                    quantity: Number(event.target.value),
+                  };
+
+                  onChange({
+                    ...report,
+                    materials: entries,
+                  });
+                }}
+              />
+
+              <span>{material?.unit}</span>
+
+              <button
+                className="deleteButton"
+                onClick={() =>
+                  onChange({
+                    ...report,
+                    materials: report.materials.filter(
+                      (_, itemIndex) => itemIndex !== index,
+                    ),
+                  })
+                }
+              >
+                ×
+              </button>
+            </div>
+          );
+        })}
+
+        <div className="aiBox">
+          KI-Vorschlag: Die App kann beispielsweise 70
+          Rinnenhalter vorschlagen. Die tatsächlich verbaute Menge
+          kann direkt auf 67 geändert werden.
+        </div>
+      </EditorSection>
+
+      <EditorSection
+        title="Festpreis-Leistungen"
+        action="Leistung hinzufügen"
+        onAction={() =>
+          onChange({
+            ...report,
+            services: [
+              ...report.services,
+              {
+                serviceId: services[0].id,
+                quantity: 1,
+              },
+            ],
+          })
+        }
+      >
+        {report.services.map((entry, index) => {
+          const service = services.find(
+            (item) => item.id === entry.serviceId,
+          );
+
+          return (
+            <div className="entryRow" key={index}>
+              <select
+                value={entry.serviceId}
+                onChange={(event) => {
+                  const entries = [...report.services];
+
+                  entries[index] = {
+                    ...entry,
+                    serviceId: Number(event.target.value),
+                  };
+
+                  onChange({
+                    ...report,
+                    services: entries,
+                  });
+                }}
+              >
+                {services.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.name} – {euro(item.price)}
+                  </option>
+                ))}
+              </select>
+
+              <input
+                type="number"
+                min="0"
+                step="1"
+                value={entry.quantity}
+                onChange={(event) => {
+                  const entries = [...report.services];
+
+                  entries[index] = {
+                    ...entry,
+                    quantity: Number(event.target.value),
+                  };
+
+                  onChange({
+                    ...report,
+                    services: entries,
+                  });
+                }}
+              />
+
+              <span>{service?.unit}</span>
+
+              <button
+                className="deleteButton"
+                onClick={() =>
+                  onChange({
+                    ...report,
+                    services: report.services.filter(
+                      (_, itemIndex) => itemIndex !== index,
+                    ),
+                  })
+                }
+              >
+                ×
+              </button>
+            </div>
+          );
+        })}
+      </EditorSection>
+
+      <label className="descriptionLabel">
+        Arbeitsbeschreibung und Notizen
+        <textarea
+          value={report.description}
+          onChange={(event) =>
+            onChange({
+              ...report,
+              description: event.target.value,
+            })
+          }
+        />
+      </label>
+
+      <div className="reportButtons">
+        <button
+          className="secondary"
+          onClick={() =>
+            alert("Der Rapport wurde im Browser gespeichert.")
+          }
+        >
+          Zwischenspeichern
+        </button>
+
+        <button
+          className="primary"
+          onClick={() =>
+            onChange({
+              ...report,
+              status: "Freigegeben",
+            })
+          }
+        >
+          Rapport freigeben
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function EditorSection({
+  title,
+  action,
+  onAction,
+  children,
+}: {
+  title: string;
+  action: string;
+  onAction: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="editorSection">
+      <div className="editorSectionHeader">
+        <h3>{title}</h3>
+
+        <button className="textButton" onClick={onAction}>
+          + {action}
+        </button>
+      </div>
+
+      {children}
+    </div>
+  );
+}
