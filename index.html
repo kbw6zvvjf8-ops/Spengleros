@@ -1,2500 +1,783 @@
-"use client";
-
-import { useEffect, useMemo, useState } from "react";
-
-type Page =
-  | "dashboard"
-  | "reports"
-  | "materials"
-  | "services"
-  | "warehouse"
-  | "employees"
-  | "suppliers"
-  | "invoices"
-  | "settings";
-
-type EmployeeRole = "Obermonteur" | "Monteur" | "Helfer" | "Azubi";
-
-type Employee = {
-  id: number;
-  name: string;
-  role: EmployeeRole;
-  hourlyRate: number;
-  weeklyHours: number;
-  monthlyHours: number;
-  targetMonthlyHours: number;
-};
-
-type Material = {
-  id: number;
-  name: string;
-  articleNumber: string;
-  category: string;
-  manufacturer: string;
-  supplier: string;
-  unit: string;
-  stock: number;
-  minimumStock: number;
-  purchasePrice: number;
-  sellingPrice: number;
-  lastPriceUpdate: string;
-};
-
-type Service = {
-  id: number;
-  name: string;
-  category: string;
-  unit: string;
-  price: number;
-};
-
-type Supplier = {
-  id: number;
-  company: string;
-  type: "Lieferant" | "Hersteller";
-  contactName: string;
-  phone: string;
-  email: string;
-};
-
-type EmployeeEntry = {
-  employeeId: number;
-  hours: number;
-};
-
-type MaterialEntry = {
-  materialId: number;
-  quantity: number;
-};
-
-type ServiceEntry = {
-  serviceId: number;
-  quantity: number;
-};
-
-type Report = {
-  id: number;
-  project: string;
-  customer: string;
-  date: string;
-  status: "Entwurf" | "Freigegeben" | "Abgerechnet";
-  employees: EmployeeEntry[];
-  materials: MaterialEntry[];
-  services: ServiceEntry[];
-  description: string;
-};
-
-const initialEmployees: Employee[] = [
+const knowledgeBase = [
   {
-    id: 1,
-    name: "Raphael Berger",
-    role: "Obermonteur",
-    hourlyRate: 78,
-    weeklyHours: 38.5,
-    monthlyHours: 173,
-    targetMonthlyHours: 160,
+    id: "dachentwaesserung",
+    title: "Dachentwässerung",
+    icon: "🌧️",
+    description: "Dachrinnen, Abläufe, Fallrohre und Gefälle",
+    chapters: [
+      {
+        id: "grundlagen-entwaesserung",
+        title: "Grundlagen",
+        text: `
+          <h3>Grundlagen der Dachentwässerung</h3>
+
+          <p>
+            Bei der Planung einer Dachentwässerung müssen unter anderem
+            Dachfläche, Dachform, örtliche Regenspende, Anzahl der
+            Abläufe und die Leistungsfähigkeit der Fallrohre
+            berücksichtigt werden.
+          </p>
+
+          <h4>In der Praxis prüfen</h4>
+
+          <ul>
+            <li>Wirksame Dachfläche</li>
+            <li>Anzahl und Lage der Abläufe</li>
+            <li>Rinnenform und Rinnengröße</li>
+            <li>Fallrohrgröße</li>
+            <li>Notentwässerung</li>
+            <li>Gefälle und Einbausituation</li>
+          </ul>
+
+          <p class="note">
+            Diese Kurzfassung ersetzt keine vollständige Bemessung
+            nach den jeweils geltenden Normen und Fachregeln.
+          </p>
+        `
+      },
+      {
+        id: "rinnengefaelle",
+        title: "Rinnengefälle",
+        text: `
+          <h3>Rinnengefälle</h3>
+
+          <p>
+            Das Gefälle unterstützt die sichere Ableitung des Wassers
+            zum Ablauf. Bei der Ausführung müssen Rinnenlänge,
+            Halterabstände, Ablaufposition und die bauliche Situation
+            berücksichtigt werden.
+          </p>
+
+          <h4>Typische Kontrollen</h4>
+
+          <ul>
+            <li>Hoch- und Tiefpunkt eindeutig festlegen</li>
+            <li>Rinnenhalter gleichmäßig ausrichten</li>
+            <li>Kein Gegengefälle</li>
+            <li>Wasserprobe nach der Montage</li>
+            <li>Ausreichende Bewegungsmöglichkeit des Werkstoffs</li>
+          </ul>
+        `
+      },
+      {
+        id: "fallrohre",
+        title: "Fallrohre und Abläufe",
+        text: `
+          <h3>Fallrohre und Abläufe</h3>
+
+          <p>
+            Fallrohre müssen auf die anfallende Wassermenge abgestimmt
+            werden. Zusätzlich sind Einlaufgestaltung, Rohrführung,
+            Befestigung und Übergänge zu beachten.
+          </p>
+
+          <h4>Typische Bauteile</h4>
+
+          <ul>
+            <li>Ablaufstutzen</li>
+            <li>Rohrbogen</li>
+            <li>Fallrohr</li>
+            <li>Rohrschelle</li>
+            <li>Standrohr oder Anschlussleitung</li>
+          </ul>
+        `
+      }
+    ]
   },
+
   {
-    id: 2,
-    name: "Max Huber",
-    role: "Monteur",
-    hourlyRate: 65,
-    weeklyHours: 40,
-    monthlyHours: 161,
-    targetMonthlyHours: 160,
+    id: "stehfalz",
+    title: "Stehfalz",
+    icon: "📏",
+    description: "Scharen, Hafte, Befestigung und Dehnung",
+    chapters: [
+      {
+        id: "stehfalz-grundlagen",
+        title: "Grundlagen",
+        text: `
+          <h3>Stehfalz – Grundlagen</h3>
+
+          <p>
+            Die Stehfalzdeckung besteht aus längs verlaufenden Scharen,
+            die über Falze miteinander verbunden werden. Die genaue
+            Ausführung richtet sich unter anderem nach Werkstoff,
+            Dachneigung, Scharenlänge und Beanspruchung.
+          </p>
+
+          <h4>Wichtige Punkte</h4>
+
+          <ul>
+            <li>Geeigneter Untergrund</li>
+            <li>Trennlage entsprechend dem Aufbau</li>
+            <li>Scharenbreite</li>
+            <li>Haftabstände</li>
+            <li>Fest- und Schiebehaftbereiche</li>
+            <li>Bewegungsausgleich</li>
+          </ul>
+        `
+      },
+      {
+        id: "hafte",
+        title: "Fest- und Schiebehafte",
+        text: `
+          <h3>Fest- und Schiebehafte</h3>
+
+          <p>
+            Hafte halten die Scharen am Untergrund. Der Festhaftbereich
+            fixiert die Schar, während Schiebehafte temperaturbedingte
+            Längenänderungen ermöglichen.
+          </p>
+
+          <h4>Kontrollpunkte</h4>
+
+          <ul>
+            <li>Festhaftbereich richtig anordnen</li>
+            <li>Schiebehafte dürfen die Bewegung nicht blockieren</li>
+            <li>Haftabstand an Beanspruchung anpassen</li>
+            <li>Geeignete Befestigungsmittel verwenden</li>
+          </ul>
+        `
+      },
+      {
+        id: "scharenbreiten",
+        title: "Scharenbreiten",
+        text: `
+          <h3>Scharenbreiten</h3>
+
+          <p>
+            Die Scharenbreite beeinflusst Materialverbrauch,
+            Windbeanspruchung, Optik und Verformungsverhalten.
+            Rand- und Eckbereiche können eine engere Befestigung oder
+            angepasste Aufteilung erfordern.
+          </p>
+
+          <p class="note">
+            Die zulässige Ausführung muss immer anhand des konkreten
+            Systems, des Werkstoffs und der geltenden Regelwerke
+            geprüft werden.
+          </p>
+        `
+      }
+    ]
   },
+
   {
-    id: 3,
-    name: "Lukas Klein",
-    role: "Helfer",
-    hourlyRate: 48,
-    weeklyHours: 37,
-    monthlyHours: 152,
-    targetMonthlyHours: 160,
+    id: "attika",
+    title: "Attika und Mauerabdeckungen",
+    icon: "🏢",
+    description: "Abdeckungen, Halter, Stöße und Tropfkanten",
+    chapters: [
+      {
+        id: "attika-grundlagen",
+        title: "Grundlagen",
+        text: `
+          <h3>Attika- und Mauerabdeckungen</h3>
+
+          <p>
+            Abdeckungen schützen die darunterliegenden Bauteile vor
+            Niederschlag. Sie müssen ausreichend überstehen,
+            kontrollierte Tropfkanten besitzen und temperaturbedingte
+            Bewegungen aufnehmen können.
+          </p>
+
+          <h4>Planungspunkte</h4>
+
+          <ul>
+            <li>Abdeckungsbreite</li>
+            <li>Aufkantungen</li>
+            <li>Tropfkanten</li>
+            <li>Halterabstände</li>
+            <li>Stoßausbildung</li>
+            <li>Gefälle zur sicheren Seite</li>
+          </ul>
+        `
+      },
+      {
+        id: "attika-stoesse",
+        title: "Stöße und Dehnung",
+        text: `
+          <h3>Stöße und Dehnung</h3>
+
+          <p>
+            Lange Abdeckungen müssen so ausgeführt werden, dass
+            Wärmeausdehnung und Zusammenziehen des Materials nicht zu
+            Beulen, offenen Stößen oder Schäden an Befestigungen führen.
+          </p>
+        `
+      }
+    ]
   },
+
   {
-    id: 4,
-    name: "Ben Fischer",
-    role: "Azubi",
-    hourlyRate: 32,
-    weeklyHours: 35,
-    monthlyHours: 146,
-    targetMonthlyHours: 160,
+    id: "anschluesse",
+    title: "Anschlüsse und Verwahrungen",
+    icon: "🧱",
+    description: "Wände, Kamine, Kehlen, Ortgänge und Dachfenster",
+    chapters: [
+      {
+        id: "wandanschluss",
+        title: "Wandanschlüsse",
+        text: `
+          <h3>Wandanschlüsse</h3>
+
+          <p>
+            Wandanschlüsse müssen Niederschlag sicher ableiten und
+            gegen Hinterlaufen geschützt sein. Wichtig sind eine
+            ausreichende Anschlusshöhe, sichere obere Verwahrung und
+            die Abstimmung mit dem Dachaufbau.
+          </p>
+
+          <h4>Typische Fehler</h4>
+
+          <ul>
+            <li>Zu geringe Anschlusshöhe</li>
+            <li>Fehlende Hinterlaufsicherung</li>
+            <li>Starre Verbindung bei beweglichen Bauteilen</li>
+            <li>Ungeeignete Dichtstoffe</li>
+          </ul>
+        `
+      },
+      {
+        id: "kaminanschluss",
+        title: "Kaminanschlüsse",
+        text: `
+          <h3>Kaminanschlüsse</h3>
+
+          <p>
+            Bei Kaminanschlüssen müssen Vorder-, Seiten- und
+            Hinteranschluss aufeinander abgestimmt werden. Die
+            Wasserführung muss auch bei Schnee, Schlagregen und
+            Verschmutzung funktionieren.
+          </p>
+        `
+      },
+      {
+        id: "kehlen",
+        title: "Kehlen",
+        text: `
+          <h3>Kehlen</h3>
+
+          <p>
+            Kehlen nehmen Wasser aus zwei Dachflächen auf. Deshalb sind
+            ausreichende Breite, sichere seitliche Anschlüsse und eine
+            ungehinderte Wasserführung besonders wichtig.
+          </p>
+        `
+      }
+    ]
   },
+
+  {
+    id: "werkstoffe",
+    title: "Werkstoffe",
+    icon: "🔩",
+    description: "Titanzink, Kupfer, Aluminium und Edelstahl",
+    chapters: [
+      {
+        id: "titanzink",
+        title: "Titanzink",
+        text: `
+          <h3>Titanzink</h3>
+
+          <p>
+            Titanzink wird häufig für Dachentwässerungen, Abdeckungen
+            und Fassaden eingesetzt. Bei Lagerung und Verarbeitung
+            müssen Feuchtigkeit, Materialverträglichkeit und
+            temperaturbedingte Bewegung berücksichtigt werden.
+          </p>
+        `
+      },
+      {
+        id: "kupfer",
+        title: "Kupfer",
+        text: `
+          <h3>Kupfer</h3>
+
+          <p>
+            Kupfer bildet mit der Zeit eine schützende Patina.
+            Ablaufendes Kupferwasser kann darunterliegende,
+            empfindlichere Metalle beeinflussen.
+          </p>
+        `
+      },
+      {
+        id: "materialvertraeglichkeit",
+        title: "Materialverträglichkeit",
+        text: `
+          <h3>Materialverträglichkeit</h3>
+
+          <p>
+            Unterschiedliche Metalle dürfen nicht beliebig miteinander
+            kombiniert werden. Feuchtigkeit und leitende Verbindungen
+            können Kontaktkorrosion begünstigen.
+          </p>
+
+          <h4>In der Praxis beachten</h4>
+
+          <ul>
+            <li>Fließrichtung des Niederschlagswassers</li>
+            <li>Direkter Metallkontakt</li>
+            <li>Geeignete Trennlagen</li>
+            <li>Befestigungsmittel</li>
+            <li>Herstellerangaben</li>
+          </ul>
+        `
+      }
+    ]
+  },
+
+  {
+    id: "fassaden",
+    title: "Metallfassaden",
+    icon: "🏗️",
+    description: "Unterkonstruktion, Hinterlüftung und Befestigung",
+    chapters: [
+      {
+        id: "fassaden-grundlagen",
+        title: "Grundlagen",
+        text: `
+          <h3>Metallfassaden – Grundlagen</h3>
+
+          <p>
+            Bei hinterlüfteten Metallfassaden müssen Bekleidung,
+            Befestigung, Unterkonstruktion, Hinterlüftungsraum,
+            Dämmung und Anschlüsse als Gesamtsystem geplant werden.
+          </p>
+
+          <h4>Prüfpunkte</h4>
+
+          <ul>
+            <li>Untergrund und Unterkonstruktion</li>
+            <li>Be- und Entlüftungsöffnungen</li>
+            <li>Windlasten</li>
+            <li>Fest- und Gleitpunkte</li>
+            <li>Fenster- und Sockelanschlüsse</li>
+          </ul>
+        `
+      }
+    ]
+  }
 ];
 
-const initialMaterials: Material[] = [
-  {
-    id: 1,
-    name: "Soudal Fix All Kleber",
-    articleNumber: "KL-001",
-    category: "Klebstoffe",
-    manufacturer: "Soudal",
-    supplier: "Würth",
-    unit: "Kartusche",
-    stock: 24,
-    minimumStock: 10,
-    purchasePrice: 11.5,
-    sellingPrice: 18.4,
-    lastPriceUpdate: "20.07.2026",
-  },
-  {
-    id: 2,
-    name: "Titanzink 0,7 mm",
-    articleNumber: "TZ-070",
-    category: "Bleche",
-    manufacturer: "Rheinzink",
-    supplier: "Rheinzink Direkt",
-    unit: "m²",
-    stock: 86,
-    minimumStock: 25,
-    purchasePrice: 28.5,
-    sellingPrice: 45.6,
-    lastPriceUpdate: "18.07.2026",
-  },
-  {
-    id: 3,
-    name: "Rinnenhalter 333 mm",
-    articleNumber: "RH-333",
-    category: "Dachentwässerung",
-    manufacturer: "Grömo",
-    supplier: "DachProfi Süd",
-    unit: "Stück",
-    stock: 67,
-    minimumStock: 40,
-    purchasePrice: 3.2,
-    sellingPrice: 5.5,
-    lastPriceUpdate: "12.07.2026",
-  },
-  {
-    id: 4,
-    name: "Spenglerschraube 4,5 × 35",
-    articleNumber: "SS-4535",
-    category: "Befestigung",
-    manufacturer: "Würth",
-    supplier: "Würth",
-    unit: "Stück",
-    stock: 320,
-    minimumStock: 100,
-    purchasePrice: 0.18,
-    sellingPrice: 0.45,
-    lastPriceUpdate: "08.07.2026",
-  },
-];
-
-const initialServices: Service[] = [
-  {
-    id: 1,
-    name: "Attika-Ecke ausbilden",
-    category: "Attika",
-    unit: "Stück",
-    price: 30,
-  },
-  {
-    id: 2,
-    name: "Rinnenstoß verlöten",
-    category: "Dachrinne",
-    unit: "Stück",
-    price: 5,
-  },
-  {
-    id: 3,
-    name: "Ablaufkasten montieren",
-    category: "Entwässerung",
-    unit: "Stück",
-    price: 85,
-  },
-  {
-    id: 4,
-    name: "Kamin einfassen",
-    category: "Anschlüsse",
-    unit: "Pauschale",
-    price: 420,
-  },
-];
-
-const initialSuppliers: Supplier[] = [
-  {
-    id: 1,
-    company: "Würth",
-    type: "Lieferant",
-    contactName: "Thomas Maier",
-    phone: "+49 171 555 1234",
-    email: "thomas.maier@beispiel.de",
-  },
-  {
-    id: 2,
-    company: "Rheinzink",
-    type: "Hersteller",
-    contactName: "Anna Keller",
-    phone: "+49 160 222 9911",
-    email: "anna.keller@beispiel.de",
-  },
-  {
-    id: 3,
-    company: "DachProfi Süd",
-    type: "Lieferant",
-    contactName: "Markus Steiner",
-    phone: "+49 172 888 4512",
-    email: "markus.steiner@beispiel.de",
-  },
-];
-
-const initialReports: Report[] = [
-  {
-    id: 1001,
-    project: "EFH Müller – Attika",
-    customer: "Familie Müller",
-    date: "23.07.2026",
-    status: "Entwurf",
-    employees: [
-      { employeeId: 1, hours: 8 },
-      { employeeId: 4, hours: 4 },
-    ],
-    materials: [
-      { materialId: 1, quantity: 2 },
-      { materialId: 2, quantity: 12.5 },
-    ],
-    services: [{ serviceId: 1, quantity: 4 }],
-    description: "Vier Attika-Ecken hergestellt und Anschlüsse angepasst.",
-  },
-  {
-    id: 1002,
-    project: "Wohnanlage West – Dachrinne",
-    customer: "Hausverwaltung West",
-    date: "22.07.2026",
-    status: "Freigegeben",
-    employees: [
-      { employeeId: 2, hours: 7.5 },
-      { employeeId: 3, hours: 5 },
-    ],
-    materials: [{ materialId: 3, quantity: 67 }],
-    services: [{ serviceId: 2, quantity: 12 }],
-    description:
-      "Die App schlug 70 Rinnenhalter vor. Tatsächlich wurden 67 verbaut.",
-  },
-];
-
-const navigation: { id: Page; label: string; icon: string }[] = [
-  { id: "dashboard", label: "Übersicht", icon: "▦" },
-  { id: "reports", label: "Rapporte", icon: "▤" },
-  { id: "materials", label: "Materialdatenbank", icon: "▣" },
-  { id: "services", label: "Festpreis-Leistungen", icon: "€" },
-  { id: "warehouse", label: "Lager", icon: "□" },
-  { id: "employees", label: "Mitarbeiter", icon: "♟" },
-  { id: "suppliers", label: "Lieferanten & Hersteller", icon: "⌂" },
-  { id: "invoices", label: "Rechnungen", icon: "≡" },
-  { id: "settings", label: "Einstellungen", icon: "⚙" },
-];
-
-function euro(value: number) {
-  return new Intl.NumberFormat("de-DE", {
-    style: "currency",
-    currency: "EUR",
-  }).format(value);
+function getKnowledgeFavorites(){
+  return JSON.parse(
+    localStorage.getItem("knowledgeFavorites") || "[]"
+  );
 }
 
-function today() {
-  return new Date().toLocaleDateString("de-DE");
+function saveKnowledgeFavorites(favorites){
+  localStorage.setItem(
+    "knowledgeFavorites",
+    JSON.stringify(favorites)
+  );
 }
 
-export default function HandwerkerApp() {
-  const [activePage, setActivePage] = useState<Page>("dashboard");
-  const [mobileMenu, setMobileMenu] = useState(false);
-  const [search, setSearch] = useState("");
-
-  const [employees, setEmployees] =
-    useState<Employee[]>(initialEmployees);
-
-  const [materials, setMaterials] =
-    useState<Material[]>(initialMaterials);
-
-  const [services, setServices] =
-    useState<Service[]>(initialServices);
-
-  const [suppliers, setSuppliers] =
-    useState<Supplier[]>(initialSuppliers);
-
-  const [reports, setReports] =
-    useState<Report[]>(initialReports);
-
-  const [selectedReportId, setSelectedReportId] = useState(
-    initialReports[0].id,
+function getOwnKnowledge(){
+  return JSON.parse(
+    localStorage.getItem("ownKnowledge") || "[]"
   );
+}
 
-  useEffect(() => {
-    const saved = localStorage.getItem("werkflow-data");
-
-    if (!saved) return;
-
-    try {
-      const data = JSON.parse(saved);
-
-      if (data.employees) setEmployees(data.employees);
-      if (data.materials) setMaterials(data.materials);
-      if (data.services) setServices(data.services);
-      if (data.suppliers) setSuppliers(data.suppliers);
-      if (data.reports) setReports(data.reports);
-    } catch {
-      console.error("Gespeicherte Daten konnten nicht geladen werden.");
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem(
-      "werkflow-data",
-      JSON.stringify({
-        employees,
-        materials,
-        services,
-        suppliers,
-        reports,
-      }),
-    );
-  }, [employees, materials, services, suppliers, reports]);
-
-  const selectedReport =
-    reports.find((report) => report.id === selectedReportId) ??
-    reports[0];
-
-  const lowStockMaterials = materials.filter(
-    (material) => material.stock <= material.minimumStock,
+function saveOwnKnowledgeData(notes){
+  localStorage.setItem(
+    "ownKnowledge",
+    JSON.stringify(notes)
   );
+}
 
-  function calculateReportTotal(report: Report) {
-    const employeeTotal = report.employees.reduce((sum, entry) => {
-      const employee = employees.find(
-        (item) => item.id === entry.employeeId,
+function renderKnowledgeOverview(){
+  const query =
+    (document.getElementById("rulesSearch")?.value || "")
+    .toLowerCase();
+
+  const favorites = getKnowledgeFavorites();
+
+  const categories = knowledgeBase
+    .map(category => {
+      const matchingChapters = category.chapters.filter(chapter =>
+        (
+          category.title + " " +
+          category.description + " " +
+          chapter.title + " " +
+          chapter.text.replace(/<[^>]+>/g," ")
+        )
+        .toLowerCase()
+        .includes(query)
       );
 
-      return sum + (employee?.hourlyRate ?? 0) * entry.hours;
-    }, 0);
+      if(query && matchingChapters.length === 0){
+        return "";
+      }
 
-    const materialTotal = report.materials.reduce((sum, entry) => {
-      const material = materials.find(
-        (item) => item.id === entry.materialId,
-      );
+      const chaptersToShow =
+        query ? matchingChapters : category.chapters;
 
-      return sum + (material?.sellingPrice ?? 0) * entry.quantity;
-    }, 0);
+      return `
+        <div class="card">
 
-    const serviceTotal = report.services.reduce((sum, entry) => {
-      const service = services.find(
-        (item) => item.id === entry.serviceId,
-      );
+          <h3>
+            ${category.icon}
+            ${esc(category.title)}
+          </h3>
 
-      return sum + (service?.price ?? 0) * entry.quantity;
-    }, 0);
+          <p>
+            ${esc(category.description)}
+          </p>
 
-    return employeeTotal + materialTotal + serviceTotal;
-  }
-
-  const totalReportValue = useMemo(
-    () =>
-      reports.reduce(
-        (sum, report) => sum + calculateReportTotal(report),
-        0,
-      ),
-    [reports, employees, materials, services],
-  );
-
-  function updateReport(updatedReport: Report) {
-    setReports((current) =>
-      current.map((report) =>
-        report.id === updatedReport.id ? updatedReport : report,
-      ),
-    );
-  }
-
-  function createReport() {
-    const report: Report = {
-      id: Date.now(),
-      project: "Neue Baustelle",
-      customer: "Neuer Kunde",
-      date: today(),
-      status: "Entwurf",
-      employees: [],
-      materials: [],
-      services: [],
-      description: "",
-    };
-
-    setReports((current) => [report, ...current]);
-    setSelectedReportId(report.id);
-    setActivePage("reports");
-  }
-
-  function addMaterial() {
-    setMaterials((current) => [
-      ...current,
-      {
-        id: Date.now(),
-        name: "Neues Material",
-        articleNumber: `MAT-${current.length + 1}`,
-        category: "Sonstiges",
-        manufacturer: "Nicht eingetragen",
-        supplier: "Nicht eingetragen",
-        unit: "Stück",
-        stock: 0,
-        minimumStock: 0,
-        purchasePrice: 0,
-        sellingPrice: 0,
-        lastPriceUpdate: today(),
-      },
-    ]);
-  }
-
-  function addService() {
-    setServices((current) => [
-      ...current,
-      {
-        id: Date.now(),
-        name: "Neue Leistung",
-        category: "Sonstiges",
-        unit: "Stück",
-        price: 0,
-      },
-    ]);
-  }
-
-  function addEmployee() {
-    setEmployees((current) => [
-      ...current,
-      {
-        id: Date.now(),
-        name: "Neuer Mitarbeiter",
-        role: "Monteur",
-        hourlyRate: 0,
-        weeklyHours: 0,
-        monthlyHours: 0,
-        targetMonthlyHours: 160,
-      },
-    ]);
-  }
-
-  function addSupplier() {
-    setSuppliers((current) => [
-      ...current,
-      {
-        id: Date.now(),
-        company: "Neuer Lieferant",
-        type: "Lieferant",
-        contactName: "",
-        phone: "",
-        email: "",
-      },
-    ]);
-  }
-
-  const pageTitle =
-    navigation.find((item) => item.id === activePage)?.label ??
-    "Übersicht";
-
-  return (
-    <>
-      <div className="app">
-        <aside className={mobileMenu ? "sidebar open" : "sidebar"}>
-          <div className="logo">
-            <div className="logoMark">W</div>
-
-            <div>
-              <strong>WerkFlow</strong>
-              <span>Handwerker-App</span>
-            </div>
-
-            <button
-              className="closeMenu"
-              onClick={() => setMobileMenu(false)}
+          ${chaptersToShow.map(chapter => `
+            <div
+              class="item"
+              onclick="openKnowledgeChapter(
+                '${category.id}',
+                '${chapter.id}'
+              )"
             >
-              ×
-            </button>
-          </div>
+              <strong>
+                ${esc(chapter.title)}
+              </strong>
 
-          <nav>
-            {navigation.map((item) => (
-              <button
-                key={item.id}
-                className={
-                  activePage === item.id
-                    ? "navButton active"
-                    : "navButton"
-                }
-                onClick={() => {
-                  setActivePage(item.id);
-                  setMobileMenu(false);
-                }}
-              >
-                <span className="navIcon">{item.icon}</span>
-                {item.label}
-              </button>
-            ))}
-          </nav>
+              <p>
+                Öffnen und nachlesen
+              </p>
 
-          <div className="user">
-            <div className="avatar">RB</div>
-
-            <div>
-              <strong>Raphael Berger</strong>
-              <span>Administrator</span>
+              ${
+                favorites.includes(chapter.id)
+                ? `<span class="badge ok">⭐ Favorit</span>`
+                : ""
+              }
             </div>
-          </div>
-        </aside>
+          `).join("")}
 
-        <main>
-          <header>
-            <div className="headerTitle">
-              <button
-                className="menuButton"
-                onClick={() => setMobileMenu(true)}
-              >
-                ☰
-              </button>
-
-              <div>
-                <span>WerkFlow Betriebsübersicht</span>
-                <h1>{pageTitle}</h1>
-              </div>
-            </div>
-
-            <div className="headerActions">
-              <input
-                className="search"
-                placeholder="Suchen …"
-                value={search}
-                onChange={(event) => setSearch(event.target.value)}
-              />
-
-              <button className="primary" onClick={createReport}>
-                + Neuer Rapport
-              </button>
-            </div>
-          </header>
-
-          <section className="content">
-            {activePage === "dashboard" && (
-              <>
-                <div className="hero">
-                  <div>
-                    <span className="greenBadge">
-                      ✓ Demo-Grundgerüst aktiv
-                    </span>
-
-                    <h2>
-                      Der digitale Bauleiter für deinen Betrieb.
-                    </h2>
-
-                    <p>
-                      Rapporte, Mitarbeiter, Material, Lager und
-                      Rechnungen greifen auf dieselben Daten zu.
-                    </p>
-                  </div>
-
-                  <button
-                    className="lightButton"
-                    onClick={() => setActivePage("reports")}
-                  >
-                    Rapporte ansehen →
-                  </button>
-                </div>
-
-                <div className="stats">
-                  <Stat
-                    title="Offene Rapporte"
-                    value={String(
-                      reports.filter(
-                        (report) =>
-                          report.status !== "Abgerechnet",
-                      ).length,
-                    )}
-                    text="Aktuelle Baustellen"
-                  />
-
-                  <Stat
-                    title="Erfasste Stunden"
-                    value="173 h"
-                    text="+13 Überstunden"
-                  />
-
-                  <Stat
-                    title="Auftragswert"
-                    value={euro(totalReportValue)}
-                    text="Aktuelle Rapporte"
-                  />
-
-                  <Stat
-                    title="Lagerwarnungen"
-                    value={String(lowStockMaterials.length)}
-                    text="Bestand prüfen"
-                  />
-                </div>
-
-                <div className="dashboardGrid">
-                  <Card title="Aktuelle Rapporte">
-                    {reports.map((report) => (
-                      <button
-                        className="reportListItem"
-                        key={report.id}
-                        onClick={() => {
-                          setSelectedReportId(report.id);
-                          setActivePage("reports");
-                        }}
-                      >
-                        <div>
-                          <strong>{report.project}</strong>
-                          <span>
-                            {report.customer} · {report.date}
-                          </span>
-                        </div>
-
-                        <div className="alignRight">
-                          <Status status={report.status} />
-                          <strong>
-                            {euro(calculateReportTotal(report))}
-                          </strong>
-                        </div>
-                      </button>
-                    ))}
-                  </Card>
-
-                  <Card title="Lager und Preisänderungen">
-                    {lowStockMaterials.length === 0 ? (
-                      <div className="empty">
-                        Keine kritischen Lagerbestände.
-                      </div>
-                    ) : (
-                      lowStockMaterials.map((material) => (
-                        <div
-                          className="warning"
-                          key={material.id}
-                        >
-                          <strong>{material.name}</strong>
-                          <span>
-                            Bestand: {material.stock}{" "}
-                            {material.unit}
-                          </span>
-                        </div>
-                      ))
-                    )}
-
-                    <div className="infoBox">
-                      <strong>Automatische Preisaktualisierung</strong>
-                      <span>
-                        Neue Preise aus eingescannten
-                        Großhändlerrechnungen können später
-                        automatisch übernommen werden.
-                      </span>
-                    </div>
-                  </Card>
-                </div>
-              </>
-            )}
-
-            {activePage === "reports" && (
-              <div className="reportsGrid">
-                <Card title="Rapporte">
-                  <button
-                    className="addButton"
-                    onClick={createReport}
-                  >
-                    + Neuen Rapport erstellen
-                  </button>
-
-                  {reports.map((report) => (
-                    <button
-                      key={report.id}
-                      className={
-                        report.id === selectedReport.id
-                          ? "reportListItem selected"
-                          : "reportListItem"
-                      }
-                      onClick={() =>
-                        setSelectedReportId(report.id)
-                      }
-                    >
-                      <div>
-                        <strong>{report.project}</strong>
-                        <span>{report.customer}</span>
-                      </div>
-
-                      <Status status={report.status} />
-                    </button>
-                  ))}
-                </Card>
-
-                <ReportEditor
-                  report={selectedReport}
-                  employees={employees}
-                  materials={materials}
-                  services={services}
-                  total={calculateReportTotal(selectedReport)}
-                  onChange={updateReport}
-                />
-              </div>
-            )}
-
-            {activePage === "materials" && (
-              <Card title="Materialdatenbank">
-                <button className="addButton" onClick={addMaterial}>
-                  + Material anlegen
-                </button>
-
-                <div className="tableWrapper">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Material</th>
-                        <th>Kategorie</th>
-                        <th>Hersteller</th>
-                        <th>Lieferant</th>
-                        <th>Bestand</th>
-                        <th>Einkauf</th>
-                        <th>Verkauf</th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      {materials
-                        .filter((material) =>
-                          material.name
-                            .toLowerCase()
-                            .includes(search.toLowerCase()),
-                        )
-                        .map((material) => (
-                          <tr key={material.id}>
-                            <td>
-                              <input
-                                value={material.name}
-                                onChange={(event) =>
-                                  setMaterials((current) =>
-                                    current.map((item) =>
-                                      item.id === material.id
-                                        ? {
-                                            ...item,
-                                            name: event.target.value,
-                                          }
-                                        : item,
-                                    ),
-                                  )
-                                }
-                              />
-
-                              <small>
-                                {material.articleNumber}
-                              </small>
-                            </td>
-
-                            <td>{material.category}</td>
-                            <td>{material.manufacturer}</td>
-                            <td>{material.supplier}</td>
-
-                            <td>
-                              <input
-                                type="number"
-                                value={material.stock}
-                                onChange={(event) =>
-                                  setMaterials((current) =>
-                                    current.map((item) =>
-                                      item.id === material.id
-                                        ? {
-                                            ...item,
-                                            stock: Number(
-                                              event.target.value,
-                                            ),
-                                          }
-                                        : item,
-                                    ),
-                                  )
-                                }
-                              />
-                            </td>
-
-                            <td>
-                              <input
-                                type="number"
-                                step="0.01"
-                                value={material.purchasePrice}
-                                onChange={(event) =>
-                                  setMaterials((current) =>
-                                    current.map((item) =>
-                                      item.id === material.id
-                                        ? {
-                                            ...item,
-                                            purchasePrice: Number(
-                                              event.target.value,
-                                            ),
-                                            lastPriceUpdate:
-                                              today(),
-                                          }
-                                        : item,
-                                    ),
-                                  )
-                                }
-                              />
-                            </td>
-
-                            <td>{euro(material.sellingPrice)}</td>
-                          </tr>
-                        ))}
-                    </tbody>
-                  </table>
-                </div>
-              </Card>
-            )}
-
-            {activePage === "services" && (
-              <Card title="Festpreis-Leistungen">
-                <button className="addButton" onClick={addService}>
-                  + Leistung anlegen
-                </button>
-
-                <div className="cardGrid">
-                  {services.map((service) => (
-                    <div className="smallCard" key={service.id}>
-                      <span>{service.category}</span>
-
-                      <input
-                        className="titleInput"
-                        value={service.name}
-                        onChange={(event) =>
-                          setServices((current) =>
-                            current.map((item) =>
-                              item.id === service.id
-                                ? {
-                                    ...item,
-                                    name: event.target.value,
-                                  }
-                                : item,
-                            ),
-                          )
-                        }
-                      />
-
-                      <div className="priceRow">
-                        <input
-                          type="number"
-                          step="0.01"
-                          value={service.price}
-                          onChange={(event) =>
-                            setServices((current) =>
-                              current.map((item) =>
-                                item.id === service.id
-                                  ? {
-                                      ...item,
-                                      price: Number(
-                                        event.target.value,
-                                      ),
-                                    }
-                                  : item,
-                              ),
-                            )
-                          }
-                        />
-
-                        <span>pro {service.unit}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </Card>
-            )}
-
-            {activePage === "warehouse" && (
-              <Card title="Lagerübersicht">
-                <div className="cardGrid four">
-                  {materials.map((material) => {
-                    const percentage = Math.min(
-                      100,
-                      Math.round(
-                        (material.stock /
-                          Math.max(
-                            material.minimumStock * 2,
-                            1,
-                          )) *
-                          100,
-                      ),
-                    );
-
-                    return (
-                      <div
-                        className="smallCard"
-                        key={material.id}
-                      >
-                        <strong>{material.name}</strong>
-                        <span>{material.articleNumber}</span>
-
-                        <div className="stockNumber">
-                          {material.stock}
-                        </div>
-
-                        <div className="progress">
-                          <div
-                            style={{
-                              width: `${percentage}%`,
-                            }}
-                          />
-                        </div>
-
-                        <small>
-                          Mindestbestand:{" "}
-                          {material.minimumStock}
-                        </small>
-                      </div>
-                    );
-                  })}
-                </div>
-              </Card>
-            )}
-
-            {activePage === "employees" && (
-              <>
-                <button className="addButton" onClick={addEmployee}>
-                  + Mitarbeiter anlegen
-                </button>
-
-                <div className="cardGrid">
-                  {employees.map((employee) => {
-                    const overtime =
-                      employee.monthlyHours -
-                      employee.targetMonthlyHours;
-
-                    return (
-                      <div
-                        className="employeeCard"
-                        key={employee.id}
-                      >
-                        <div className="employeeHeader">
-                          <div className="employeeAvatar">
-                            {employee.name
-                              .split(" ")
-                              .map((word) => word[0])
-                              .join("")}
-                          </div>
-
-                          <div>
-                            <input
-                              className="titleInput"
-                              value={employee.name}
-                              onChange={(event) =>
-                                setEmployees((current) =>
-                                  current.map((item) =>
-                                    item.id === employee.id
-                                      ? {
-                                          ...item,
-                                          name: event.target.value,
-                                        }
-                                      : item,
-                                  ),
-                                )
-                              }
-                            />
-
-                            <select
-                              value={employee.role}
-                              onChange={(event) =>
-                                setEmployees((current) =>
-                                  current.map((item) =>
-                                    item.id === employee.id
-                                      ? {
-                                          ...item,
-                                          role: event.target
-                                            .value as EmployeeRole,
-                                        }
-                                      : item,
-                                  ),
-                                )
-                              }
-                            >
-                              <option>Obermonteur</option>
-                              <option>Monteur</option>
-                              <option>Helfer</option>
-                              <option>Azubi</option>
-                            </select>
-                          </div>
-                        </div>
-
-                        <div className="employeeValues">
-                          <div>
-                            <span>Abrechnung</span>
-                            <strong>
-                              {euro(employee.hourlyRate)}/h
-                            </strong>
-                          </div>
-
-                          <div>
-                            <span>Diese Woche</span>
-                            <strong>
-                              {employee.weeklyHours} h
-                            </strong>
-                          </div>
-
-                          <div>
-                            <span>Dieser Monat</span>
-                            <strong>
-                              {employee.monthlyHours} h
-                            </strong>
-                          </div>
-
-                          <div>
-                            <span>Überstunden</span>
-                            <strong
-                              className={
-                                overtime >= 0
-                                  ? "positive"
-                                  : "negative"
-                              }
-                            >
-                              {overtime >= 0 ? "+" : ""}
-                              {overtime} h
-                            </strong>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </>
-            )}
-
-            {activePage === "suppliers" && (
-              <>
-                <button className="addButton" onClick={addSupplier}>
-                  + Lieferant oder Hersteller
-                </button>
-
-                <div className="cardGrid">
-                  {suppliers.map((supplier) => (
-                    <div
-                      className="supplierCard"
-                      key={supplier.id}
-                    >
-                      <span className="supplierType">
-                        {supplier.type}
-                      </span>
-
-                      <input
-                        className="titleInput"
-                        value={supplier.company}
-                        onChange={(event) =>
-                          setSuppliers((current) =>
-                            current.map((item) =>
-                              item.id === supplier.id
-                                ? {
-                                    ...item,
-                                    company: event.target.value,
-                                  }
-                                : item,
-                            ),
-                          )
-                        }
-                      />
-
-                      <label>
-                        Außendienstkontakt
-                        <input
-                          value={supplier.contactName}
-                          onChange={(event) =>
-                            setSuppliers((current) =>
-                              current.map((item) =>
-                                item.id === supplier.id
-                                  ? {
-                                      ...item,
-                                      contactName:
-                                        event.target.value,
-                                    }
-                                  : item,
-                              ),
-                            )
-                          }
-                        />
-                      </label>
-
-                      <label>
-                        Telefon
-                        <input
-                          value={supplier.phone}
-                          onChange={(event) =>
-                            setSuppliers((current) =>
-                              current.map((item) =>
-                                item.id === supplier.id
-                                  ? {
-                                      ...item,
-                                      phone: event.target.value,
-                                    }
-                                  : item,
-                              ),
-                            )
-                          }
-                        />
-                      </label>
-
-                      <label>
-                        E-Mail
-                        <input
-                          value={supplier.email}
-                          onChange={(event) =>
-                            setSuppliers((current) =>
-                              current.map((item) =>
-                                item.id === supplier.id
-                                  ? {
-                                      ...item,
-                                      email: event.target.value,
-                                    }
-                                  : item,
-                              ),
-                            )
-                          }
-                        />
-                      </label>
-                    </div>
-                  ))}
-                </div>
-              </>
-            )}
-
-            {activePage === "invoices" && (
-              <Card title="Rechnungsübersicht">
-                <div className="invoiceStats">
-                  <div>
-                    <span>Offen</span>
-                    <strong>{euro(6820)}</strong>
-                  </div>
-
-                  <div>
-                    <span>Bezahlt</span>
-                    <strong>{euro(12450)}</strong>
-                  </div>
-
-                  <div>
-                    <span>Überfällig</span>
-                    <strong>{euro(980)}</strong>
-                  </div>
-                </div>
-
-                <div className="tableWrapper">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Nummer</th>
-                        <th>Kunde</th>
-                        <th>Projekt</th>
-                        <th>Betrag</th>
-                        <th>Status</th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      <tr>
-                        <td>RE-2026-1042</td>
-                        <td>Familie Müller</td>
-                        <td>EFH Müller – Attika</td>
-                        <td>{euro(2380)}</td>
-                        <td>Entwurf</td>
-                      </tr>
-
-                      <tr>
-                        <td>RE-2026-1041</td>
-                        <td>Hausverwaltung West</td>
-                        <td>Wohnanlage West</td>
-                        <td>{euro(4440)}</td>
-                        <td>Versendet</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </Card>
-            )}
-
-            {activePage === "settings" && (
-              <div className="cardGrid">
-                {[
-                  "Stundensätze und Rollen",
-                  "Materialaufschläge",
-                  "Rechnungsdaten",
-                  "DATEV und Buchhaltung",
-                  "Benutzerrechte",
-                  "KI-Einstellungen",
-                ].map((setting) => (
-                  <button
-                    className="settingsCard"
-                    key={setting}
-                  >
-                    <strong>{setting}</strong>
-                    <span>Konfiguration öffnen →</span>
-                  </button>
-                ))}
-              </div>
-            )}
-          </section>
-        </main>
-      </div>
-
-      <style jsx global>{`
-        * {
-          box-sizing: border-box;
-        }
-
-        html,
-        body {
-          margin: 0;
-          min-height: 100%;
-          background: #f3f6f4;
-          color: #17221b;
-          font-family: Arial, Helvetica, sans-serif;
-        }
-
-        button,
-        input,
-        select,
-        textarea {
-          font: inherit;
-        }
-
-        button {
-          cursor: pointer;
-        }
-
-        .app {
-          min-height: 100vh;
-        }
-
-        .sidebar {
-          position: fixed;
-          top: 0;
-          bottom: 0;
-          left: 0;
-          z-index: 50;
-          display: flex;
-          width: 270px;
-          flex-direction: column;
-          padding: 18px 14px;
-          background: #102319;
-          color: white;
-        }
-
-        .logo {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          padding: 7px 8px 24px;
-        }
-
-        .logoMark {
-          display: grid;
-          width: 43px;
-          height: 43px;
-          place-items: center;
-          border-radius: 12px;
-          background: #d5ff52;
-          color: #102319;
-          font-weight: 900;
-        }
-
-        .logo strong,
-        .logo span,
-        .user strong,
-        .user span {
-          display: block;
-        }
-
-        .logo span,
-        .user span {
-          margin-top: 3px;
-          color: #a1b4a8;
-          font-size: 12px;
-        }
-
-        .closeMenu {
-          display: none;
-          margin-left: auto;
-          border: none;
-          background: transparent;
-          color: white;
-          font-size: 26px;
-        }
-
-        nav {
-          display: flex;
-          flex-direction: column;
-          gap: 3px;
-        }
-
-        .navButton {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          width: 100%;
-          padding: 13px 14px;
-          border: none;
-          border-radius: 10px;
-          background: transparent;
-          color: #bdc9c1;
-          text-align: left;
-        }
-
-        .navButton:hover,
-        .navButton.active {
-          background: #203b2b;
-          color: white;
-        }
-
-        .navButton.active {
-          box-shadow: inset 3px 0 #d5ff52;
-        }
-
-        .navIcon {
-          display: inline-grid;
-          width: 22px;
-          place-items: center;
-          font-size: 18px;
-        }
-
-        .user {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          margin-top: auto;
-          padding: 16px 8px 4px;
-          border-top: 1px solid #2d4636;
-        }
-
-        .avatar,
-        .employeeAvatar {
-          display: grid;
-          place-items: center;
-          border-radius: 50%;
-          background: #d5ff52;
-          color: #102319;
-          font-weight: 900;
-        }
-
-        .avatar {
-          width: 39px;
-          height: 39px;
-          font-size: 13px;
-        }
-
-        main {
-          min-height: 100vh;
-          margin-left: 270px;
-        }
-
-        header {
-          position: sticky;
-          top: 0;
-          z-index: 30;
-          display: flex;
-          min-height: 86px;
-          align-items: center;
-          justify-content: space-between;
-          padding: 14px 30px;
-          border-bottom: 1px solid #e0e6e2;
-          background: white;
-        }
-
-        .headerTitle {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-        }
-
-        .headerTitle span {
-          color: #78837c;
-          font-size: 12px;
-        }
-
-        h1 {
-          margin: 3px 0 0;
-          font-size: 25px;
-        }
-
-        .menuButton {
-          display: none;
-          border: none;
-          background: transparent;
-          font-size: 24px;
-        }
-
-        .headerActions {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-        }
-
-        .search {
-          width: 210px;
-          padding: 11px 13px;
-          border: 1px solid #dce3df;
-          border-radius: 10px;
-          outline: none;
-          background: #f5f7f6;
-        }
-
-        .primary,
-        .lightButton,
-        .addButton {
-          padding: 11px 16px;
-          border: none;
-          border-radius: 10px;
-          font-weight: 700;
-        }
-
-        .primary {
-          background: #183a27;
-          color: white;
-        }
-
-        .lightButton {
-          background: white;
-          color: #183a27;
-        }
-
-        .addButton {
-          margin-bottom: 18px;
-          background: #183a27;
-          color: white;
-        }
-
-        .content {
-          max-width: 1600px;
-          margin: auto;
-          padding: 28px;
-        }
-
-        .hero {
-          display: flex;
-          align-items: flex-end;
-          justify-content: space-between;
-          gap: 20px;
-          padding: 34px;
-          border-radius: 19px;
-          background: linear-gradient(
-            130deg,
-            #173b28,
-            #326246
-          );
-          color: white;
-          box-shadow: 0 12px 30px rgba(16, 40, 25, 0.15);
-        }
-
-        .hero h2 {
-          margin: 14px 0 8px;
-          font-size: 35px;
-        }
-
-        .hero p {
-          max-width: 700px;
-          margin: 0;
-          color: #d9e5dd;
-        }
-
-        .greenBadge {
-          display: inline-block;
-          padding: 7px 11px;
-          border-radius: 999px;
-          background: #d5ff52;
-          color: #173520;
-          font-size: 12px;
-          font-weight: 800;
-        }
-
-        .stats {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 16px;
-          margin: 20px 0;
-        }
-
-        .stat,
-        .card,
-        .smallCard,
-        .employeeCard,
-        .supplierCard,
-        .settingsCard {
-          border: 1px solid #dfe6e1;
-          border-radius: 16px;
-          background: white;
-          box-shadow: 0 4px 14px rgba(22, 43, 29, 0.04);
-        }
-
-        .stat {
-          padding: 21px;
-        }
-
-        .stat span,
-        .stat small {
-          display: block;
-          color: #78847c;
-        }
-
-        .stat strong {
-          display: block;
-          margin: 9px 0;
-          font-size: 27px;
-        }
-
-        .dashboardGrid {
-          display: grid;
-          grid-template-columns: 1.4fr 1fr;
-          gap: 18px;
-        }
-
-        .card {
-          padding: 20px;
-        }
-
-        .cardTitle {
-          margin: 0 0 18px;
-          font-size: 20px;
-        }
-
-        .reportListItem {
-          display: flex;
-          width: 100%;
-          align-items: center;
-          justify-content: space-between;
-          gap: 15px;
-          margin-bottom: 8px;
-          padding: 14px;
-          border: 1px solid #e3e9e5;
-          border-radius: 12px;
-          background: white;
-          text-align: left;
-        }
-
-        .reportListItem:hover,
-        .reportListItem.selected {
-          border-color: #86aa91;
-          background: #f5faf7;
-        }
-
-        .reportListItem strong,
-        .reportListItem span {
-          display: block;
-        }
-
-        .reportListItem span {
-          margin-top: 4px;
-          color: #7b867f;
-          font-size: 13px;
-        }
-
-        .alignRight {
-          text-align: right;
-        }
-
-        .status {
-          display: inline-block !important;
-          margin: 0 0 6px !important;
-          padding: 5px 9px;
-          border-radius: 999px;
-          font-size: 11px !important;
-          font-weight: 800;
-        }
-
-        .status.entwurf {
-          background: #f2eddc;
-          color: #806a1e;
-        }
-
-        .status.freigegeben {
-          background: #e4f3e8;
-          color: #286c40;
-        }
-
-        .status.abgerechnet {
-          background: #e7edf3;
-          color: #435d75;
-        }
-
-        .warning,
-        .infoBox {
-          display: flex;
-          flex-direction: column;
-          gap: 4px;
-          margin-bottom: 10px;
-          padding: 14px;
-          border-radius: 12px;
-        }
-
-        .warning {
-          background: #fff1e2;
-          color: #8f541a;
-        }
-
-        .infoBox {
-          background: #edf7f0;
-          color: #2e6542;
-        }
-
-        .warning span,
-        .infoBox span {
-          font-size: 13px;
-          line-height: 1.4;
-        }
-
-        .reportsGrid {
-          display: grid;
-          grid-template-columns: 380px 1fr;
-          gap: 18px;
-        }
-
-        .reportEditor {
-          padding: 22px;
-          border: 1px solid #dfe6e1;
-          border-radius: 16px;
-          background: white;
-        }
-
-        .reportEditorHeader {
-          display: flex;
-          align-items: flex-start;
-          justify-content: space-between;
-          gap: 20px;
-          margin-bottom: 20px;
-        }
-
-        .reportEditorHeader h2 {
-          margin: 0 0 5px;
-        }
-
-        .reportTotal {
-          font-size: 25px;
-        }
-
-        .formGrid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 12px;
-        }
-
-        label {
-          display: block;
-          color: #657168;
-          font-size: 12px;
-          font-weight: 700;
-        }
-
-        input,
-        select,
-        textarea {
-          width: 100%;
-          padding: 10px;
-          border: 1px solid #d8e0db;
-          border-radius: 9px;
-          outline: none;
-          background: white;
-        }
-
-        label input,
-        label select,
-        label textarea {
-          margin-top: 6px;
-        }
-
-        .editorSection {
-          margin-top: 20px;
-          padding-top: 18px;
-          border-top: 1px solid #e4eae6;
-        }
-
-        .editorSectionHeader {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 10px;
-        }
-
-        .editorSectionHeader h3 {
-          margin: 0 0 12px;
-          font-size: 17px;
-        }
-
-        .textButton {
-          border: none;
-          background: transparent;
-          color: #287144;
-          font-weight: 700;
-        }
-
-        .entryRow {
-          display: grid;
-          grid-template-columns: 1fr 110px 90px 40px;
-          gap: 8px;
-          align-items: center;
-          margin: 8px 0;
-        }
-
-        .entryRow span {
-          color: #738078;
-          font-size: 13px;
-        }
-
-        .deleteButton {
-          height: 39px;
-          border: none;
-          border-radius: 8px;
-          background: #f8e9e9;
-          color: #a03c3c;
-        }
-
-        .aiBox {
-          margin-top: 12px;
-          padding: 13px;
-          border-radius: 10px;
-          background: #edf7f0;
-          color: #34634a;
-          font-size: 13px;
-        }
-
-        textarea {
-          min-height: 100px;
-          resize: vertical;
-        }
-
-        .descriptionLabel {
-          margin-top: 20px;
-        }
-
-        .reportButtons {
-          display: flex;
-          justify-content: flex-end;
-          gap: 10px;
-          margin-top: 18px;
-        }
-
-        .secondary {
-          padding: 11px 16px;
-          border: 1px solid #d7dfda;
-          border-radius: 10px;
-          background: white;
-          color: #183a27;
-          font-weight: 700;
-        }
-
-        .tableWrapper {
-          overflow-x: auto;
-        }
-
-        table {
-          width: 100%;
-          min-width: 900px;
-          border-collapse: collapse;
-        }
-
-        th,
-        td {
-          padding: 13px;
-          border-bottom: 1px solid #e5ebe7;
-          text-align: left;
-        }
-
-        th {
-          color: #728078;
-          font-size: 12px;
-          text-transform: uppercase;
-        }
-
-        td input {
-          min-width: 90px;
-        }
-
-        td small {
-          display: block;
-          margin-top: 5px;
-          color: #89938d;
-        }
-
-        .cardGrid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 16px;
-        }
-
-        .cardGrid.four {
-          grid-template-columns: repeat(4, 1fr);
-        }
-
-        .smallCard,
-        .employeeCard,
-        .supplierCard {
-          padding: 19px;
-        }
-
-        .smallCard > span,
-        .smallCard > small {
-          color: #78847d;
-          font-size: 12px;
-        }
-
-        .titleInput {
-          margin: 10px 0 18px;
-          border: none;
-          border-bottom: 1px solid #dce3df;
-          border-radius: 0;
-          padding-left: 0;
-          font-size: 18px;
-          font-weight: 800;
-        }
-
-        .priceRow {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 10px;
-        }
-
-        .priceRow input {
-          max-width: 120px;
-          font-size: 20px;
-          font-weight: 800;
-        }
-
-        .stockNumber {
-          margin: 20px 0 10px;
-          font-size: 31px;
-          font-weight: 900;
-        }
-
-        .progress {
-          height: 8px;
-          margin-bottom: 8px;
-          overflow: hidden;
-          border-radius: 999px;
-          background: #e5ebe7;
-        }
-
-        .progress div {
-          height: 100%;
-          border-radius: inherit;
-          background: #4d8d61;
-        }
-
-        .employeeHeader {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-        }
-
-        .employeeAvatar {
-          width: 49px;
-          height: 49px;
-          flex: 0 0 auto;
-        }
-
-        .employeeHeader > div:last-child {
-          flex: 1;
-        }
-
-        .employeeHeader .titleInput {
-          margin: 0 0 5px;
-        }
-
-        .employeeValues {
-          margin-top: 18px;
-        }
-
-        .employeeValues div {
-          display: flex;
-          justify-content: space-between;
-          gap: 10px;
-          padding: 9px 0;
-          border-bottom: 1px solid #edf1ee;
-        }
-
-        .employeeValues span {
-          color: #77837b;
-        }
-
-        .positive {
-          color: #2d7145;
-        }
-
-        .negative {
-          color: #a34c42;
-        }
-
-        .supplierType {
-          display: inline-block;
-          padding: 5px 8px;
-          border-radius: 999px;
-          background: #edf4ef;
-          color: #376048;
-          font-size: 11px;
-          font-weight: 800;
-        }
-
-        .supplierCard label {
-          margin-top: 10px;
-        }
-
-        .invoiceStats {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 12px;
-          margin-bottom: 22px;
-        }
-
-        .invoiceStats div {
-          padding: 17px;
-          border-radius: 12px;
-          background: #f3f7f4;
-        }
-
-        .invoiceStats span,
-        .invoiceStats strong {
-          display: block;
-        }
-
-        .invoiceStats span {
-          color: #748078;
-          font-size: 13px;
-        }
-
-        .invoiceStats strong {
-          margin-top: 6px;
-          font-size: 22px;
-        }
-
-        .settingsCard {
-          display: flex;
-          flex-direction: column;
-          gap: 8px;
-          padding: 22px;
-          border: 1px solid #dfe6e1;
-          text-align: left;
-        }
-
-        .settingsCard span {
-          color: #728078;
-        }
-
-        .empty {
-          padding: 20px;
-          color: #78847d;
-          text-align: center;
-        }
-
-        @media (max-width: 1100px) {
-          .stats {
-            grid-template-columns: repeat(2, 1fr);
-          }
-
-          .dashboardGrid,
-          .reportsGrid {
-            grid-template-columns: 1fr;
-          }
-
-          .cardGrid,
-          .cardGrid.four {
-            grid-template-columns: repeat(2, 1fr);
-          }
-        }
-
-        @media (max-width: 760px) {
-          .sidebar {
-            transform: translateX(-100%);
-            transition: transform 0.2s ease;
-          }
-
-          .sidebar.open {
-            transform: translateX(0);
-          }
-
-          .closeMenu,
-          .menuButton {
-            display: block;
-          }
-
-          main {
-            margin-left: 0;
-          }
-
-          header {
-            min-height: 76px;
-            padding: 12px 15px;
-          }
-
-          .search {
-            display: none;
-          }
-
-          .headerActions .primary {
-            padding: 10px;
-            font-size: 12px;
-          }
-
-          .content {
-            padding: 16px;
-          }
-
-          .hero {
-            display: block;
-            padding: 24px;
-          }
-
-          .hero h2 {
-            font-size: 27px;
-          }
-
-          .lightButton {
-            margin-top: 20px;
-          }
-
-          .stats,
-          .dashboardGrid,
-          .cardGrid,
-          .cardGrid.four,
-          .invoiceStats,
-          .formGrid {
-            grid-template-columns: 1fr;
-          }
-
-          .entryRow {
-            grid-template-columns: 1fr 80px 65px 38px;
-          }
-
-          .reportEditorHeader {
-            display: block;
-          }
-
-          .reportTotal {
-            display: block;
-            margin-top: 10px;
-          }
-        }
-      `}</style>
-    </>
-  );
-}
-
-function Stat({
-  title,
-  value,
-  text,
-}: {
-  title: string;
-  value: string;
-  text: string;
-}) {
-  return (
-    <div className="stat">
-      <span>{title}</span>
-      <strong>{value}</strong>
-      <small>{text}</small>
-    </div>
-  );
-}
-
-function Card({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="card">
-      <h2 className="cardTitle">{title}</h2>
-      {children}
-    </div>
-  );
-}
-
-function Status({
-  status,
-}: {
-  status: Report["status"];
-}) {
-  return (
-    <span className={`status ${status.toLowerCase()}`}>
-      {status}
-    </span>
-  );
-}
-
-function ReportEditor({
-  report,
-  employees,
-  materials,
-  services,
-  total,
-  onChange,
-}: {
-  report: Report;
-  employees: Employee[];
-  materials: Material[];
-  services: Service[];
-  total: number;
-  onChange: (report: Report) => void;
-}) {
-  return (
-    <div className="reportEditor">
-      <div className="reportEditorHeader">
-        <div>
-          <h2>{report.project}</h2>
-          <Status status={report.status} />
         </div>
+      `;
+    })
+    .join("");
 
-        <strong className="reportTotal">{euro(total)}</strong>
-      </div>
+  document.getElementById("knowledgeCategoryList").innerHTML =
+    categories ||
+    `<div class="card">
+      <p class="note">Kein passender Eintrag gefunden.</p>
+    </div>`;
+}
 
-      <div className="formGrid">
-        <label>
-          Baustelle
-          <input
-            value={report.project}
-            onChange={(event) =>
-              onChange({
-                ...report,
-                project: event.target.value,
-              })
-            }
-          />
-        </label>
+function openKnowledgeChapter(categoryId,chapterId){
+  const category = knowledgeBase.find(
+    item => item.id === categoryId
+  );
 
-        <label>
-          Kunde
-          <input
-            value={report.customer}
-            onChange={(event) =>
-              onChange({
-                ...report,
-                customer: event.target.value,
-              })
-            }
-          />
-        </label>
-      </div>
+  const chapter = category?.chapters.find(
+    item => item.id === chapterId
+  );
 
-      <EditorSection
-        title="Mitarbeiter und Arbeitszeiten"
-        action="Mitarbeiter hinzufügen"
-        onAction={() =>
-          onChange({
-            ...report,
-            employees: [
-              ...report.employees,
-              {
-                employeeId: employees[0].id,
-                hours: 1,
-              },
-            ],
-          })
-        }
+  if(!category || !chapter){
+    return;
+  }
+
+  const favorites = getKnowledgeFavorites();
+  const isFavorite = favorites.includes(chapterId);
+
+  document.getElementById("rulesOverview").style.display =
+    "none";
+
+  document.getElementById("ownDocumentsArea").style.display =
+    "none";
+
+  document.getElementById("rulesDetail").style.display =
+    "block";
+
+  document.getElementById("knowledgeDetailContent").innerHTML = `
+    <div class="card">
+
+      <p class="note">
+        ${category.icon}
+        ${esc(category.title)}
+      </p>
+
+      ${chapter.text}
+
+      <button
+        class="btn secondary"
+        onclick="toggleKnowledgeFavorite('${chapterId}')"
       >
-        {report.employees.map((entry, index) => {
-          const employee = employees.find(
-            (item) => item.id === entry.employeeId,
-          );
-
-          return (
-            <div className="entryRow" key={index}>
-              <select
-                value={entry.employeeId}
-                onChange={(event) => {
-                  const entries = [...report.employees];
-
-                  entries[index] = {
-                    ...entry,
-                    employeeId: Number(event.target.value),
-                  };
-
-                  onChange({
-                    ...report,
-                    employees: entries,
-                  });
-                }}
-              >
-                {employees.map((item) => (
-                  <option key={item.id} value={item.id}>
-                    {item.name} – {item.role}
-                  </option>
-                ))}
-              </select>
-
-              <input
-                type="number"
-                min="0"
-                step="0.25"
-                value={entry.hours}
-                onChange={(event) => {
-                  const entries = [...report.employees];
-
-                  entries[index] = {
-                    ...entry,
-                    hours: Number(event.target.value),
-                  };
-
-                  onChange({
-                    ...report,
-                    employees: entries,
-                  });
-                }}
-              />
-
-              <span>
-                {employee
-                  ? `${euro(employee.hourlyRate)}/h`
-                  : "Stunden"}
-              </span>
-
-              <button
-                className="deleteButton"
-                onClick={() =>
-                  onChange({
-                    ...report,
-                    employees: report.employees.filter(
-                      (_, itemIndex) => itemIndex !== index,
-                    ),
-                  })
-                }
-              >
-                ×
-              </button>
-            </div>
-          );
-        })}
-      </EditorSection>
-
-      <EditorSection
-        title="Verwendetes Material"
-        action="Material hinzufügen"
-        onAction={() =>
-          onChange({
-            ...report,
-            materials: [
-              ...report.materials,
-              {
-                materialId: materials[0].id,
-                quantity: 1,
-              },
-            ],
-          })
+        ${
+          isFavorite
+            ? "⭐ Aus Favoriten entfernen"
+            : "☆ Zu Favoriten hinzufügen"
         }
+      </button>
+
+      <label>Eigene Notiz zu diesem Thema</label>
+
+      <textarea
+        id="chapterNote"
+        placeholder="Eigene Erfahrung, Maße oder Hinweise"
+      >${esc(getChapterNote(chapterId))}</textarea>
+
+      <button
+        class="btn"
+        onclick="saveChapterNote('${chapterId}')"
       >
-        {report.materials.map((entry, index) => {
-          const material = materials.find(
-            (item) => item.id === entry.materialId,
-          );
+        Notiz speichern
+      </button>
 
-          return (
-            <div className="entryRow" key={index}>
-              <select
-                value={entry.materialId}
-                onChange={(event) => {
-                  const entries = [...report.materials];
+      <p class="note">
+        Diese Inhalte sind allgemeine, selbst formulierte
+        Arbeitshinweise. Sie ersetzen keine vollständige Prüfung
+        der aktuellen Fachregeln, Normen, Herstellerangaben oder
+        objektspezifischen Planung.
+      </p>
 
-                  entries[index] = {
-                    ...entry,
-                    materialId: Number(event.target.value),
-                  };
-
-                  onChange({
-                    ...report,
-                    materials: entries,
-                  });
-                }}
-              >
-                {materials.map((item) => (
-                  <option key={item.id} value={item.id}>
-                    {item.name}
-                  </option>
-                ))}
-              </select>
-
-              <input
-                type="number"
-                min="0"
-                step="0.1"
-                value={entry.quantity}
-                onChange={(event) => {
-                  const entries = [...report.materials];
-
-                  entries[index] = {
-                    ...entry,
-                    quantity: Number(event.target.value),
-                  };
-
-                  onChange({
-                    ...report,
-                    materials: entries,
-                  });
-                }}
-              />
-
-              <span>{material?.unit}</span>
-
-              <button
-                className="deleteButton"
-                onClick={() =>
-                  onChange({
-                    ...report,
-                    materials: report.materials.filter(
-                      (_, itemIndex) => itemIndex !== index,
-                    ),
-                  })
-                }
-              >
-                ×
-              </button>
-            </div>
-          );
-        })}
-
-        <div className="aiBox">
-          KI-Vorschlag: Die App kann beispielsweise 70
-          Rinnenhalter vorschlagen. Die tatsächlich verbaute Menge
-          kann direkt auf 67 geändert werden.
-        </div>
-      </EditorSection>
-
-      <EditorSection
-        title="Festpreis-Leistungen"
-        action="Leistung hinzufügen"
-        onAction={() =>
-          onChange({
-            ...report,
-            services: [
-              ...report.services,
-              {
-                serviceId: services[0].id,
-                quantity: 1,
-              },
-            ],
-          })
-        }
-      >
-        {report.services.map((entry, index) => {
-          const service = services.find(
-            (item) => item.id === entry.serviceId,
-          );
-
-          return (
-            <div className="entryRow" key={index}>
-              <select
-                value={entry.serviceId}
-                onChange={(event) => {
-                  const entries = [...report.services];
-
-                  entries[index] = {
-                    ...entry,
-                    serviceId: Number(event.target.value),
-                  };
-
-                  onChange({
-                    ...report,
-                    services: entries,
-                  });
-                }}
-              >
-                {services.map((item) => (
-                  <option key={item.id} value={item.id}>
-                    {item.name} – {euro(item.price)}
-                  </option>
-                ))}
-              </select>
-
-              <input
-                type="number"
-                min="0"
-                step="1"
-                value={entry.quantity}
-                onChange={(event) => {
-                  const entries = [...report.services];
-
-                  entries[index] = {
-                    ...entry,
-                    quantity: Number(event.target.value),
-                  };
-
-                  onChange({
-                    ...report,
-                    services: entries,
-                  });
-                }}
-              />
-
-              <span>{service?.unit}</span>
-
-              <button
-                className="deleteButton"
-                onClick={() =>
-                  onChange({
-                    ...report,
-                    services: report.services.filter(
-                      (_, itemIndex) => itemIndex !== index,
-                    ),
-                  })
-                }
-              >
-                ×
-              </button>
-            </div>
-          );
-        })}
-      </EditorSection>
-
-      <label className="descriptionLabel">
-        Arbeitsbeschreibung und Notizen
-        <textarea
-          value={report.description}
-          onChange={(event) =>
-            onChange({
-              ...report,
-              description: event.target.value,
-            })
-          }
-        />
-      </label>
-
-      <div className="reportButtons">
-        <button
-          className="secondary"
-          onClick={() =>
-            alert("Der Rapport wurde im Browser gespeichert.")
-          }
-        >
-          Zwischenspeichern
-        </button>
-
-        <button
-          className="primary"
-          onClick={() =>
-            onChange({
-              ...report,
-              status: "Freigegeben",
-            })
-          }
-        >
-          Rapport freigeben
-        </button>
-      </div>
     </div>
+  `;
+}
+
+function closeKnowledgeDetail(){
+  document.getElementById("rulesDetail").style.display =
+    "none";
+
+  document.getElementById("rulesOverview").style.display =
+    "block";
+
+  renderKnowledgeOverview();
+}
+
+function toggleKnowledgeFavorite(chapterId){
+  let favorites = getKnowledgeFavorites();
+
+  if(favorites.includes(chapterId)){
+    favorites = favorites.filter(id => id !== chapterId);
+  }else{
+    favorites.push(chapterId);
+  }
+
+  saveKnowledgeFavorites(favorites);
+
+  for(const category of knowledgeBase){
+    const chapter = category.chapters.find(
+      item => item.id === chapterId
+    );
+
+    if(chapter){
+      openKnowledgeChapter(category.id,chapterId);
+      break;
+    }
+  }
+}
+
+function showFavorites(){
+  const favorites = getKnowledgeFavorites();
+
+  const chapters = [];
+
+  knowledgeBase.forEach(category => {
+    category.chapters.forEach(chapter => {
+      if(favorites.includes(chapter.id)){
+        chapters.push({
+          category,
+          chapter
+        });
+      }
+    });
+  });
+
+  document.getElementById("rulesOverview").style.display =
+    "none";
+
+  document.getElementById("ownDocumentsArea").style.display =
+    "none";
+
+  document.getElementById("rulesDetail").style.display =
+    "block";
+
+  document.getElementById("knowledgeDetailContent").innerHTML = `
+    <div class="card">
+
+      <h3>⭐ Favoriten</h3>
+
+      ${
+        chapters.length
+          ? chapters.map(item => `
+            <div
+              class="item"
+              onclick="openKnowledgeChapter(
+                '${item.category.id}',
+                '${item.chapter.id}'
+              )"
+            >
+              <strong>
+                ${esc(item.chapter.title)}
+              </strong>
+
+              <p>
+                ${esc(item.category.title)}
+              </p>
+            </div>
+          `).join("")
+          : `<p class="note">
+              Noch keine Favoriten gespeichert.
+            </p>`
+      }
+
+    </div>
+  `;
+}
+
+function getChapterNotes(){
+  return JSON.parse(
+    localStorage.getItem("chapterNotes") || "{}"
   );
 }
 
-function EditorSection({
-  title,
-  action,
-  onAction,
-  children,
-}: {
-  title: string;
-  action: string;
-  onAction: () => void;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="editorSection">
-      <div className="editorSectionHeader">
-        <h3>{title}</h3>
+function getChapterNote(chapterId){
+  const notes = getChapterNotes();
+  return notes[chapterId] || "";
+}
 
-        <button className="textButton" onClick={onAction}>
-          + {action}
-        </button>
-      </div>
+function saveChapterNote(chapterId){
+  const notes = getChapterNotes();
 
-      {children}
-    </div>
+  notes[chapterId] =
+    document.getElementById("chapterNote").value;
+
+  localStorage.setItem(
+    "chapterNotes",
+    JSON.stringify(notes)
   );
+
+  alert("Notiz gespeichert.");
+}
+
+function showOwnDocuments(){
+  document.getElementById("rulesOverview").style.display =
+    "none";
+
+  document.getElementById("rulesDetail").style.display =
+    "none";
+
+  document.getElementById("ownDocumentsArea").style.display =
+    "block";
+
+  renderOwnKnowledge();
+}
+
+function closeOwnDocuments(){
+  document.getElementById("ownDocumentsArea").style.display =
+    "none";
+
+  document.getElementById("rulesOverview").style.display =
+    "block";
+}
+
+function openKnowledgeFile(event){
+  const file = event.target.files[0];
+
+  if(!file){
+    return;
+  }
+
+  const url = URL.createObjectURL(file);
+
+  document.getElementById("knowledgeFileResult").innerHTML = `
+    <strong>${esc(file.name)}</strong>
+    <br>
+
+    <button
+      class="btn"
+      onclick="window.open('${url}','_blank')"
+    >
+      Dokument öffnen
+    </button>
+
+    <p class="note">
+      Die Datei bleibt nur für diese Browsersitzung verfügbar.
+    </p>
+  `;
+}
+
+function saveOwnKnowledge(){
+  const title =
+    document.getElementById("ownKnowledgeTitle").value.trim();
+
+  const text =
+    document.getElementById("ownKnowledgeText").value.trim();
+
+  if(!title || !text){
+    alert("Bitte Titel und Inhalt eingeben.");
+    return;
+  }
+
+  const notes = getOwnKnowledge();
+
+  notes.push({
+    id:Date.now(),
+    title,
+    text,
+    date:new Date().toISOString()
+  });
+
+  saveOwnKnowledgeData(notes);
+
+  document.getElementById("ownKnowledgeTitle").value = "";
+  document.getElementById("ownKnowledgeText").value = "";
+
+  renderOwnKnowledge();
+}
+
+function deleteOwnKnowledge(id){
+  if(!confirm("Eigene Notiz löschen?")){
+    return;
+  }
+
+  const notes = getOwnKnowledge().filter(
+    item => item.id !== id
+  );
+
+  saveOwnKnowledgeData(notes);
+  renderOwnKnowledge();
+}
+
+function renderOwnKnowledge(){
+  const notes = getOwnKnowledge();
+
+  document.getElementById("ownKnowledgeList").innerHTML = `
+    <div class="card">
+      <h3>Eigene Notizen</h3>
+
+      ${
+        notes.length
+          ? notes
+            .slice()
+            .reverse()
+            .map(note => `
+              <div class="item">
+
+                <strong>
+                  ${esc(note.title)}
+                </strong>
+
+                <p>
+                  ${esc(note.text)}
+                </p>
+
+                <p class="note">
+                  ${new Date(note.date)
+                    .toLocaleDateString("de-DE")}
+                </p>
+
+                <button
+                  class="btn danger small"
+                  onclick="deleteOwnKnowledge(${note.id})"
+                >
+                  Notiz löschen
+                </button>
+
+              </div>
+            `).join("")
+          : `<p class="note">
+              Noch keine eigenen Notizen gespeichert.
+            </p>`
+      }
+
+    </div>
+  `;
 }
